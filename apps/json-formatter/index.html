@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Formatter & Validator — Free Online Tool</title>
+  <meta name="description" content="Free online JSON formatter and validator. Format, validate, minify, and beautify JSON online. Tree view with syntax highlighting.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117;
+      color: #e4e6ec;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f0db4f, #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header .subtitle { font-size: 0.85rem; color: #8b949e; }
+    .back-link { font-size: 0.85rem; }
+
+    .app-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem 2rem 2rem;
+      gap: 1rem;
+    }
+
+    .editor-row {
+      display: flex;
+      gap: 1.25rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: #1c2333;
+      border-bottom: 1px solid #30363d;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .panel-header .actions { display: flex; gap: 0.5rem; }
+    .panel-header .actions button, .panel-header .actions select {
+      background: none;
+      border: 1px solid #30363d;
+      color: #8b949e;
+      padding: 0.25rem 0.7rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .panel-header .actions select { cursor: pointer; background: #1c2333; }
+    .panel-header .actions button:hover { background: #30363d; color: #e4e6ec; }
+    .panel-body {
+      flex: 1;
+      padding: 0;
+      overflow: auto;
+      position: relative;
+    }
+    .panel-body textarea {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      background: #0d1117;
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 1rem;
+      color: #e4e6ec;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      tab-size: 2;
+    }
+    .panel-body textarea::placeholder { color: #484f58; }
+
+    .output-area {
+      padding: 1rem 1.25rem;
+      min-height: 400px;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow: auto;
+    }
+    .output-area .error {
+      color: #f85149;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* JSON syntax highlighting */
+    .json-key { color: #79c0ff; }
+    .json-string { color: #a5d6ff; }
+    .json-number { color: #d2a8ff; }
+    .json-boolean { color: #ffa657; }
+    .json-null { color: #8b949e; }
+    .json-bracket { color: #e4e6ec; }
+    .json-collapse { color: #8b949e; cursor: pointer; user-select: none; }
+    .json-collapse:hover { color: #58a6ff; }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: #8b949e;
+    }
+    .status-bar .valid { color: #3fb950; font-weight: 600; }
+    .status-bar .invalid { color: #f85149; font-weight: 600; }
+    .status-bar .stats span { color: #58a6ff; font-weight: 600; }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #238636;
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: #da3633; }
+
+    @media (max-width: 768px) {
+      header { padding: 1rem; }
+      .app-container { padding: 1rem; }
+      .editor-row { flex-direction: column; }
+      .panel-body textarea { min-height: 250px; }
+      .output-area { min-height: 250px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>🔄 JSON Formatter & Validator</h1>
+      <span class="subtitle">Free online tool — format, validate, minify, and explore JSON</span>
+    </div>
+    <a href="../../" class="back-link">← Back to Tools</a>
+  </header>
+
+  <div class="app-container">
+
+    <div class="editor-row">
+      <!-- Input -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>📝 JSON Input</span>
+          <div class="actions">
+            <button id="sampleBtn">Load Sample</button>
+            <button id="clearBtn">Clear</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <textarea id="jsonInput" placeholder='Paste your JSON here...' spellcheck="false">{"web-app":{"servlet":[{"servlet-name":"cofaxCDS","servlet-class":"org.cofax.cds.CDSServlet","init-param":{"configGlossary:installationAt":"Philadelphia","configGlossary:adminEmail":"ksm@pobox.com","configGlossary:poweredBy":"Cofax","configGlossary:poweredByIcon":"/images/cofax.gif","configGlossary:staticPath":"/content/static","templateProcessorClass":"org.cofax.WysiwygTemplate","templateLoaderClass":"org.cofax.FilesTemplateLoader","templatePath":"template","templateOverridePath":"","defaultListTemplate":"listTemplate.htm","defaultFileTemplate":"articleTemplate.htm","useJSP":false,"jspListTemplate":"listTemplate.jsp","jspFileTemplate":"articleTemplate.jsp","cachePackageTagsTrack":200,"cachePackageTagsStore":200,"cachePackageTagsRefresh":60,"cacheTemplatesTrack":100,"cacheTemplatesStore":50,"cacheTemplatesRefresh":15,"cachePagesTrack":200,"cachePagesStore":100,"cachePagesRefresh":10,"cachePagesDirtyRead":10,"searchEngineListTemplate":"forSearchEnginesList.htm","searchEngineFileTemplate":"forSearchEngines.htm","searchEngineRobotsDb":"WEB-INF/robots.db","useDataStore":true,"dataStoreClass":"org.cofax.SqlDataStore","redirectionClass":"org.cofax.SqlRedirection","dataStoreName":"cofax","dataStoreDriver":"com.microsoft.jdbc.sqlserver.SQLServerDriver","dataStoreUrl":"jdbc:microsoft:sqlserver://LOCALHOST:1433;DatabaseName=goon","dataStoreUser":"sa","dataStorePassword":"dataStoreTestQuery","dataStoreTestQuery":"select count(*) from cofaxUser","dataStoreLogFile":"/usr/local/tomcat/logs/datastore.log","dataStoreInitConns":10,"dataStoreMaxConns":100,"dataStoreConnUsageLimit":100,"dataStoreLogLevel":"debug","maxUrlLength":500}},{"servlet-name":"cofaxEmail","servlet-class":"org.cofax.cds.EmailServlet","init-param":{"mailHost":"mail1","mailHostOverride":"mail2"}},{"servlet-name":"cofaxAdmin","servlet-class":"org.cofax.cds.AdminServlet"},{"servlet-name":"fileServlet","servlet-class":"org.cofax.cds.FileServlet"},{"servlet-name":"cofaxTools","servlet-class":"org.cofax.cms.CofaxToolsServlet","init-param":{"templatePath":"toolstemplate","log":1,"logLocation":"/usr/local/tomcat/logs/CofaxTools.log","logMaxSize":"","dataLog":1,"dataLogLocation":"/usr/local/tomcat/logs/dataLog.log","dataLogMaxSize":"","removePageCache":"/content/admin/remove?cache=pages&id=","removeTemplateCache":"/content/admin/remove?cache=templates&id=","fileTransferFolder":"/usr/local/tomcat/webapps/content/fileTransferFolder","lookInContext":1,"adminGroupID":"admin","betaServer":true}}],"servlet-mapping":{"cofaxCDS":"/","cofaxEmail":"/cofaxhf/a/email/*","cofaxAdmin":"/admin/*","fileServlet":"/content/stable/*","cofaxTools":"/tools/*"},"taglib":{"taglib-uri":"cofax.tld","taglib-location":"/WEB-INF/tlds/cofax.tld"}}}</textarea>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>✨ Formatted Output</span>
+          <div class="actions">
+            <button id="copyBtn">📋 Copy</button>
+            <button id="downloadBtn">⬇ Download</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="jsonOutput" class="output-area">Paste or type JSON above to format it...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+      <button id="formatBtn" style="background:#238636;border:none;color:#fff;padding:0.5rem 1.25rem;border-radius:6px;cursor:pointer;font-weight:600;">✨ Format</button>
+      <button id="minifyBtn" style="background:#1c2333;border:1px solid #30363d;color:#8b949e;padding:0.5rem 1.25rem;border-radius:6px;cursor:pointer;">🗜️ Minify</button>
+      <button id="validateBtn" style="background:#1c2333;border:1px solid #30363d;color:#8b949e;padding:0.5rem 1.25rem;border-radius:6px;cursor:pointer;">✅ Validate</button>
+      <button id="compressBtn" style="background:#1c2333;border:1px solid #30363d;color:#8b949e;padding:0.5rem 1.25rem;border-radius:6px;cursor:pointer;">📦 Compress (escape)</button>
+    </div>
+
+    <!-- Status -->
+    <div class="status-bar">
+      <div><span id="validityBadge" class="valid">✓ Valid JSON</span> <span id="errorDetail" style="color:#8b949e;margin-left:0.5rem;"></span></div>
+      <div class="stats">Lines: <span id="lineCount">0</span> · Size: <span id="sizeDisplay">0 B</span></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Copied!</div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      const input = document.getElementById('jsonInput');
+      const output = document.getElementById('jsonOutput');
+      const validityBadge = document.getElementById('validityBadge');
+      const errorDetail = document.getElementById('errorDetail');
+      const lineCount = document.getElementById('lineCount');
+      const sizeDisplay = document.getElementById('sizeDisplay');
+      const toast = document.getElementById('toast');
+
+      const formatBtn = document.getElementById('formatBtn');
+      const minifyBtn = document.getElementById('minifyBtn');
+      const validateBtn = document.getElementById('validateBtn');
+      const compressBtn = document.getElementById('compressBtn');
+      const copyBtn = document.getElementById('copyBtn');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const sampleBtn = document.getElementById('sampleBtn');
+      const clearBtn = document.getElementById('clearBtn');
+
+      // ── Syntax highlight JSON ──
+      function highlightJSON(json) {
+        if (!json) return '';
+        return json
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+          .replace(/:(\s*)"([^"]+)"/g, ':<span class="json-string">"$2"</span>')
+          .replace(/:(\s*)(\d+\.?\d*)/g, ':<span class="json-number">$2</span>')
+          .replace(/:(\s*)(true|false)/g, ':<span class="json-boolean">$2</span>')
+          .replace(/:(\s*)(null)/g, ':<span class="json-null">$2</span>')
+          .replace(/([\[\]{}])/g, '<span class="json-bracket">$1</span>');
+      }
+
+      // ── Process ──
+      function process(mode) {
+        const raw = input.value.trim();
+        if (!raw) {
+          output.innerHTML = '<span style="color:#8b949e">Paste or type JSON above to format it...</span>';
+          setStatus(null, 0, 0);
+          return;
+        }
+
+        let parsed;
+        try {
+          parsed = JSON.parse(raw);
+        } catch (e) {
+          output.innerHTML = `<span class="error">✖ Parse Error: ${e.message}</span>`;
+          setStatus(false, raw.length, raw.split('\n').length, e.message);
+          return;
+        }
+
+        let result;
+        switch (mode) {
+          case 'format':
+            result = JSON.stringify(parsed, null, 2);
+            output.innerHTML = highlightJSON(result);
+            setStatus(true, result.length, result.split('\n').length);
+            break;
+          case 'minify':
+            result = JSON.stringify(parsed);
+            output.innerHTML = highlightJSON(result);
+            setStatus(true, result.length, 1);
+            break;
+          case 'compress':
+            result = JSON.stringify(parsed);
+            result = result.replace(/"/g, '\\"');
+            output.innerHTML = `<span class="json-string">"${result}"</span>`;
+            setStatus(true, result.length, 1, '', 'Escaped string');
+            break;
+          case 'validate':
+            result = JSON.stringify(parsed, null, 2);
+            output.innerHTML = highlightJSON(result);
+            setStatus(true, result.length, result.split('\n').length);
+            showToast('✅ JSON is valid!');
+            break;
+          default:
+            result = JSON.stringify(parsed, null, 2);
+            output.innerHTML = highlightJSON(result);
+            setStatus(true, result.length, result.split('\n').length);
+        }
+
+        updateStats(result);
+      }
+
+      function setStatus(valid, size, lines, err, extra) {
+        if (valid === null) {
+          validityBadge.textContent = '⏳ Waiting for input';
+          validityBadge.className = '';
+          errorDetail.textContent = '';
+          lineCount.textContent = '0';
+          sizeDisplay.textContent = '0 B';
+          return;
+        }
+        if (valid) {
+          validityBadge.textContent = extra || '✓ Valid JSON';
+          validityBadge.className = 'valid';
+          errorDetail.textContent = '';
+        } else {
+          validityBadge.textContent = '✖ Invalid JSON';
+          validityBadge.className = 'invalid';
+          errorDetail.textContent = err || '';
+        }
+      }
+
+      function updateStats(result) {
+        const bytes = new Blob([result]).size;
+        const lines = result.split('\n').length;
+        lineCount.textContent = lines.toLocaleString();
+        sizeDisplay.textContent = formatBytes(bytes);
+      }
+
+      function formatBytes(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+        return (bytes/(1024*1024)).toFixed(1) + ' MB';
+      }
+
+      // ── Actions ──
+      formatBtn.addEventListener('click', () => process('format'));
+      minifyBtn.addEventListener('click', () => process('minify'));
+      validateBtn.addEventListener('click', () => process('validate'));
+      compressBtn.addEventListener('click', () => process('compress'));
+
+      // Auto-format on input with debounce
+      let debounceTimer;
+      input.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => process('format'), 500);
+      });
+
+      // Sample
+      sampleBtn.addEventListener('click', () => {
+        input.value = JSON.stringify({
+          "name": "JSON Formatter",
+          "version": "1.0.0",
+          "description": "A free online tool for formatting and validating JSON",
+          "features": ["Format", "Validate", "Minify", "Compress", "Syntax Highlighting"],
+          "metadata": {
+            "author": "agent-work",
+            "license": "MIT",
+            "created": "2026-07-21",
+            "isActive": true,
+            "rating": 5.0,
+            "tags": ["json", "developer-tools", "free"]
+          },
+          "nested": {
+            "level1": {
+              "level2": {
+                "level3": {
+                  "value": "deeply nested",
+                  "numbers": [1, 2, 3, 4, 5]
+                }
+              }
+            }
+          },
+          "empty": null
+        }, null, 2);
+        process('format');
+      });
+
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        output.innerHTML = '<span style="color:#8b949e">Paste or type JSON above to format it...</span>';
+        setStatus(null, 0, 0);
+      });
+
+      // Copy
+      copyBtn.addEventListener('click', async () => {
+        const text = output.textContent;
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast('📋 Copied to clipboard!');
+        } catch {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showToast('📋 Copied!');
+        }
+      });
+
+      // Download
+      downloadBtn.addEventListener('click', () => {
+        const text = output.textContent;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'formatted.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('⬇️ Downloaded!');
+      });
+
+      // Toast
+      let toastTimeout;
+      function showToast(msg, isError) {
+        toast.textContent = msg;
+        toast.className = 'toast' + (isError ? ' error' : '');
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      // Init
+      process('format');
+    })();
+  </script>
+</body>
+</html>

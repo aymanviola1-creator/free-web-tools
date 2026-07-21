@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Epoch Converter — Unix Timestamp Converter Online Free | Free Web Tools</title>
+  <meta name="description" content="Free online Unix timestamp converter. Convert between Unix epoch timestamps and human-readable dates across all timezones. ISO 8601, RFC 2822, relative time. Fully client-side.">
+  <meta name="keywords" content="epoch converter, unix timestamp converter, timestamp to date, date to timestamp, epoch time, unix time, epoch calculator, timestamp tool, timezone converter, online tool">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 860px; width: 100%; }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header p { color: #8b949e; font-size: 1rem; }
+    .card {
+      background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: #c9d1d9; margin-bottom: 0.4rem; }
+    input[type="text"], input[type="number"], textarea, select {
+      width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      color: #e4e6ec; padding: 0.6rem 0.8rem; font-size: 0.9rem; font-family: 'Consolas', 'Courier New', monospace;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, textarea:focus, input[type="number"]:focus, select:focus { outline: none; border-color: #58a6ff; }
+    select { font-family: inherit; cursor: pointer; }
+    input[type="number"] { width: 200px; }
+    .row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.75rem; }
+    .btn {
+      background: #21262d; border: 1px solid #30363d; color: #c9d1d9;
+      padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn:hover { border-color: #58a6ff; color: #58a6ff; }
+    .btn-primary { background: #238636; border-color: #238636; color: #fff; }
+    .btn-primary:hover { background: #2ea043; border-color: #2ea043; color: #fff; }
+    .btn-secondary { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .btn-secondary:hover { background: #388bfd; border-color: #388bfd; }
+
+    .timestamp-display {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 1rem; font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 1.3rem; text-align: center; margin-bottom: 0.75rem;
+      color: #58a6ff; letter-spacing: 0.05em;
+    }
+    .timestamp-display.small { font-size: 0.95rem; }
+
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .result-item {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.7rem 0.9rem;
+    }
+    .result-item .lbl {
+      color: #484f58; font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 0.15rem;
+    }
+    .result-item .val {
+      color: #e4e6ec; font-size: 0.85rem; font-family: 'Consolas', 'Courier New', monospace;
+      word-break: break-all;
+    }
+    .result-item .val .copy-hint {
+      cursor: pointer; color: #484f58; font-size: 0.7rem; margin-left: 0.5rem;
+    }
+    .result-item .val .copy-hint:hover { color: #58a6ff; }
+
+    .quick-times {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .quick-btn {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.5rem; text-align: center; cursor: pointer; font-size: 0.75rem;
+      color: #8b949e; transition: all 0.2s;
+    }
+    .quick-btn:hover { border-color: #58a6ff; color: #58a6ff; background: #161b22; }
+    .quick-btn .qlbl { display: block; font-weight: 600; color: #c9d1d9; }
+
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 100px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; color: #58a6ff; text-decoration: none; font-size: 0.85rem; }
+    .back-link:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.5rem; }
+      .result-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+
+    <div class="header">
+      <h1>⏱️ Epoch & Unix Timestamp Converter</h1>
+      <p>Convert between Unix timestamps and human-readable dates in any timezone</p>
+    </div>
+
+    <!-- Quick Reference -->
+    <div class="card">
+      <label style="margin-bottom:0.5rem;">📌 Current Unix Time</label>
+      <div class="timestamp-display" id="current-epoch">0</div>
+      <div class="row" style="justify-content:center;">
+        <button class="btn btn-secondary" onclick="copyEpoch()">📋 Copy</button>
+        <button class="btn btn-primary" onclick="refreshNow()">🔄 Refresh</button>
+        <span style="color:#8b949e;font-size:0.85rem;" id="current-human">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Timestamp to Date -->
+    <div class="card">
+      <div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+        <div style="flex:1;min-width:200px;">
+          <label>Unix Timestamp → Date</label>
+          <div class="row" style="margin-bottom:0;">
+            <input type="number" id="ts-input" value="" placeholder="e.g. 1721558400">
+            <button class="btn btn-primary" onclick="tsToDate()">Convert</button>
+          </div>
+        </div>
+        <div style="min-width:150px;">
+          <label>Timezone</label>
+          <select id="tz-select-ts">
+            <option value="UTC">UTC</option>
+            <option value="local" selected>Local</option>
+            <option value="America/New_York">America/New_York</option>
+            <option value="America/Chicago">America/Chicago</option>
+            <option value="America/Denver">America/Denver</option>
+            <option value="America/Los_Angeles">America/Los_Angeles</option>
+            <option value="Europe/London">Europe/London</option>
+            <option value="Europe/Paris">Europe/Paris</option>
+            <option value="Europe/Berlin">Europe/Berlin</option>
+            <option value="Europe/Moscow">Europe/Moscow</option>
+            <option value="Asia/Dubai">Asia/Dubai</option>
+            <option value="Asia/Kolkata">Asia/Kolkata</option>
+            <option value="Asia/Shanghai">Asia/Shanghai</option>
+            <option value="Asia/Tokyo">Asia/Tokyo</option>
+            <option value="Australia/Sydney">Australia/Sydney</option>
+            <option value="Pacific/Auckland">Pacific/Auckland</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="ts-result" class="result-grid" style="margin-top:0.75rem;display:none;"></div>
+    </div>
+
+    <!-- Date to Timestamp -->
+    <div class="card">
+      <label>Date → Unix Timestamp</label>
+      <div class="row">
+        <div style="flex:1;min-width:200px;">
+          <input type="text" id="date-input" value="" placeholder="e.g. 2026-07-21 12:00:00">
+        </div>
+        <div style="min-width:130px;">
+          <select id="tz-select-date">
+            <option value="local" selected>Local</option>
+            <option value="UTC">UTC</option>
+            <option value="America/New_York">America/New_York</option>
+            <option value="America/Chicago">America/Chicago</option>
+            <option value="America/Denver">America/Denver</option>
+            <option value="America/Los_Angeles">America/Los_Angeles</option>
+            <option value="Europe/London">Europe/London</option>
+            <option value="Europe/Paris">Europe/Paris</option>
+            <option value="Europe/Berlin">Europe/Berlin</option>
+            <option value="Europe/Moscow">Europe/Moscow</option>
+            <option value="Asia/Dubai">Asia/Dubai</option>
+            <option value="Asia/Kolkata">Asia/Kolkata</option>
+            <option value="Asia/Shanghai">Asia/Shanghai</option>
+            <option value="Asia/Tokyo">Asia/Tokyo</option>
+            <option value="Australia/Sydney">Australia/Sydney</option>
+            <option value="Pacific/Auckland">Pacific/Auckland</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="dateToTs()" style="align-self:flex-end;">Convert</button>
+      </div>
+      <div id="date-result" class="result-grid" style="margin-top:0.75rem;display:none;"></div>
+    </div>
+
+    <!-- Quick Epochs -->
+    <div class="card">
+      <label>⏱️ Common Epoch Timestamps</label>
+      <div class="quick-times">
+        <div class="quick-btn" onclick="loadTimestamp(0)"><span class="qlbl">Unix Epoch</span>Jan 1, 1970</div>
+        <div class="quick-btn" onclick="loadTimestamp(946684800)"><span class="qlbl">Y2K</span>Jan 1, 2000</div>
+        <div class="quick-btn" onclick="loadTimestamp(1609459200)"><span class="qlbl">2021</span>Jan 1, 2021</div>
+        <div class="quick-btn" onclick="loadTimestamp(1640995200)"><span class="qlbl">2022</span>Jan 1, 2022</div>
+        <div class="quick-btn" onclick="loadTimestamp(1672531200)"><span class="qlbl">2023</span>Jan 1, 2023</div>
+        <div class="quick-btn" onclick="loadTimestamp(1704067200)"><span class="qlbl">2024</span>Jan 1, 2024</div>
+        <div class="quick-btn" onclick="loadTimestamp(1735689600)"><span class="qlbl">2025</span>Jan 1, 2025</div>
+        <div class="quick-btn" onclick="loadTimestamp(1767225600)"><span class="qlbl">2026</span>Jan 1, 2026</div>
+        <div class="quick-btn" onclick="loadTimestamp(2147483647)"><span class="qlbl">Y2038 Limit</span>Jan 19, 2038</div>
+        <div class="quick-btn" onclick="loadTimestamp(32503680000)"><span class="qlbl">Y3000</span>Jan 1, 3000</div>
+      </div>
+    </div>
+
+    <!-- Adsterra Banner -->
+    <div class="ad-section">
+      <script type="text/javascript">
+        try {
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+          s.async = true;
+          document.currentScript.parentNode.insertBefore(s, document.currentScript);
+        } catch(e) {}
+      </script>
+    </div>
+
+    <div style="text-align:center;margin-top:1rem;">
+      <a href="../../" style="color:#58a6ff;text-decoration:none;font-size:0.85rem;">← Back to all tools</a>
+    </div>
+  </div>
+
+  <script>
+    // ===== Timezone helpers =====
+    function getOffsetString(tz) {
+      if (tz === 'UTC') return 0;
+      if (tz === 'local') return new Date().getTimezoneOffset();
+      try {
+        var d = new Date();
+        var utcDate = d.toLocaleString('en-US', { timeZone: tz, timeZoneName: 'short' });
+        var parts = utcDate.split(' ');
+        var tzName = parts[parts.length-1];
+        // Rough offset from timezone name
+        var match = tzName.match(/GMT([+-]\d+)/);
+        if (match) return -parseInt(match[1]) * 60;
+        return 0;
+      } catch(e) { return 0; }
+    }
+
+    function dateInTimezone(date, tz) {
+      if (tz === 'UTC') return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+      if (tz === 'local') return date;
+      // For IANA timezones, use toLocaleString
+      try {
+        var str = date.toLocaleString('sv-SE', { timeZone: tz });
+        return new Date(str + ' UTC');
+      } catch(e) { return date; }
+    }
+
+    function formatDate(date, tz, fmt) {
+      if (tz === 'UTC') {
+        var d = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        if (fmt === 'iso') return d.toISOString().replace('Z', '');
+        if (fmt === 'rfc') return d.toUTCString().replace('GMT', 'UTC');
+        return d.toISOString().replace('T', ' ').substr(0, 19);
+      }
+      if (tz === 'local') {
+        if (fmt === 'iso') return date.toISOString().replace('Z', '');
+        if (fmt === 'rfc') return date.toUTCString();
+        var pad = function(n) { return String(n).padStart(2, '0'); };
+        return date.getFullYear() + '-' + pad(date.getMonth()+1) + '-' + pad(date.getDate()) + ' ' +
+               pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds());
+      }
+      // IANA timezone
+      try {
+        var opts = { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit',
+                     hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        var str = date.toLocaleString('en-US', opts);
+        // Parse formatted string to get components
+        var m = str.match(/(\d+)\/(\d+)\/(\d+),\s*(\d+):(\d+):(\d+)/);
+        if (m) return m[3] + '-' + m[1].padStart(2,'0') + '-' + m[2].padStart(2,'0') + ' ' + m[4] + ':' + m[5] + ':' + m[6];
+      } catch(e) {}
+      return date.toString();
+    }
+
+    // ===== Current Time =====
+    function updateCurrentTime() {
+      var now = new Date();
+      document.getElementById('current-epoch').textContent = Math.floor(now.getTime() / 1000);
+      document.getElementById('current-human').textContent = '(' + now.toISOString().replace('T', ' ').substr(0, 19) + ' UTC)';
+    }
+
+    function refreshNow() { updateCurrentTime(); }
+
+    function copyEpoch() {
+      var text = document.getElementById('current-epoch').textContent;
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = document.querySelector('.btn-secondary');
+        var orig = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        setTimeout(function() { btn.textContent = orig; }, 1500);
+      });
+    }
+
+    // ===== Timestamp to Date =====
+    function tsToDate() {
+      var ts = parseFloat(document.getElementById('ts-input').value);
+      var tz = document.getElementById('tz-select-ts').value;
+
+      if (isNaN(ts)) {
+        document.getElementById('ts-result').style.display = 'grid';
+        document.getElementById('ts-result').innerHTML = '<div class="result-item" style="grid-column:1/-1;"><div class="lbl">Error</div><div class="val" style="color:#f85149;">Invalid timestamp. Enter a number.</div></div>';
+        return;
+      }
+
+      // Support milliseconds (if > 1e11, treat as ms)
+      var date;
+      if (ts > 1e11) {
+        date = new Date(ts);
+      } else {
+        date = new Date(ts * 1000);
+      }
+
+      if (isNaN(date.getTime())) {
+        document.getElementById('ts-result').style.display = 'grid';
+        document.getElementById('ts-result').innerHTML = '<div class="result-item" style="grid-column:1/-1;"><div class="lbl">Error</div><div class="val" style="color:#f85149;">Invalid date from timestamp.</div></div>';
+        return;
+      }
+
+      var dateUTC = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+      var unixSeconds = Math.floor(date.getTime() / 1000);
+      var unixMs = date.getTime();
+
+      var html = '';
+      html += '<div class="result-item"><div class="lbl">Unix Seconds</div><div class="val">' + unixSeconds + ' <span class="copy-hint" onclick="copyVal(\'' + unixSeconds + '\')">📋</span></div></div>';
+      html += '<div class="result-item"><div class="lbl">Unix Milliseconds</div><div class="val">' + unixMs + ' <span class="copy-hint" onclick="copyVal(\'' + unixMs + '\')">📋</span></div></div>';
+      html += '<div class="result-item"><div class="lbl">ISO 8601 (UTC)</div><div class="val">' + dateUTC.toISOString().replace('Z', '') + 'Z <span class="copy-hint" onclick="copyVal(\'' + dateUTC.toISOString() + '\')">📋</span></div></div>';
+
+      if (tz === 'local' || tz !== 'UTC') {
+        var localStr = formatDate(date, tz, 'iso');
+        html += '<div class="result-item"><div class="lbl">' + (tz === 'local' ? 'Local Time' : tz) + '</div><div class="val">' + localStr + ' <span class="copy-hint" onclick="copyVal(\'' + localStr + '\')">📋</span></div></div>';
+      }
+
+      html += '<div class="result-item"><div class="lbl">RFC 2822</div><div class="val">' + date.toUTCString() + ' <span class="copy-hint" onclick="copyVal(\'' + date.toUTCString() + '\')">📋</span></div></div>';
+      html += '<div class="result-item"><div class="lbl">Relative</div><div class="val">' + relativeTime(date) + '</div></div>';
+
+      // Timezone info
+      var tzOffset = -date.getTimezoneOffset();
+      var tzHours = Math.floor(Math.abs(tzOffset) / 60);
+      var tzMins = Math.abs(tzOffset) % 60;
+      var tzStr = 'UTC' + (tzOffset >= 0 ? '+' : '-') +
+                  String(Math.abs(tzHours)).padStart(2,'0') + ':' +
+                  String(tzMins).padStart(2,'0');
+      html += '<div class="result-item"><div class="lbl">Timezone Offset</div><div class="val">' + tzStr + '</div></div>';
+
+      // Day of year & week
+      var startOfYear = new Date(date.getFullYear(), 0, 0);
+      var dayOfYear = Math.floor((date - startOfYear) / 86400000);
+      html += '<div class="result-item"><div class="lbl">Day of Year</div><div class="val">' + dayOfYear + '</div></div>';
+
+      var weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      html += '<div class="result-item"><div class="lbl">Weekday</div><div class="val">' + weekdays[date.getDay()] + '</div></div>';
+
+      // Leap year check
+      var isLeap = (date.getFullYear() % 4 === 0 && date.getFullYear() % 100 !== 0) || date.getFullYear() % 400 === 0;
+      html += '<div class="result-item"><div class="lbl">Leap Year</div><div class="val">' + (isLeap ? 'Yes' : 'No') + '</div></div>';
+
+      document.getElementById('ts-result').innerHTML = html;
+      document.getElementById('ts-result').style.display = 'grid';
+    }
+
+    // ===== Date to Timestamp =====
+    function dateToTs() {
+      var input = document.getElementById('date-input').value.trim();
+      var tz = document.getElementById('tz-select-date').value;
+
+      if (!input) {
+        document.getElementById('date-result').style.display = 'grid';
+        document.getElementById('date-result').innerHTML = '<div class="result-item" style="grid-column:1/-1;"><div class="lbl">Error</div><div class="val" style="color:#f85149;">Enter a date string.</div></div>';
+        return;
+      }
+
+      var date;
+      // Try direct parsing
+      if (tz === 'UTC') {
+        date = new Date(input + ' UTC');
+        if (isNaN(date.getTime())) date = new Date(input + 'Z');
+      } else if (tz === 'local') {
+        date = new Date(input);
+      } else {
+        // For IANA timezone, try to use the timezone
+        date = new Date(input);
+        // Parse and adjust
+        var d = new Date(input);
+        if (!isNaN(d.getTime())) {
+          date = d;
+        }
+      }
+
+      if (isNaN(date.getTime())) {
+        document.getElementById('date-result').style.display = 'grid';
+        document.getElementById('date-result').innerHTML = '<div class="result-item" style="grid-column:1/-1;"><div class="lbl">Error</div><div class="val" style="color:#f85149;">Cannot parse date. Try format: YYYY-MM-DD HH:mm:ss</div></div>';
+        return;
+      }
+
+      var unixSeconds = Math.floor(date.getTime() / 1000);
+      var unixMs = date.getTime();
+
+      var html = '';
+      html += '<div class="result-item"><div class="lbl">Unix Seconds</div><div class="val">' + unixSeconds + ' <span class="copy-hint" onclick="copyVal(\'' + unixSeconds + '\')">📋</span></div></div>';
+      html += '<div class="result-item"><div class="lbl">Unix Milliseconds</div><div class="val">' + unixMs + ' <span class="copy-hint" onclick="copyVal(\'' + unixMs + '\')">📋</span></div></div>';
+      html += '<div class="result-item"><div class="lbl">ISO 8601 (UTC)</div><div class="val">' + date.toISOString() + ' <span class="copy-hint" onclick="copyVal(\'' + date.toISOString() + '\')">📋</span></div></div>';
+      html += '<div class="result-item"><div class="lbl">Relative</div><div class="val">' + relativeTime(date) + '</div></div>';
+
+      document.getElementById('date-result').innerHTML = html;
+      document.getElementById('date-result').style.display = 'grid';
+    }
+
+    // ===== Helpers =====
+    function relativeTime(date) {
+      var diff = date.getTime() - Date.now();
+      var abs = Math.abs(diff);
+      var future = diff > 0;
+      var seconds = Math.floor(abs / 1000);
+      var minutes = Math.floor(seconds / 60);
+      var hours = Math.floor(minutes / 60);
+      var days = Math.floor(hours / 24);
+      var years = Math.floor(days / 365);
+
+      var str;
+      if (years > 0) str = years + ' year' + (years > 1 ? 's' : '');
+      else if (days > 0) str = days + ' day' + (days > 1 ? 's' : '');
+      else if (hours > 0) str = hours + ' hour' + (hours > 1 ? 's' : '');
+      else if (minutes > 0) str = minutes + ' minute' + (minutes > 1 ? 's' : '');
+      else str = seconds + ' second' + (seconds > 1 ? 's' : '');
+
+      return (future ? 'in ' : '') + str + (future ? '' : ' ago');
+    }
+
+    function loadTimestamp(ts) {
+      document.getElementById('ts-input').value = ts;
+      tsToDate();
+    }
+
+    function copyVal(val) {
+      navigator.clipboard.writeText(val).then(function() {
+        // Show brief feedback
+        var el = document.activeElement;
+        var orig = el ? el.textContent : '';
+        if (el) { el.textContent = '✅'; setTimeout(function() { el.textContent = orig; }, 1000); }
+      });
+    }
+
+    // ===== Keyboard shortcuts =====
+    document.getElementById('ts-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') tsToDate();
+    });
+    document.getElementById('date-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') dateToTs();
+    });
+
+    // ===== Initialize =====
+    updateCurrentTime();
+    // Update clock every second
+    setInterval(updateCurrentTime, 1000);
+    // Show current time as default timestamp
+    document.getElementById('ts-input').value = Math.floor(Date.now() / 1000);
+    tsToDate();
+  </script>
+</body>
+</html>

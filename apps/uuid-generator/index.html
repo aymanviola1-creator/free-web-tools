@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UUID Generator — Generate UUID v4, v1, v7 Online Free | Free Web Tools</title>
+  <meta name="description" content="Free online UUID generator. Generate UUID v4 (random), v1 (time-based), v7 (time-ordered) with bulk mode, copy, and timestamp decoding. Fully client-side.">
+  <meta name="keywords" content="uuid generator, uuid v4, uuid v1, uuid v7, generate uuid, bulk uuid, random uuid, timestamp uuid, guid generator, free online tool">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 860px; width: 100%; }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header p { color: #8b949e; font-size: 1rem; }
+    .card {
+      background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: #c9d1d9; margin-bottom: 0.4rem; }
+    input[type="text"], input[type="number"], textarea, select {
+      width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      color: #e4e6ec; padding: 0.6rem 0.8rem; font-size: 0.9rem; font-family: 'Consolas', 'Courier New', monospace;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, textarea:focus, input[type="number"]:focus { outline: none; border-color: #58a6ff; }
+    textarea { min-height: 200px; resize: vertical; font-size: 0.8rem; }
+    input[type="number"] { width: 120px; }
+    .row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.75rem; }
+    .btn {
+      background: #21262d; border: 1px solid #30363d; color: #c9d1d9;
+      padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn:hover { border-color: #58a6ff; color: #58a6ff; }
+    .btn-primary { background: #238636; border-color: #238636; color: #fff; }
+    .btn-primary:hover { background: #2ea043; border-color: #2ea043; color: #fff; }
+    .btn-danger { background: #da3633; border-color: #da3633; color: #fff; }
+    .btn-danger:hover { background: #f85149; border-color: #f85149; }
+    .uuid-display {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 1rem; font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 1.2rem; text-align: center; word-break: break-all;
+      margin-bottom: 0.75rem; color: #58a6ff; letter-spacing: 0.05em;
+    }
+    .uuid-display.small { font-size: 0.95rem; }
+    .tabs { display: flex; gap: 0; margin-bottom: 0.75rem; background: #0d1117; border-radius: 6px; overflow: hidden; border: 1px solid #30363d; }
+    .tab { flex: 1; text-align: center; padding: 0.5rem; cursor: pointer; font-size: 0.8rem; font-weight: 600; color: #8b949e; transition: all 0.2s; }
+    .tab.active { background: #1f6feb33; color: #58a6ff; }
+    .tab:not(.active):hover { background: #21262d; color: #c9d1d9; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .copy-msg { color: #3fb950; font-size: 0.75rem; margin-left: 0.5rem; opacity: 0; transition: opacity 0.3s; }
+    .copy-msg.show { opacity: 1; }
+    .uuid-list { max-height: 300px; overflow-y: auto; }
+    .uuid-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.35rem 0.5rem; border-bottom: 1px solid #21262d;
+      font-family: monospace; font-size: 0.85rem;
+    }
+    .uuid-item:hover { background: #21262d; }
+    .uuid-item .copy-btn { cursor: pointer; color: #484f58; font-size: 0.75rem; }
+    .uuid-item .copy-btn:hover { color: #58a6ff; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.75rem; }
+    .info-item { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 0.5rem 0.7rem; }
+    .info-item .lbl { color: #484f58; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .info-item .val { color: #e4e6ec; font-size: 0.85rem; font-family: monospace; margin-top: 0.15rem; }
+
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 100px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; color: #58a6ff; text-decoration: none; font-size: 0.85rem; }
+    .back-link:hover { text-decoration: underline; }
+    .version-badge {
+      display: inline-block; background: #1f6feb33; color: #58a6ff;
+      font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 999px;
+      border: 1px solid #1f6feb44; margin-left: 0.4rem;
+    }
+
+    @media (max-width: 480px) {
+      .header h1 { font-size: 1.5rem; }
+      .uuid-display { font-size: 1rem; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+
+    <div class="header">
+      <h1>🔑 UUID Generator</h1>
+      <p>Generate UUID v4, v1, and v7 with bulk mode, copy, and timestamp decoding</p>
+    </div>
+
+    <!-- Version Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchVersion('v4')">UUID v4 <span class="version-badge">Random</span></div>
+      <div class="tab" onclick="switchVersion('v1')">UUID v1 <span class="version-badge">Time-based</span></div>
+      <div class="tab" onclick="switchVersion('v7')">UUID v7 <span class="version-badge">Time-ordered</span></div>
+    </div>
+
+    <!-- UUID v4 Panel -->
+    <div id="panel-v4" class="panel active">
+      <div class="card">
+        <div class="row">
+          <div style="flex:1">
+            <label>Number of UUIDs</label>
+            <input type="number" id="v4-count" value="1" min="1" max="1000">
+          </div>
+          <div style="display:flex;gap:0.5rem;align-items:flex-end;padding-bottom:0.2rem;">
+            <button class="btn btn-primary" onclick="generateV4()">Generate</button>
+            <button class="btn" onclick="copyV4()">📋 Copy All</button>
+            <button class="btn btn-danger" onclick="clearV4()">Clear</button>
+          </div>
+        </div>
+        <div id="v4-result" class="uuid-display small">Click Generate to create UUID v4</div>
+        <div id="v4-info" class="info-grid" style="display:none;">
+          <div class="info-item"><div class="lbl">Version</div><div class="val">4 (Random)</div></div>
+          <div class="info-item"><div class="lbl">Variant</div><div class="val">RFC 4122</div></div>
+          <div class="info-item"><div class="lbl">Entropy</div><div class="val">122 random bits</div></div>
+          <div class="info-item"><div class="lbl">Collision Probability</div><div class="val">≈ 2⁻⁶¹ per UUID</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UUID v1 Panel -->
+    <div id="panel-v1" class="panel">
+      <div class="card">
+        <div class="row">
+          <div style="flex:1">
+            <label>Number of UUIDs</label>
+            <input type="number" id="v1-count" value="1" min="1" max="100">
+          </div>
+          <div style="display:flex;gap:0.5rem;align-items:flex-end;padding-bottom:0.2rem;">
+            <button class="btn btn-primary" onclick="generateV1()">Generate</button>
+            <button class="btn" onclick="copyV1()">📋 Copy All</button>
+            <button class="btn btn-danger" onclick="clearV1()">Clear</button>
+          </div>
+        </div>
+        <div id="v1-result" class="uuid-display small">Click Generate to create UUID v1</div>
+        <div id="v1-info" class="info-grid" style="display:none;">
+          <div class="info-item"><div class="lbl">Version</div><div class="val">1 (Time-based)</div></div>
+          <div class="info-item"><div class="lbl">Timestamp</div><div class="val" id="v1-timestamp">—</div></div>
+          <div class="info-item"><div class="lbl">Clock Sequence</div><div class="val" id="v1-clock">—</div></div>
+          <div class="info-item"><div class="lbl">Node (MAC)</div><div class="val" id="v1-node">Randomized</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UUID v7 Panel -->
+    <div id="panel-v7" class="panel">
+      <div class="card">
+        <div class="row">
+          <div style="flex:1">
+            <label>Number of UUIDs</label>
+            <input type="number" id="v7-count" value="1" min="1" max="1000">
+          </div>
+          <div style="display:flex;gap:0.5rem;align-items:flex-end;padding-bottom:0.2rem;">
+            <button class="btn btn-primary" onclick="generateV7()">Generate</button>
+            <button class="btn" onclick="copyV7()">📋 Copy All</button>
+            <button class="btn btn-danger" onclick="clearV7()">Clear</button>
+          </div>
+        </div>
+        <div id="v7-result" class="uuid-display small">Click Generate to create UUID v7</div>
+        <div id="v7-info" class="info-grid" style="display:none;">
+          <div class="info-item"><div class="lbl">Version</div><div class="val">7 (Time-ordered)</div></div>
+          <div class="info-item"><div class="lbl">Timestamp</div><div class="val" id="v7-timestamp">—</div></div>
+          <div class="info-item"><div class="lbl">Sortable</div><div class="val">Yes (ms-prefix)</div></div>
+          <div class="info-item"><div class="lbl">Standard</div><div class="val">RFC 9562 (Draft)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UUID Decoder -->
+    <div class="card">
+      <h2 style="font-size:1rem;margin-bottom:0.75rem;color:#c9d1d9;">🔍 Decode a UUID</h2>
+      <div class="row">
+        <div style="flex:1">
+          <input type="text" id="decode-input" placeholder="Paste a UUID to decode...">
+        </div>
+        <button class="btn btn-primary" onclick="decodeUUID()">Decode</button>
+      </div>
+      <div id="decode-result" class="info-grid" style="display:none;"></div>
+      <div id="decode-error" class="error" style="display:none;"></div>
+    </div>
+
+    <!-- Adsterra Banner -->
+    <div class="ad-section">
+      <script type="text/javascript">
+        try {
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+          s.async = true;
+          document.currentScript.parentNode.insertBefore(s, document.currentScript);
+        } catch(e) {}
+      </script>
+    </div>
+
+    <div style="text-align:center;margin-top:1rem;">
+      <a href="../../" style="color:#58a6ff;text-decoration:none;font-size:0.85rem;">← Back to all tools</a>
+    </div>
+  </div>
+
+  <style>
+    .error { color: #f85149; font-size: 0.85rem; margin-top: 0.3rem; }
+  </style>
+
+  <script>
+    // ===== Core UUID Generation =====
+
+    function uuidV4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+    }
+
+    function uuidV1() {
+      var now = Date.now();
+      var uuidTime = now + 12219292800000; // Offset between UUID epoch and Unix epoch
+      var timeLow = uuidTime & 0xffffffff;
+      var timeMid = (uuidTime >>> 32) & 0xffff;
+      var timeHiAndVersion = ((uuidTime >>> 48) & 0x0fff) | 0x1000;
+      var clockSeqHi = 0x80 | (Math.random() * 0x3f | 0);
+      var clockSeqLo = Math.random() * 256 | 0;
+      var node = [];
+      for (var i = 0; i < 6; i++) {
+        node.push((Math.random() * 256 | 0).toString(16).padStart(2, '0'));
+      }
+      var parts = [
+        timeLow.toString(16).padStart(8, '0'),
+        timeMid.toString(16).padStart(4, '0'),
+        timeHiAndVersion.toString(16).padStart(4, '0'),
+        (clockSeqHi.toString(16) + clockSeqLo.toString(16).padStart(2, '0')).padStart(4, '0'),
+        node.join('')
+      ];
+      return parts.join('-').toLowerCase();
+    }
+
+    function uuidV7() {
+      var now = Date.now();
+      var hexTime = now.toString(16).padStart(12, '0');
+      var rest = '';
+      for (var i = 0; i < 8; i++) {
+        rest += Math.floor(Math.random() * 16).toString(16);
+      }
+      var ver = '7';
+      var variant = '8';
+      var suffix = '';
+      for (var i = 0; i < 3; i++) {
+        suffix += Math.floor(Math.random() * 16).toString(16);
+      }
+      return hexTime.substr(0, 8) + '-' + 
+             hexTime.substr(8, 4) + '-' +
+             ver + rest.substr(0, 3) + '-' +
+             variant + suffix + '-' +
+             rest.substr(3, 4) + suffix + Math.floor(Math.random() * 256 | 0).toString(16).padStart(2, '0');
+    }
+
+    function generate(uuidFn, count) {
+      var uuids = [];
+      for (var i = 0; i < count; i++) {
+        uuids.push(uuidFn());
+      }
+      return uuids;
+    }
+
+    // ===== Tab Switching =====
+    function switchVersion(ver) {
+      document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+      document.querySelector('.tab[onclick*="' + ver + '"]').classList.add('active');
+      document.getElementById('panel-' + ver).classList.add('active');
+    }
+
+    // ===== Display Helpers =====
+    function displayResult(containerId, uuids) {
+      var el = document.getElementById(containerId);
+      if (uuids.length === 1) {
+        el.className = 'uuid-display';
+        el.textContent = uuids[0];
+      } else {
+        el.className = 'uuid-display small';
+        var html = '<div class="uuid-list">';
+        uuids.forEach(function(u) {
+          html += '<div class="uuid-item"><span>' + u + '</span><span class="copy-btn" onclick="copyText(\'' + u + '\',this)">📋</span></div>';
+        });
+        html += '</div>';
+        el.innerHTML = html;
+      }
+      return uuids[0];
+    }
+
+    function copyText(text, el) {
+      navigator.clipboard.writeText(text).then(function() {
+        var msg = document.createElement('span');
+        msg.textContent = 'Copied!';
+        msg.className = 'copy-msg show';
+        el.parentNode.appendChild(msg);
+        setTimeout(function() { msg.remove(); }, 1500);
+      });
+    }
+
+    function copyAll(resultId, fn) {
+      var el = document.getElementById(resultId);
+      var text = el.textContent || el.innerText;
+      if (text && text.length > 5 && text !== 'Click Generate to create UUID v4' && text !== 'Click Generate to create UUID v1' && text !== 'Click Generate to create UUID v7') {
+        navigator.clipboard.writeText(text).then(function() {
+          var btn = document.querySelector('.btn-primary');
+          var orig = btn.textContent;
+          btn.textContent = '✅ Copied!';
+          setTimeout(function() { btn.textContent = orig; }, 1500);
+        });
+      }
+    }
+
+    // ===== Version-specific Generators =====
+
+    function generateV4() {
+      var count = parseInt(document.getElementById('v4-count').value) || 1;
+      var uuids = generate(uuidV4, count);
+      displayResult('v4-result', uuids);
+      document.getElementById('v4-info').style.display = 'grid';
+    }
+
+    function copyV4() { copyAll('v4-result'); }
+    function clearV4() {
+      document.getElementById('v4-result').textContent = 'Click Generate to create UUID v4';
+      document.getElementById('v4-result').className = 'uuid-display small';
+      document.getElementById('v4-info').style.display = 'none';
+    }
+
+    function generateV1() {
+      var count = parseInt(document.getElementById('v1-count').value) || 1;
+      var uuids = generate(uuidV1, count);
+      var first = displayResult('v1-result', uuids);
+      document.getElementById('v1-info').style.display = 'grid';
+      // Extract timestamp from UUID v1
+      var parts = first.split('-');
+      var timeLow = parseInt(parts[0], 16);
+      var timeMid = parseInt(parts[1], 16);
+      var timeHi = parseInt(parts[2], 16) & 0x0fff;
+      var uuidEpoch = (timeHi * 0x100000000 + timeMid) * 0x100000000 + timeLow;
+      var unixEpoch = uuidEpoch / 10000 - 12219292800000;
+      document.getElementById('v1-timestamp').textContent = new Date(unixEpoch).toISOString().replace('T',' ').substr(0,19) + ' UTC';
+      document.getElementById('v1-clock').textContent = ((parseInt(parts[3].substr(0,2), 16) & 0x3f)).toString();
+      document.getElementById('v1-node').textContent = parts[4].replace(/(..)/g, '$1:').slice(0,-1);
+    }
+
+    function copyV1() { copyAll('v1-result'); }
+    function clearV1() {
+      document.getElementById('v1-result').textContent = 'Click Generate to create UUID v1';
+      document.getElementById('v1-result').className = 'uuid-display small';
+      document.getElementById('v1-info').style.display = 'none';
+    }
+
+    function generateV7() {
+      var count = parseInt(document.getElementById('v7-count').value) || 1;
+      var uuids = generate(uuidV7, count);
+      var first = displayResult('v7-result', uuids);
+      document.getElementById('v7-info').style.display = 'grid';
+      // Extract timestamp from UUID v7 (first 48 bits are Unix ms timestamp)
+      var parts = first.split('-');
+      var hexTime = parts[0] + parts[1].substr(0, 4);
+      var ts = parseInt(hexTime, 16);
+      document.getElementById('v7-timestamp').textContent = new Date(ts).toISOString().replace('T',' ').substr(0,19) + ' UTC';
+    }
+
+    function copyV7() { copyAll('v7-result'); }
+    function clearV7() {
+      document.getElementById('v7-result').textContent = 'Click Generate to create UUID v7';
+      document.getElementById('v7-result').className = 'uuid-display small';
+      document.getElementById('v7-info').style.display = 'none';
+    }
+
+    // ===== UUID Decoder =====
+    function decodeUUID() {
+      var input = document.getElementById('decode-input').value.trim();
+      var resultEl = document.getElementById('decode-result');
+      var errorEl = document.getElementById('decode-error');
+      resultEl.style.display = 'none';
+      errorEl.style.display = 'none';
+
+      if (!input || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(input)) {
+        errorEl.textContent = 'Invalid UUID format. Expected: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      var parts = input.toLowerCase().split('-');
+      var version = parseInt(parts[2].charAt(0), 16);
+      var variant = parseInt(parts[3].charAt(0), 16);
+
+      var html = '';
+      html += '<div class="info-item"><div class="lbl">Version</div><div class="val">' + version + '</div></div>';
+      html += '<div class="info-item"><div class="lbl">Variant</div><div class="val">' + (variant >= 8 && variant <= 11 ? 'RFC 4122/DCE 1.1' : 'Other') + '</div></div>';
+
+      if (version === 1) {
+        var timeLow = parseInt(parts[0], 16);
+        var timeMid = parseInt(parts[1], 16);
+        var timeHi = parseInt(parts[2], 16) & 0x0fff;
+        var uuidEpoch = (timeHi * 0x100000000 + timeMid) * 0x100000000 + timeLow;
+        var unixEpoch = uuidEpoch / 10000 - 12219292800000;
+        html += '<div class="info-item"><div class="lbl">Timestamp</div><div class="val">' + new Date(unixEpoch).toISOString().replace('T',' ').substr(0,19) + ' UTC</div></div>';
+        html += '<div class="info-item"><div class="lbl">Node (MAC)</div><div class="val">' + parts[4].replace(/(..)/g, '$1:').slice(0,-1) + '</div></div>';
+      } else if (version === 4) {
+        html += '<div class="info-item"><div class="lbl">Type</div><div class="val">Random (122 bits of entropy)</div></div>';
+        html += '<div class="info-item"><div class="lbl">Unique</div><div class="val">Virtually guaranteed</div></div>';
+      } else if (version === 7) {
+        var hexTime = parts[0] + parts[1].substr(0, 4);
+        var ts = parseInt(hexTime, 16);
+        html += '<div class="info-item"><div class="lbl">Timestamp</div><div class="val">' + new Date(ts).toISOString().replace('T',' ').substr(0,19) + ' UTC</div></div>';
+        html += '<div class="info-item"><div class="lbl">Sortable</div><div class="val">Yes (monotonic by ms)</div></div>';
+      } else {
+        html += '<div class="info-item"><div class="lbl">Type</div><div class="val">Custom/Other version</div></div>';
+      }
+
+      resultEl.innerHTML = html;
+      resultEl.style.display = 'grid';
+    }
+
+    // Keyboard shortcut: Enter in decode input triggers decode
+    document.getElementById('decode-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') decodeUUID();
+    });
+  </script>
+</body>
+</html>

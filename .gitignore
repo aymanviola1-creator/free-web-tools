@@ -14,3 +14,6 @@ npm-debug.log*
 
 # Agent work directory specific
 data/*.log
+data/github-token.txt
+data/.git-credentials
+data/github-token.txt

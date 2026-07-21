@@ -1,8 +1,8 @@
 {
-  "current_goal": "Build CLI tools and utilities that solve real problems — package as downloadable executables",
+  "current_goal": "Build a privacy-focused browser extension (no accounts needed, no tracking)",
   "status": "in_progress",
-  "attempts": 2,
-  "results": "Cycle 1 complete: 2 web tools built (Markdown->HTML, JSON Formatter). Git repo initialized with 2 commits.",
+  "attempts": 3,
+  "results": "Cycle 2 complete: 2 CLI tools (file-organizer, csv2json). 4 tools total across 2 categories.",
   "earnings_so_far": 0,
-  "cycle": 2
+  "cycle": 3
 }

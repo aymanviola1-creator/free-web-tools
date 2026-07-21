@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link Cleaner</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f1117;
+      color: #e4e6ec;
+      width: 350px;
+      padding: 0;
+      font-size: 14px;
+    }
+    .header {
+      background: #161b22;
+      padding: 14px 16px;
+      border-bottom: 1px solid #30363d;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header h1 {
+      font-size: 16px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #58a6ff, #bc8cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .header .badge {
+      background: #238636;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .content { padding: 14px 16px; }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #30363d;
+    }
+    .toggle-row label { font-weight: 600; }
+    .toggle {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      cursor: pointer;
+    }
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle .slider {
+      position: absolute;
+      inset: 0;
+      background: #30363d;
+      border-radius: 22px;
+      transition: 0.3s;
+    }
+    .toggle .slider::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 2px;
+      bottom: 2px;
+      background: #e4e6ec;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .toggle input:checked + .slider { background: #238636; }
+    .toggle input:checked + .slider::before { transform: translateX(18px); }
+
+    .section-label {
+      font-size: 12px;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .check-row input[type="checkbox"] {
+      accent-color: #58a6ff;
+    }
+    .param-list {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 8px;
+    }
+    .param-list label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 4px;
+      font-size: 12px;
+      font-family: 'Consolas', monospace;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .param-list label:hover { background: #1c2333; }
+    .param-list input[type="checkbox"] { accent-color: #58a6ff; }
+
+    .custom-params {
+      margin-top: 12px;
+    }
+    .custom-params .input-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .custom-params input {
+      flex: 1;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      padding: 6px 10px;
+      color: #e4e6ec;
+      font-size: 12px;
+      font-family: 'Consolas', monospace;
+      outline: none;
+    }
+    .custom-params input:focus { border-color: #58a6ff; }
+    .custom-params button {
+      background: #1c2333;
+      border: 1px solid #30363d;
+      color: #e4e6ec;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .custom-params button:hover { background: #30363d; }
+
+    .custom-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .custom-tag {
+      background: #1c2333;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-family: 'Consolas', monospace;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .custom-tag .remove {
+      cursor: pointer;
+      color: #f85149;
+      font-weight: bold;
+      margin-left: 2px;
+    }
+    .custom-tag .remove:hover { color: #ff6b6b; }
+
+    .footer {
+      padding: 10px 16px;
+      border-top: 1px solid #30363d;
+      font-size: 11px;
+      color: #484f58;
+      text-align: center;
+    }
+    .footer a { color: #58a6ff; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🔗 Link Cleaner</h1>
+    <span class="badge">v1.0</span>
+  </div>
+
+  <div class="content">
+    <div class="toggle-row">
+      <label>Enable Link Cleaning</label>
+      <label class="toggle">
+        <input type="checkbox" id="enabledToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="section-label">Default Tracking Parameters</div>
+    <div class="check-row">
+      <input type="checkbox" id="useDefaults" checked>
+      <label for="useDefaults">Use built-in tracking parameter list (50+ params)</label>
+    </div>
+
+    <div id="defaultParamsList" class="param-list">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="custom-params">
+      <div class="section-label">Custom Parameters</div>
+      <div class="input-row">
+        <input type="text" id="customParamInput" placeholder="e.g. my_tracking_param" />
+        <button id="addParamBtn">Add</button>
+      </div>
+      <div id="customTags" class="custom-tags"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>⚡ Cleans tracking params when you copy links</span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

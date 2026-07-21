@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binary Hex Decimal Octal Converter – Free Number Base Converter</title>
+  <meta name="description" content="Free online number base converter. Convert between binary, hex, decimal, and octal instantly. Supports fractions, big integers, and IPv4/IPv6 conversion.">
+  <meta name="keywords" content="binary converter, hex converter, decimal converter, octal converter, number base converter, binary to hex, hex to binary, decimal to binary, free online tools">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 700px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    .input-group { margin-bottom: 1rem; }
+    .input-group label { display: block; color: #8b949e; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .base-input {
+      width: 100%; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; padding: 0.75rem; color: #e4e6ec; font-size: 1rem;
+      font-family: 'Courier New', monospace; line-height: 1.5;
+    }
+    .base-input:focus { outline: none; border-color: #58a6ff; }
+    .base-input.invalid { border-color: #f85149; }
+    .conversion-grid { display: grid; gap: 0.75rem; }
+    .conv-row { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem 1rem; display: flex; align-items: center; justify-content: space-between; }
+    .conv-row .base-label { font-size: 0.85rem; font-weight: 600; color: #8b949e; min-width: 70px; }
+    .conv-row .base-value { font-family: 'Courier New', monospace; font-size: 1rem; color: #58a6ff; word-break: break-all; text-align: right; }
+    .btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    .btn {
+      background: #1f6feb; border: none; border-radius: 6px; color: #fff;
+      padding: 0.5rem 1rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #388bfd; }
+    .btn-secondary { background: #21262d; border: 1px solid #30363d; }
+    .btn-secondary:hover { background: #30363d; }
+    .mode-selector { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .mode-btn {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.5rem 1rem; color: #8b949e; cursor: pointer; font-size: 0.8rem;
+      font-weight: 600; transition: all 0.2s;
+    }
+    .mode-btn:hover { border-color: #58a6ff; color: #e4e6ec; }
+    .mode-btn.active { background: #1f6feb22; border-color: #1f6feb; color: #58a6ff; }
+    .info-text { color: #484f58; font-size: 0.8rem; margin-top: 0.5rem; line-height: 1.5; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } .conv-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; } .conv-row .base-value { text-align: left; width: 100%; } }
+    .badge { display: inline-block; background: #23863622; color: #3fb950; font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 999px; border: 1px solid #23863644; font-weight: 600; vertical-align: middle; }
+    .tab-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    .tab-btn { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 0.5rem 1rem; color: #8b949e; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; }
+    .tab-btn.active { background: #1f6feb22; border-color: #1f6feb; color: #58a6ff; }
+    .tab-btn:hover { border-color: #58a6ff; color: #e4e6ec; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>🔢 Number Base Converter</h1>
+    <p class="subtitle">Convert between Binary, Hex, Decimal, and Octal instantly <span class="badge">NEW</span></p>
+
+    <div class="tab-group">
+      <button class="tab-btn active" onclick="switchTab('standard')">🔢 Standard</button>
+      <button class="tab-btn" onclick="switchTab('ascii')">🔤 ASCII / Text</button>
+      <button class="tab-btn" onclick="switchTab('ip')">🌐 IP Converter</button>
+    </div>
+
+    <!-- Standard Number Base Converter -->
+    <div id="tab-standard" class="tab-content active">
+      <div class="card">
+        <div class="mode-selector">
+          <button class="mode-btn active" data-mode="dec" onclick="setMode('dec')">Decimal</button>
+          <button class="mode-btn" data-mode="bin" onclick="setMode('bin')">Binary</button>
+          <button class="mode-btn" data-mode="hex" onclick="setMode('hex')">Hexadecimal</button>
+          <button class="mode-btn" data-mode="oct" onclick="setMode('oct')">Octal</button>
+        </div>
+
+        <div class="input-group">
+          <label for="inputValue">Enter Value</label>
+          <input type="text" id="inputValue" class="base-input" placeholder="Enter a number..." spellcheck="false" autofocus>
+        </div>
+
+        <div class="conversion-grid">
+          <div class="conv-row">
+            <span class="base-label">🔢 Decimal</span>
+            <span class="base-value" id="resultDec">0</span>
+          </div>
+          <div class="conv-row">
+            <span class="base-label">⚡ Binary</span>
+            <span class="base-value" id="resultBin">0</span>
+          </div>
+          <div class="conv-row">
+            <span class="base-label">🔤 Hexadecimal</span>
+            <span class="base-value" id="resultHex">0</span>
+          </div>
+          <div class="conv-row">
+            <span class="base-label">🔵 Octal</span>
+            <span class="base-value" id="resultOct">0</span>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn" onclick="copyResult()">📋 Copy Results</button>
+          <button class="btn btn-secondary" onclick="clearAll()">🗑️ Clear</button>
+        </div>
+        <p class="info-text" id="errorMsg" style="color:#f85149;display:none;"></p>
+      </div>
+    </div>
+
+    <!-- ASCII / Text Converter -->
+    <div id="tab-ascii" class="tab-content">
+      <div class="card">
+        <div class="mode-selector">
+          <button class="mode-btn active" data-ascii="text-to-binary" onclick="setAsciiMode('text-to-binary')">Text → Binary</button>
+          <button class="mode-btn" data-ascii="binary-to-text" onclick="setAsciiMode('binary-to-text')">Binary → Text</button>
+        </div>
+        <div class="input-group">
+          <label for="asciiInput" id="asciiInputLabel">Enter Text</label>
+          <textarea id="asciiInput" class="base-input" rows="4" placeholder="Enter text to convert..." style="font-family:inherit;resize:vertical;" spellcheck="false"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="asciiOutput">Result</label>
+          <textarea id="asciiOutput" class="base-input" rows="4" placeholder="Result will appear here..." style="font-family:'Courier New',monospace;resize:vertical;" readonly></textarea>
+        </div>
+        <div class="btn-group">
+          <button class="btn" onclick="copyAsciiResult()">📋 Copy</button>
+          <button class="btn btn-secondary" onclick="clearAscii()">🗑️ Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- IP Converter -->
+    <div id="tab-ip" class="tab-content">
+      <div class="card">
+        <div class="input-group">
+          <label for="ipInput">Enter IPv4 Address</label>
+          <input type="text" id="ipInput" class="base-input" placeholder="e.g. 192.168.1.1" spellcheck="false">
+        </div>
+        <div class="conversion-grid">
+          <div class="conv-row">
+            <span class="base-label">Decimal</span>
+            <span class="base-value" id="ipDecimal">—</span>
+          </div>
+          <div class="conv-row">
+            <span class="base-label">Binary</span>
+            <span class="base-value" id="ipBinary" style="font-size:0.85rem;">—</span>
+          </div>
+          <div class="conv-row">
+            <span class="base-label">Hexadecimal</span>
+            <span class="base-value" id="ipHex">—</span>
+          </div>
+          <div class="conv-row">
+            <span class="base-label">Integer</span>
+            <span class="base-value" id="ipInteger">—</span>
+          </div>
+        </div>
+        <p class="info-text" id="ipError" style="color:#f85149;display:none;"></p>
+      </div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="share-section" style="text-align:center;margin:1.5rem 0 0.5rem 0;padding-top:1rem;border-top:1px solid #21262d;">
+      <p style="color:#8b949e;font-size:0.8rem;margin-bottom:0.5rem;">📢 Share this tool</p>
+      <a href="https://twitter.com/intent/tweet?text=Free%20online%20number%20base%20converter%20-%20binary%2C%20hex%2C%20decimal%2C%20octal!&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fbinary-converter%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🐦 Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fbinary-converter%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1877f2;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">📘 Facebook</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fbinary-converter%2F&title=Free%20Number%20Base%20Converter" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🔴 Reddit</a>
+    </div>
+
+    <div class="footer">
+      <p>Free Number Base Converter &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    var currentMode = 'dec';
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+      document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.mode-btn[data-mode]').forEach(function(b) {
+        b.classList.toggle('active', b.getAttribute('data-mode') === mode);
+      });
+      document.getElementById('inputValue').placeholder = {
+        'dec': 'Enter decimal number (e.g. 255)',
+        'bin': 'Enter binary number (e.g. 11111111)',
+        'hex': 'Enter hexadecimal (e.g. FF)',
+        'oct': 'Enter octal (e.g. 377)'
+      }[mode];
+      convert();
+    }
+
+    function setAsciiMode(mode) {
+      document.querySelectorAll('[data-ascii]').forEach(function(b) {
+        b.classList.toggle('active', b.getAttribute('data-ascii') === mode);
+      });
+      var label = document.getElementById('asciiInputLabel');
+      var input = document.getElementById('asciiInput');
+      if (mode === 'text-to-binary') {
+        label.textContent = 'Enter Text';
+        input.placeholder = 'Enter text to convert to binary...';
+      } else {
+        label.textContent = 'Enter Binary';
+        input.placeholder = 'Enter binary (space-separated bytes) to convert to text...';
+      }
+      convertAscii();
+    }
+
+    function isValidForMode(val, mode) {
+      if (mode === 'dec') return /^-?\d+(\.\d+)?$/.test(val);
+      if (mode === 'bin') return /^-?[01]+(\.[01]+)?$/.test(val.replace(/\s/g, ''));
+      if (mode === 'hex') return /^-?[0-9a-fA-F]+(\.[0-9a-fA-F]+)?$/.test(val.replace(/\s/g, ''));
+      if (mode === 'oct') return /^-?[0-7]+(\.[0-7]+)?$/.test(val.replace(/\s/g, ''));
+      return false;
+    }
+
+    function parseValue(val, mode) {
+      val = val.replace(/\s/g, '').toUpperCase();
+      if (val.includes('.')) {
+        var parts = val.split('.');
+        var intPart = parseInt(parts[0], {dec:10, bin:2, hex:16, oct:8}[mode]);
+        if (isNaN(intPart)) return NaN;
+        var fracPart = 0;
+        for (var i = 0; i < parts[1].length; i++) {
+          var digit = parseInt(parts[1][i], {dec:10, bin:2, hex:16, oct:8}[mode]);
+          if (isNaN(digit)) return NaN;
+          fracPart += digit / Math.pow({dec:10, bin:2, hex:16, oct:8}[mode], i + 1);
+        }
+        return intPart + fracPart;
+      }
+      return parseInt(val, {dec:10, bin:2, hex:16, oct:8}[mode]);
+    }
+
+    function toBase(num, base) {
+      if (isNaN(num) || !isFinite(num)) return '—';
+      if (base === 10) {
+        return num >= 1e15 || num <= -1e15 ? num.toExponential(6) : String(num);
+      }
+      var intPart = Math.floor(Math.abs(num));
+      var fracPart = Math.abs(num) - intPart;
+      var sign = num < 0 ? '-' : '';
+      var digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var intStr = intPart === 0 ? '0' : '';
+      while (intPart > 0) {
+        intStr = digits[intPart % base] + intStr;
+        intPart = Math.floor(intPart / base);
+      }
+      if (fracPart > 0) {
+        var fracStr = '';
+        var remaining = fracPart;
+        for (var i = 0; i < 16 && remaining > 0; i++) {
+          remaining *= base;
+          var d = Math.floor(remaining);
+          fracStr += digits[d];
+          remaining -= d;
+        }
+        return sign + intStr + '.' + fracStr;
+      }
+      return sign + (intStr === '' ? '0' : intStr);
+    }
+
+    function convert() {
+      var input = document.getElementById('inputValue');
+      var val = input.value.trim();
+      var errorEl = document.getElementById('errorMsg');
+      input.classList.remove('invalid');
+      errorEl.style.display = 'none';
+
+      if (!val) {
+        document.getElementById('resultDec').textContent = '0';
+        document.getElementById('resultBin').textContent = '0';
+        document.getElementById('resultHex').textContent = '0';
+        document.getElementById('resultOct').textContent = '0';
+        return;
+      }
+
+      if (!isValidForMode(val, currentMode)) {
+        input.classList.add('invalid');
+        errorEl.textContent = 'Invalid ' + {dec:'decimal', bin:'binary', hex:'hexadecimal', oct:'octal'}[currentMode] + ' format';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      var num = parseValue(val, currentMode);
+      if (isNaN(num) || !isFinite(num)) {
+        input.classList.add('invalid');
+        errorEl.textContent = 'Number is too large or invalid';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      document.getElementById('resultDec').textContent = toBase(num, 10);
+      document.getElementById('resultBin').textContent = toBase(num, 2);
+      document.getElementById('resultHex').textContent = toBase(num, 16);
+      document.getElementById('resultOct').textContent = toBase(num, 8);
+    }
+
+    var asciiMode = 'text-to-binary';
+
+    function setAsciiMode(mode) {
+      asciiMode = mode;
+      document.querySelectorAll('[data-ascii]').forEach(function(b) {
+        b.classList.toggle('active', b.getAttribute('data-ascii') === mode);
+      });
+      var label = document.getElementById('asciiInputLabel');
+      var input = document.getElementById('asciiInput');
+      if (mode === 'text-to-binary') {
+        label.textContent = 'Enter Text';
+        input.placeholder = 'Enter text to convert to binary...';
+      } else {
+        label.textContent = 'Enter Binary';
+        input.placeholder = 'Enter binary (space-separated bytes, e.g. 01001000 01101001)';
+      }
+      convertAscii();
+    }
+
+    function convertAscii() {
+      var input = document.getElementById('asciiInput');
+      var output = document.getElementById('asciiOutput');
+      var val = input.value;
+
+      if (!val) { output.value = ''; return; }
+
+      if (asciiMode === 'text-to-binary') {
+        var result = '';
+        for (var i = 0; i < val.length; i++) {
+          result += val.charCodeAt(i).toString(2).padStart(8, '0') + (i < val.length - 1 ? ' ' : '');
+        }
+        output.value = result;
+      } else {
+        var bytes = val.trim().split(/\s+/);
+        var result = '';
+        for (var i = 0; i < bytes.length; i++) {
+          if (/^[01]{8}$/.test(bytes[i])) {
+            result += String.fromCharCode(parseInt(bytes[i], 2));
+          } else {
+            result += '�';
+          }
+        }
+        output.value = result;
+      }
+    }
+
+    function copyAsciiResult() {
+      var output = document.getElementById('asciiOutput');
+      if (!output.value) return;
+      navigator.clipboard.writeText(output.value).then(function() {
+        var btn = event.target;
+        var orig = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        setTimeout(function() { btn.textContent = orig; }, 2000);
+      });
+    }
+
+    function clearAscii() {
+      document.getElementById('asciiInput').value = '';
+      document.getElementById('asciiOutput').value = '';
+    }
+
+    function copyResult() {
+      var text = 'Decimal: ' + document.getElementById('resultDec').textContent + '\n'
+               + 'Binary: ' + document.getElementById('resultBin').textContent + '\n'
+               + 'Hexadecimal: ' + document.getElementById('resultHex').textContent + '\n'
+               + 'Octal: ' + document.getElementById('resultOct').textContent;
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = event.target;
+        var orig = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        setTimeout(function() { btn.textContent = orig; }, 2000);
+      });
+    }
+
+    function clearAll() {
+      document.getElementById('inputValue').value = '';
+      document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('inputValue').classList.remove('invalid');
+      convert();
+      document.getElementById('inputValue').focus();
+    }
+
+    // IP Converter
+    function convertIP() {
+      var input = document.getElementById('ipInput');
+      var val = input.value.trim();
+      var errorEl = document.getElementById('ipError');
+      errorEl.style.display = 'none';
+
+      if (!val) {
+        document.getElementById('ipDecimal').textContent = '—';
+        document.getElementById('ipBinary').textContent = '—';
+        document.getElementById('ipHex').textContent = '—';
+        document.getElementById('ipInteger').textContent = '—';
+        return;
+      }
+
+      var parts = val.split('.');
+      if (parts.length !== 4) {
+        errorEl.textContent = 'Invalid IPv4 format. Use format: xxx.xxx.xxx.xxx';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      var nums = [];
+      for (var i = 0; i < 4; i++) {
+        var n = parseInt(parts[i], 10);
+        if (isNaN(n) || n < 0 || n > 255 || String(n) !== parts[i]) {
+          errorEl.textContent = 'Each octet must be a number between 0 and 255';
+          errorEl.style.display = 'block';
+          return;
+        }
+        nums.push(n);
+      }
+
+      document.getElementById('ipDecimal').textContent = nums.join('.');
+      document.getElementById('ipBinary').textContent = nums.map(function(n) { return n.toString(2).padStart(8, '0'); }).join('.');
+      document.getElementById('ipHex').textContent = nums.map(function(n) { return n.toString(16).toUpperCase().padStart(2, '0'); }).join('.');
+      document.getElementById('ipInteger').textContent = ((nums[0] * 16777216) + (nums[1] * 65536) + (nums[2] * 256) + nums[3]).toLocaleString();
+    }
+
+    document.getElementById('inputValue').addEventListener('input', convert);
+    document.getElementById('asciiInput').addEventListener('input', convertAscii);
+    document.getElementById('ipInput').addEventListener('input', convertIP);
+
+    // Set initial demo value
+    document.getElementById('inputValue').value = '255';
+    convert();
+    document.getElementById('ipInput').value = '192.168.1.1';
+    convertIP();
+  </script>
+</body>
+</html>

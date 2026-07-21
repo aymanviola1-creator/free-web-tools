@@ -64,11 +64,12 @@ LOOP:
   5. UPDATE data/goals.json
   6. REPEAT
 
-## Monetization (no accounts needed from you)
-- Build useful web tools → deploy to GitHub Pages
-- The sites are live on github.io
-- You can add Adsterra/Monetag ad code to the HTML
-- Multiple sites = multiple ad revenue streams
+## Monetization — Ads
+Your Adsterra ad codes are PLACEHOLDERS (not real yet).
+The human will add real ad codes later from their account.
+For now: focus on building MORE tools and driving traffic.
+More traffic = more ad revenue when codes go live.
+Keep building. Keep deploying. Keep growing the site.
 
 ## No-Help Rule
 Never ask for help. Use the GitHub token for everything.

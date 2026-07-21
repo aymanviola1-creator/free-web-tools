@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Number Generator – Free Online Random Number Tool</title>
+  <meta name="description" content="Free online random number generator. Generate truly random numbers with advanced options: ranges, duplicates, sorting, CSV export, and more. Perfect for lotteries, giveaways, cryptography.">
+  <meta name="keywords" content="random number generator, random number, number picker, lottery number generator, random picker, raffle generator, randomizer, free online tools">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 700px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    .input-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .input-group { flex: 1; min-width: 120px; }
+    .input-group label { display: block; color: #8b949e; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .input-group input, .input-group select {
+      width: 100%; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; padding: 0.6rem; color: #e4e6ec; font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .input-group input:focus, .input-group select:focus { outline: none; border-color: #58a6ff; }
+    .checkbox-group { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; padding: 0.75rem; background: #0d1117; border-radius: 8px; border: 1px solid #30363d; }
+    .checkbox-group label { display: flex; align-items: center; gap: 0.4rem; color: #8b949e; font-size: 0.85rem; cursor: pointer; }
+    .checkbox-group input[type="checkbox"] { accent-color: #58a6ff; width: 16px; height: 16px; }
+    .result-area {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+      padding: 1rem; min-height: 120px; margin-bottom: 0.75rem;
+      font-family: 'Courier New', monospace; font-size: 1.1rem; line-height: 1.6;
+      word-break: break-all; max-height: 300px; overflow-y: auto;
+    }
+    .result-area .num-chip {
+      display: inline-block; background: #1f6feb22; color: #58a6ff;
+      padding: 0.2rem 0.5rem; border-radius: 4px; margin: 0.15rem;
+      font-size: 0.9rem; border: 1px solid #1f6feb44;
+    }
+    .btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .btn {
+      background: #1f6feb; border: none; border-radius: 6px; color: #fff;
+      padding: 0.6rem 1.2rem; font-size: 0.9rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #388bfd; }
+    .btn-large { padding: 0.8rem 2rem; font-size: 1.1rem; }
+    .btn-success { background: #238636; }
+    .btn-success:hover { background: #2ea043; }
+    .btn-secondary { background: #21262d; border: 1px solid #30363d; }
+    .btn-secondary:hover { background: #30363d; }
+    .btn-danger { background: #da3633; }
+    .btn-danger:hover { background: #f85149; }
+    .stats-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1rem 0; }
+    .stat-box { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 0.6rem 1rem; text-align: center; flex: 1; min-width: 80px; }
+    .stat-box .num { font-size: 1.3rem; font-weight: 700; color: #58a6ff; }
+    .stat-box .lbl { font-size: 0.65rem; color: #484f58; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.1rem; }
+    .generating { animation: pulse 0.5s ease-in-out; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+    .badge { display: inline-block; background: #23863622; color: #3fb950; font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 999px; border: 1px solid #23863644; font-weight: 600; vertical-align: middle; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } .input-row { flex-direction: column; } .input-group { min-width: 100%; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>🎲 Random Number Generator</h1>
+    <p class="subtitle">Generate random numbers with full control <span class="badge">NEW</span></p>
+
+    <div class="card">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="minVal">Minimum</label>
+          <input type="number" id="minVal" value="1">
+        </div>
+        <div class="input-group">
+          <label for="maxVal">Maximum</label>
+          <input type="number" id="maxVal" value="100">
+        </div>
+        <div class="input-group">
+          <label for="count">How Many</label>
+          <input type="number" id="count" value="1" min="1" max="10000">
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="allowDuplicates" checked> Allow Duplicates</label>
+        <label><input type="checkbox" id="sortResults"> Sort Results</label>
+        <label><input type="checkbox" id="leadingZeros"> Leading Zeros</label>
+        <label><input type="checkbox" id="decimals"> Decimals (0-4 places)</label>
+      </div>
+
+      <div class="input-row" id="decimalPlacesRow" style="display:none;">
+        <div class="input-group">
+          <label for="decimalPlaces">Decimal Places</label>
+          <select id="decimalPlaces">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-group" style="margin-bottom:1rem;">
+        <button class="btn btn-large btn-success" onclick="generate()">🎲 Generate!</button>
+        <button class="btn btn-secondary" onclick="copyNumbers()">📋 Copy</button>
+        <button class="btn btn-secondary" onclick="exportCSV()">📊 Export CSV</button>
+        <button class="btn btn-danger" onclick="clearResult()">🗑️ Clear</button>
+      </div>
+
+      <div class="result-area" id="resultArea">
+        <span style="color:#484f58;">Click "Generate!" to get random numbers</span>
+      </div>
+
+      <div class="stats-row" id="statsRow">
+        <div class="stat-box">
+          <div class="num" id="statCount">0</div>
+          <div class="lbl">Numbers</div>
+        </div>
+        <div class="stat-box">
+          <div class="num" id="statSum">0</div>
+          <div class="lbl">Sum</div>
+        </div>
+        <div class="stat-box">
+          <div class="num" id="statAvg">0</div>
+          <div class="lbl">Average</div>
+        </div>
+        <div class="stat-box">
+          <div class="num" id="statMin">0</div>
+          <div class="lbl">Min</div>
+        </div>
+        <div class="stat-box">
+          <div class="num" id="statMax">0</div>
+          <div class="lbl">Max</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="share-section" style="text-align:center;margin:1.5rem 0 0.5rem 0;padding-top:1rem;border-top:1px solid #21262d;">
+      <p style="color:#8b949e;font-size:0.8rem;margin-bottom:0.5rem;">📢 Share this tool</p>
+      <a href="https://twitter.com/intent/tweet?text=Free%20online%20random%20number%20generator%20-%20advanced%20options!&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Frandom-number-generator%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🐦 Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Frandom-number-generator%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1877f2;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">📘 Facebook</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Frandom-number-generator%2F&title=Free%20Random%20Number%20Generator" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🔴 Reddit</a>
+    </div>
+
+    <div class="footer">
+      <p>Free Random Number Generator &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    var lastNumbers = [];
+
+    document.getElementById('decimals').addEventListener('change', function() {
+      document.getElementById('decimalPlacesRow').style.display = this.checked ? 'block' : 'none';
+    });
+
+    function generate() {
+      var min = parseFloat(document.getElementById('minVal').value);
+      var max = parseFloat(document.getElementById('maxVal').value);
+      var count = parseInt(document.getElementById('count').value);
+      var allowDups = document.getElementById('allowDuplicates').checked;
+      var sortResults = document.getElementById('sortResults').checked;
+      var leadingZeros = document.getElementById('leadingZeros').checked;
+      var useDecimals = document.getElementById('decimals').checked;
+      var decimalPlaces = useDecimals ? parseInt(document.getElementById('decimalPlaces').value) : 0;
+
+      if (isNaN(min) || isNaN(max) || isNaN(count)) {
+        document.getElementById('resultArea').innerHTML = '<span style="color:#f85149;">Please enter valid numbers.</span>';
+        return;
+      }
+
+      if (min >= max) {
+        document.getElementById('resultArea').innerHTML = '<span style="color:#f85149;">Maximum must be greater than minimum.</span>';
+        return;
+      }
+
+      if (count < 1 || count > 10000) {
+        document.getElementById('resultArea').innerHTML = '<span style="color:#f85149;">Count must be between 1 and 10,000.</span>';
+        return;
+      }
+
+      if (!allowDups && (max - min + 1) < count) {
+        document.getElementById('resultArea').innerHTML = '<span style="color:#f85149;">Range too small for ' + count + ' unique numbers. Increase range or allow duplicates.</span>';
+        return;
+      }
+
+      var numbers = [];
+      if (allowDups) {
+        for (var i = 0; i < count; i++) {
+          var num = useDecimals
+            ? parseFloat((Math.random() * (max - min) + min).toFixed(decimalPlaces))
+            : Math.floor(Math.random() * (max - min + 1)) + min;
+          numbers.push(num);
+        }
+      } else {
+        var pool = [];
+        var rangeSize = max - min + 1;
+        if (useDecimals) {
+          var multiplier = Math.pow(10, decimalPlaces);
+          var dMin = Math.round(min * multiplier);
+          var dMax = Math.round(max * multiplier);
+          rangeSize = dMax - dMin + 1;
+          if (count > rangeSize) {
+            document.getElementById('resultArea').innerHTML = '<span style="color:#f85149;">Range too small for ' + count + ' unique numbers.</span>';
+            return;
+          }
+          for (var i = 0; i < rangeSize; i++) pool.push(dMin + i);
+          for (var i = pool.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+          }
+          for (var i = 0; i < count; i++) {
+            numbers.push(parseFloat((pool[i] / multiplier).toFixed(decimalPlaces)));
+          }
+        } else {
+          if (count > rangeSize) {
+            document.getElementById('resultArea').innerHTML = '<span style="color:#f85149;">Range too small for ' + count + ' unique numbers.</span>';
+            return;
+          }
+          for (var i = 0; i < rangeSize; i++) pool.push(min + i);
+          // Fisher-Yates shuffle
+          for (var i = pool.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+          }
+          for (var i = 0; i < count; i++) numbers.push(pool[i]);
+        }
+      }
+
+      if (sortResults) {
+        numbers.sort(function(a, b) { return a - b; });
+      }
+
+      lastNumbers = numbers;
+
+      // Display
+      var area = document.getElementById('resultArea');
+      area.classList.remove('generating');
+      void area.offsetWidth; // trigger reflow
+      area.classList.add('generating');
+
+      var html = '';
+      var maxDisplay = 500;
+      var displayNums = numbers.slice(0, maxDisplay);
+
+      if (leadingZeros && !useDecimals) {
+        var maxLen = String(Math.max(Math.abs(min), Math.abs(max))).length;
+        if (min < 0 || max < 0) maxLen = Math.max(maxLen, String(Math.min(Math.abs(min), Math.abs(max))).length + 1);
+        for (var i = 0; i < displayNums.length; i++) {
+          var isNeg = displayNums[i] < 0;
+          var absStr = String(Math.abs(displayNums[i]));
+          while (absStr.length < maxLen) absStr = '0' + absStr;
+          html += '<span class="num-chip">' + (isNeg ? '-' : '') + absStr + '</span>';
+        }
+      } else {
+        for (var i = 0; i < displayNums.length; i++) {
+          html += '<span class="num-chip">' + displayNums[i] + '</span>';
+        }
+      }
+
+      if (numbers.length > maxDisplay) {
+        html += '<span style="color:#484f58;font-size:0.85rem;display:block;margin-top:0.5rem;">... and ' + (numbers.length - maxDisplay) + ' more numbers</span>';
+      }
+
+      area.innerHTML = html;
+
+      // Update stats
+      document.getElementById('statCount').textContent = numbers.length.toLocaleString();
+      var sum = numbers.reduce(function(a, b) { return a + b; }, 0);
+      document.getElementById('statSum').textContent = useDecimals ? sum.toFixed(decimalPlaces) : sum.toLocaleString();
+      document.getElementById('statAvg').textContent = useDecimals ? (sum / numbers.length).toFixed(decimalPlaces) : (sum / numbers.length).toFixed(1);
+      document.getElementById('statMin').textContent = useDecimals ? Math.min.apply(null, numbers).toFixed(decimalPlaces) : Math.min.apply(null, numbers).toLocaleString();
+      document.getElementById('statMax').textContent = useDecimals ? Math.max.apply(null, numbers).toFixed(decimalPlaces) : Math.max.apply(null, numbers).toLocaleString();
+    }
+
+    function copyNumbers() {
+      if (lastNumbers.length === 0) return;
+      var text = lastNumbers.join(', ');
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = event.target;
+        var orig = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        setTimeout(function() { btn.textContent = orig; }, 2000);
+      });
+    }
+
+    function exportCSV() {
+      if (lastNumbers.length === 0) return;
+      var csv = 'Number\n' + lastNumbers.join('\n');
+      var blob = new Blob([csv], { type: 'text/csv' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'random-numbers.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function clearResult() {
+      lastNumbers = [];
+      document.getElementById('resultArea').innerHTML = '<span style="color:#484f58;">Click "Generate!" to get random numbers</span>';
+      document.getElementById('statCount').textContent = '0';
+      document.getElementById('statSum').textContent = '0';
+      document.getElementById('statAvg').textContent = '0';
+      document.getElementById('statMin').textContent = '0';
+      document.getElementById('statMax').textContent = '0';
+    }
+
+    // Generate initial example on load
+    window.addEventListener('DOMContentLoaded', function() {
+      generate();
+    });
+  </script>
+</body>
+</html>

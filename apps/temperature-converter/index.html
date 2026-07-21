@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter – Free Online Temperature Conversion Tool</title>
+  <meta name="description" content="Free online temperature converter. Convert between Celsius, Fahrenheit, Kelvin, Rankine, Réaumur, and more. Instant conversions with formula display. Perfect for cooking, science, weather.">
+  <meta name="keywords" content="temperature converter, celsius to fahrenheit, fahrenheit to celsius, kelvin, rankine, temperature conversion, free online tools, unit converter">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 700px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    .converter-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: flex-end; }
+    .input-group { flex: 1; min-width: 140px; }
+    .input-group label { display: block; color: #8b949e; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .input-group input, .input-group select {
+      width: 100%; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; padding: 0.6rem; color: #e4e6ec; font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .input-group input:focus, .input-group select:focus { outline: none; border-color: #58a6ff; }
+    .swap-btn {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px;
+      color: #8b949e; cursor: pointer; padding: 0.6rem 0.6rem; font-size: 1.1rem;
+      transition: all 0.2s; flex-shrink: 0; line-height: 1;
+    }
+    .swap-btn:hover { border-color: #58a6ff; color: #58a6ff; }
+    .result-box {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+      padding: 1.25rem; text-align: center; margin-bottom: 1rem;
+    }
+    .result-box .converted-value {
+      font-size: 2.5rem; font-weight: 800; color: #58a6ff; margin: 0.5rem 0;
+    }
+    .result-box .converted-label { color: #8b949e; font-size: 1rem; }
+    .result-box .formula {
+      color: #484f58; font-size: 0.8rem; font-family: 'Courier New', monospace;
+      margin-top: 0.5rem; padding: 0.5rem; background: #161b22; border-radius: 6px;
+      display: inline-block;
+    }
+    .conversion-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .conversion-table th {
+      text-align: left; color: #8b949e; font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 0.5px; padding: 0.5rem 0.75rem; border-bottom: 1px solid #21262d;
+      font-weight: 600;
+    }
+    .conversion-table td {
+      padding: 0.5rem 0.75rem; font-size: 0.85rem; border-bottom: 1px solid #21262d;
+    }
+    .conversion-table tr:hover td { background: #161b22; }
+    .conversion-table .unit-label { color: #8b949e; }
+    .conversion-table .unit-value { color: #e4e6ec; font-family: 'Courier New', monospace; text-align: right; }
+    .quick-ref { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 1rem; }
+    .quick-ref-item {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.5rem; text-align: center; cursor: pointer; transition: all 0.2s;
+    }
+    .quick-ref-item:hover { border-color: #58a6ff; }
+    .quick-ref-item .temp { font-size: 1rem; font-weight: 700; color: #58a6ff; }
+    .quick-ref-item .desc { font-size: 0.65rem; color: #484f58; margin-top: 0.15rem; }
+    .badge { display: inline-block; background: #23863622; color: #3fb950; font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 999px; border: 1px solid #23863644; font-weight: 600; vertical-align: middle; }
+    .btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    .btn {
+      background: #1f6feb; border: none; border-radius: 6px; color: #fff;
+      padding: 0.5rem 1rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #388bfd; }
+    .btn-secondary { background: #21262d; border: 1px solid #30363d; }
+    .btn-secondary:hover { background: #30363d; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } .result-box .converted-value { font-size: 1.8rem; } .quick-ref { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>🌡️ Temperature Converter</h1>
+    <p class="subtitle">Convert between 7 temperature scales instantly with formulas <span class="badge">NEW</span></p>
+
+    <div class="card">
+      <div class="converter-row">
+        <div class="input-group">
+          <label for="tempValue">Temperature</label>
+          <input type="number" id="tempValue" value="100" step="any">
+        </div>
+        <div class="input-group">
+          <label for="fromUnit">From</label>
+          <select id="fromUnit">
+            <option value="celsius">Celsius (°C)</option>
+            <option value="fahrenheit" selected>Fahrenheit (°F)</option>
+            <option value="kelvin">Kelvin (K)</option>
+            <option value="rankine">Rankine (°R)</option>
+            <option value="reaumur">Réaumur (°Ré)</option>
+            <option value="delisle">Delisle (°De)</option>
+            <option value="newton">Newton (°N)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="toUnit">To</label>
+          <select id="toUnit">
+            <option value="celsius" selected>Celsius (°C)</option>
+            <option value="fahrenheit">Fahrenheit (°F)</option>
+            <option value="kelvin">Kelvin (K)</option>
+            <option value="rankine">Rankine (°R)</option>
+            <option value="reaumur">Réaumur (°Ré)</option>
+            <option value="delisle">Delisle (°De)</option>
+            <option value="newton">Newton (°N)</option>
+          </select>
+        </div>
+        <button class="swap-btn" onclick="swapUnits()" title="Swap units">⇄</button>
+      </div>
+
+      <div class="result-box">
+        <div class="converted-label" id="resultLabel">100°F =</div>
+        <div class="converted-value" id="resultValue">37.78</div>
+        <div class="converted-label" id="resultUnit">°C</div>
+        <div class="formula" id="formula">Formula: (°F - 32) × 5/9 = °C</div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="conversion-table">
+          <thead>
+            <tr>
+              <th>Scale</th>
+              <th style="text-align:right;">Value</th>
+              <th style="text-align:right;">Symbol</th>
+            </tr>
+          </thead>
+          <tbody id="conversionTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" onclick="copyResult()">📋 Copy Result</button>
+        <button class="btn btn-secondary" onclick="resetToDefault()">🔄 Reset</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="color:#8b949e;font-size:0.85rem;margin-bottom:0.75rem;font-weight:600;">📌 Quick Reference — Common Temperatures</h3>
+      <div class="quick-ref">
+        <div class="quick-ref-item" onclick="setQuickRef(0)">
+          <div class="temp">0°C / 32°F</div>
+          <div class="desc">Water Freezes</div>
+        </div>
+        <div class="quick-ref-item" onclick="setQuickRef(1)">
+          <div class="temp">20°C / 68°F</div>
+          <div class="desc">Room Temperature</div>
+        </div>
+        <div class="quick-ref-item" onclick="setQuickRef(2)">
+          <div class="temp">37°C / 98.6°F</div>
+          <div class="desc">Body Temperature</div>
+        </div>
+        <div class="quick-ref-item" onclick="setQuickRef(3)">
+          <div class="temp">100°C / 212°F</div>
+          <div class="desc">Water Boils</div>
+        </div>
+        <div class="quick-ref-item" onclick="setQuickRef(4)">
+          <div class="temp">-40°C / -40°F</div>
+          <div class="desc">Parity Point</div>
+        </div>
+        <div class="quick-ref-item" onclick="setQuickRef(5)">
+          <div class="temp">180°C / 356°F</div>
+          <div class="desc">Oven: Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="share-section" style="text-align:center;margin:1.5rem 0 0.5rem 0;padding-top:1rem;border-top:1px solid #21262d;">
+      <p style="color:#8b949e;font-size:0.8rem;margin-bottom:0.5rem;">📢 Share this tool</p>
+      <a href="https://twitter.com/intent/tweet?text=Free%20online%20temperature%20converter%20-%20Celsius%2C%20Fahrenheit%2C%20Kelvin%2C%20and%20more!&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Ftemperature-converter%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🐦 Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Ftemperature-converter%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1877f2;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">📘 Facebook</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Ftemperature-converter%2F&title=Free%20Temperature%20Converter" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🔴 Reddit</a>
+    </div>
+
+    <div class="footer">
+      <p>Free Temperature Converter &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    var quickRefs = [
+      { c: 0, f: 32, desc: 'Water Freezes' },
+      { c: 20, f: 68, desc: 'Room Temperature' },
+      { c: 37, f: 98.6, desc: 'Body Temperature' },
+      { c: 100, f: 212, desc: 'Water Boils' },
+      { c: -40, f: -40, desc: 'Parity Point' },
+      { c: 180, f: 356, desc: 'Oven: Medium' }
+    ];
+
+    var unitInfo = {
+      celsius:   { name: 'Celsius', sym: '°C', toC: function(v) { return v; }, fromC: function(v) { return v; } },
+      fahrenheit:{ name: 'Fahrenheit', sym: '°F', toC: function(v) { return (v - 32) * 5/9; }, fromC: function(v) { return v * 9/5 + 32; } },
+      kelvin:    { name: 'Kelvin', sym: 'K', toC: function(v) { return v - 273.15; }, fromC: function(v) { return v + 273.15; } },
+      rankine:   { name: 'Rankine', sym: '°R', toC: function(v) { return (v - 491.67) * 5/9; }, fromC: function(v) { return (v + 273.15) * 9/5; } },
+      reaumur:   { name: 'Réaumur', sym: '°Ré', toC: function(v) { return v * 5/4; }, fromC: function(v) { return v * 4/5; } },
+      delisle:   { name: 'Delisle', sym: '°De', toC: function(v) { return 100 - v * 2/3; }, fromC: function(v) { return (100 - v) * 3/2; } },
+      newton:    { name: 'Newton', sym: '°N', toC: function(v) { return v * 100/33; }, fromC: function(v) { return v * 33/100; } }
+    };
+
+    var unitKeys = ['celsius', 'fahrenheit', 'kelvin', 'rankine', 'reaumur', 'delisle', 'newton'];
+
+    function convert() {
+      var val = parseFloat(document.getElementById('tempValue').value);
+      var from = document.getElementById('fromUnit').value;
+      var to = document.getElementById('toUnit').value;
+
+      if (isNaN(val)) {
+        document.getElementById('resultValue').textContent = '—';
+        document.getElementById('formula').textContent = '';
+        updateTable(null);
+        return;
+      }
+
+      // Convert to Celsius first, then to target
+      var celsius = unitInfo[from].toC(val);
+      var result = unitInfo[to].fromC(celsius);
+
+      // Display result
+      var fromSym = unitInfo[from].sym;
+      var toSym = unitInfo[to].sym;
+      var fromName = unitInfo[from].name;
+      var toName = unitInfo[to].name;
+
+      document.getElementById('resultLabel').textContent = val + fromSym + ' =';
+      document.getElementById('resultValue').textContent = formatNum(result);
+      document.getElementById('resultUnit').textContent = toSym + ' (' + toName + ')';
+
+      // Generate formula
+      var formula = getFormula(from, to, val, result);
+      document.getElementById('formula').textContent = 'Formula: ' + formula;
+
+      // Update table
+      updateTable(celsius);
+    }
+
+    function formatNum(n) {
+      if (Math.abs(n) > 1e9 || (Math.abs(n) < 1e-9 && n !== 0)) return n.toExponential(4);
+      if (Number.isInteger(n)) return n.toString();
+      return n.toFixed(4).replace(/\.?0+$/, '');
+    }
+
+    function getFormula(from, to, val, result) {
+      var f = unitInfo[from].sym;
+      var t = unitInfo[to].sym;
+
+      if (from === to) return val + f + ' = ' + result + t;
+
+      // Direct formulas for common conversions
+      if (from === 'celsius' && to === 'fahrenheit') return val + '°C × 9/5 + 32 = ' + formatNum(result) + '°F';
+      if (from === 'fahrenheit' && to === 'celsius') return '(' + val + '°F - 32) × 5/9 = ' + formatNum(result) + '°C';
+      if (from === 'celsius' && to === 'kelvin') return val + '°C + 273.15 = ' + formatNum(result) + 'K';
+      if (from === 'kelvin' && to === 'celsius') return val + 'K - 273.15 = ' + formatNum(result) + '°C';
+      if (from === 'fahrenheit' && to === 'kelvin') return '(' + val + '°F - 32) × 5/9 + 273.15 = ' + formatNum(result) + 'K';
+      if (from === 'kelvin' && to === 'fahrenheit') return '(' + val + 'K - 273.15) × 9/5 + 32 = ' + formatNum(result) + '°F';
+
+      // Generic via Celsius
+      return val + f + ' → °C → ' + formatNum(result) + t;
+    }
+
+    function updateTable(celsius) {
+      var tbody = document.getElementById('conversionTableBody');
+      var html = '';
+      for (var i = 0; i < unitKeys.length; i++) {
+        var key = unitKeys[i];
+        var info = unitInfo[key];
+        var val = celsius !== null ? info.fromC(celsius) : '—';
+        var formatted = celsius !== null ? formatNum(val) : '—';
+        html += '<tr><td class="unit-label">' + info.name + '</td><td class="unit-value">' + formatted + '</td><td class="unit-value" style="color:#484f58;">' + info.sym + '</td></tr>';
+      }
+      tbody.innerHTML = html;
+    }
+
+    function swapUnits() {
+      var from = document.getElementById('fromUnit');
+      var to = document.getElementById('toUnit');
+      var temp = from.value;
+      from.value = to.value;
+      to.value = temp;
+      convert();
+    }
+
+    function setQuickRef(index) {
+      var ref = quickRefs[index];
+      // Set from unit to Celsius and to unit to Fahrenheit
+      document.getElementById('fromUnit').value = 'celsius';
+      document.getElementById('toUnit').value = 'fahrenheit';
+      document.getElementById('tempValue').value = ref.c;
+      convert();
+    }
+
+    function copyResult() {
+      var label = document.getElementById('resultLabel').textContent;
+      var value = document.getElementById('resultValue').textContent;
+      var unit = document.getElementById('resultUnit').textContent;
+      var text = label + ' ' + value + ' ' + unit;
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = event.target;
+        var orig = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        setTimeout(function() { btn.textContent = orig; }, 2000);
+      });
+    }
+
+    function resetToDefault() {
+      document.getElementById('tempValue').value = 100;
+      document.getElementById('fromUnit').value = 'fahrenheit';
+      document.getElementById('toUnit').value = 'celsius';
+      convert();
+    }
+
+    document.getElementById('tempValue').addEventListener('input', convert);
+    document.getElementById('fromUnit').addEventListener('change', convert);
+    document.getElementById('toUnit').addEventListener('change', convert);
+
+    // Initial conversion
+    convert();
+  </script>
+</body>
+</html>

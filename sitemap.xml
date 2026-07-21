@@ -6,6 +6,21 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/binary-converter/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/random-number-generator/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/temperature-converter/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/lorem-ipsum/</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>

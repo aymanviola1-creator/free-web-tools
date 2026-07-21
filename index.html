@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Web Tools — Privacy-First Online Utilities</title>
-  <meta name="description" content="Collection of 23 free, privacy-friendly online tools. No signup, no tracking, fully client-side. QR code reader, YouTube thumbnail downloader, markdown editor, number base converter, random generator, temperature converter, word counter, SHA256 hash generator, and more.">
-  <meta name="keywords" content="free online tools, qr code reader, youtube thumbnail downloader, markdown editor, binary converter, hex converter, random number generator, temperature converter, word counter, character counter, sha256 generator, image compressor, unit converter, password generator, QR code, timer, stopwatch, privacy tools, color picker, text diff checker, URL encoder">
+  <title>Free Web Tools — Privacy-First Online Utilities (26 Tools)</title>
+  <meta name="description" content="Collection of 26 free, privacy-friendly online tools. No signup, no tracking, fully client-side. Regex tester, HTTP status codes reference, CSV viewer, QR code reader, YouTube thumbnail downloader, markdown editor, and more.">
+  <meta name="keywords" content="free online tools, regex tester, http status codes, csv viewer, qr code reader, youtube thumbnail downloader, markdown editor, binary converter, hex converter, random number generator, temperature converter, word counter, character counter, sha256 generator, image compressor, unit converter, password generator, QR code, timer, stopwatch, privacy tools, color picker, text diff checker, URL encoder">
   <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
   
   <!-- Google Analytics -->
@@ -28,6 +28,9 @@
     "mainEntity": {
       "@type": "ItemList",
       "itemListElement": [
+        {"@type":"WebApplication","name":"Regex Tester","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/regex-tester/"},
+        {"@type":"WebApplication","name":"HTTP Status Codes","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/http-status-codes/"},
+        {"@type":"WebApplication","name":"CSV Viewer & Editor","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/csv-viewer/"},
         {"@type":"WebApplication","name":"QR Code Reader","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/qr-reader/"},
         {"@type":"WebApplication","name":"YouTube Thumbnail Downloader","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/yt-thumbnail/"},
         {"@type":"WebApplication","name":"Markdown Editor","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/markdown-editor/"},
@@ -46,6 +49,9 @@
         {"@type":"WebApplication","name":"QR Code Generator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/qr-generator/"},
         {"@type":"WebApplication","name":"Password Generator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/password-generator/"},
         {"@type":"WebApplication","name":"Text Case Converter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/case-converter/"},
+        {"@type":"WebApplication","name":"Binary/Hex/Decimal Converter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/binary-converter/"},
+        {"@type":"WebApplication","name":"Random Number Generator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/random-number-generator/"},
+        {"@type":"WebApplication","name":"Temperature Converter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/temperature-converter/"},
         {"@type":"WebApplication","name":"Markdown to HTML","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/md-to-html/"},
         {"@type":"WebApplication","name":"JSON Formatter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/json-formatter/"}
       ]
@@ -130,15 +136,42 @@
   <div class="container">
     <div class="header">
       <h1>🛠️ Free Web Tools</h1>
-      <p class="tagline">Privacy-first, client-side tools. No data leaves your browser.</p>
+      <p class="tagline">26 privacy-first, client-side tools. No data leaves your browser.</p>
     </div>
 
     <div class="section-title">🔥 New Tools</div>
     <div class="tools">
+      <a href="apps/regex-tester/" class="tool-card">
+        <span class="icon">🔍</span>
+        <div class="info">
+          <h2>Regex Tester <span class="badge badge-new">NEW</span></h2>
+          <p>Test regular expressions with live matching, flags, replace, and detailed group info.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/http-status-codes/" class="tool-card">
+        <span class="icon">🌐</span>
+        <div class="info">
+          <h2>HTTP Status Codes <span class="badge badge-new">NEW</span></h2>
+          <p>Complete reference of HTTP status codes with search, filtering by category, and detailed descriptions.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/csv-viewer/" class="tool-card">
+        <span class="icon">📊</span>
+        <div class="info">
+          <h2>CSV Viewer & Editor <span class="badge badge-new">NEW</span></h2>
+          <p>View, filter, sort, and export CSV files. Upload or paste data. Fully client-side.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
       <a href="apps/qr-reader/" class="tool-card">
         <span class="icon">📷</span>
         <div class="info">
-          <h2>QR Code Reader <span class="badge badge-new">NEW</span></h2>
+          <h2>QR Code Reader</h2>
           <p>Upload any QR code image and decode it instantly. Supports PNG, JPG, WebP. 100% private.</p>
         </div>
         <span class="arrow">→</span>
@@ -147,7 +180,7 @@
       <a href="apps/yt-thumbnail/" class="tool-card">
         <span class="icon">▶️</span>
         <div class="info">
-          <h2>YouTube Thumbnail Downloader <span class="badge badge-new">NEW</span></h2>
+          <h2>YouTube Thumbnail Downloader</h2>
           <p>Extract and download YouTube video thumbnails in all qualities: MaxRes, HD, HQ, SD, and more.</p>
         </div>
         <span class="arrow">→</span>
@@ -156,7 +189,7 @@
       <a href="apps/markdown-editor/" class="tool-card">
         <span class="icon">📝</span>
         <div class="info">
-          <h2>Markdown Editor <span class="badge badge-new">NEW</span></h2>
+          <h2>Markdown Editor</h2>
           <p>Write Markdown with live HTML preview. Toolbar, export to HTML/MD, copy to clipboard.</p>
         </div>
         <span class="arrow">→</span>
@@ -321,9 +354,9 @@
 
     <div class="section-title">📢 Share These Tools</div>
     <div style="text-align:center; margin-bottom: 1.5rem;">
-      <a href="https://twitter.com/intent/tweet?text=Check%20out%20these%20free%20privacy-first%20online%20tools!%20No%20signup%2C%20no%20tracking.%20&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🐦 Share on Twitter</a>
+      <a href="https://twitter.com/intent/tweet?text=Check%20out%2026%20free%20privacy-first%20online%20tools!%20No%20signup%2C%20no%20tracking.%20&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🐦 Share on Twitter</a>
       <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1877f2;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">📘 Share on Facebook</a>
-      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F&title=20%20Free%20Privacy-First%20Online%20Tools" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🔴 Share on Reddit</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F&title=26%20Free%20Privacy-First%20Online%20Tools" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🔴 Share on Reddit</a>
       <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#0a66c2;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">💼 Share on LinkedIn</a>
     </div>
 
@@ -345,10 +378,10 @@
       </script>
     </div>
 
-    <p class="stats">✨ 23 free tools · No tracking · No signup · Fully client-side</p>
+    <p class="stats">✨ 26 free tools · No tracking · No signup · Fully client-side</p>
 
     <div class="footer">
-      <p>23 tools and counting &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a> &middot; <a href="privacy/">Privacy Policy</a></p>
+      <p>26 tools and counting &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a> &middot; <a href="privacy/">Privacy Policy</a></p>
       <p style="margin-top:0.3rem;">Built with ❤️ for privacy-conscious users worldwide</p>
     </div>
   </div>

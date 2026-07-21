@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV Viewer & Editor — View, Filter, Sort CSV Files Online | Free Web Tools</title>
+  <meta name="description" content="Free online CSV Viewer and Editor. Upload or paste CSV data, filter rows, sort columns, search, and export. 100% client-side, no data uploaded.">
+  <meta name="keywords" content="csv viewer, csv editor, csv online, csv reader, csv to table, csv data viewer, spreadsheet viewer, csv filter, csv sort">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 960px; width: 100%; }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header p { color: #8b949e; font-size: 1rem; }
+    .tool-card {
+      background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: #c9d1d9; margin-bottom: 0.4rem; }
+    textarea, input[type="text"] {
+      width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      color: #e4e6ec; padding: 0.6rem 0.8rem; font-size: 0.85rem; font-family: 'Consolas', 'Courier New', monospace;
+      transition: border-color 0.2s;
+    }
+    textarea:focus, input:focus { outline: none; border-color: #58a6ff; }
+    textarea { min-height: 120px; resize: vertical; }
+    .toolbar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; align-items: center; }
+    .btn {
+      background: #21262d; border: 1px solid #30363d; color: #c9d1d9;
+      padding: 0.45rem 0.9rem; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn:hover { border-color: #58a6ff; color: #58a6ff; }
+    .btn-primary { background: #238636; border-color: #238636; color: #fff; }
+    .btn-primary:hover { background: #2ea043; border-color: #2ea043; color: #fff; }
+    .btn-danger { background: #da3633; border-color: #da3633; color: #fff; }
+    .btn-danger:hover { background: #f85149; border-color: #f85149; }
+    .toolbar .spacer { flex: 1; }
+    .search-row { margin-bottom: 0.75rem; }
+    .table-wrapper { overflow-x: auto; border: 1px solid #30363d; border-radius: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+    th {
+      background: #0d1117; color: #8b949e; padding: 0.5rem 0.6rem;
+      text-align: left; font-weight: 600; border-bottom: 1px solid #30363d;
+      cursor: pointer; white-space: nowrap; position: sticky; top: 0;
+      user-select: none;
+    }
+    th:hover { color: #58a6ff; }
+    th .sort-arrow { margin-left: 0.3rem; color: #484f58; font-size: 0.65rem; }
+    th.sorted .sort-arrow { color: #58a6ff; }
+    td { padding: 0.35rem 0.6rem; border-bottom: 1px solid #21262d; color: #c9d1d9; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    tr:hover td { background: #1c2128; }
+    .row-count { color: #484f58; font-size: 0.75rem; }
+    .file-upload { display: inline-block; }
+    .file-upload input[type="file"] { display: none; }
+    .file-upload label { display: inline-block; background: #21262d; border: 1px solid #30363d; color: #c9d1d9; padding: 0.45rem 0.9rem; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: 600; transition: all 0.2s; margin-bottom: 0; }
+    .file-upload label:hover { border-color: #58a6ff; color: #58a6ff; }
+    .sample-data { color: #484f58; font-size: 0.75rem; cursor: pointer; text-decoration: underline; }
+    .sample-data:hover { color: #58a6ff; }
+    .empty-state { text-align: center; padding: 2rem; color: #484f58; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; color: #58a6ff; text-decoration: none; font-size: 0.85rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    .share-buttons { text-align: center; margin: 1rem 0; }
+    .share-buttons a { display: inline-block; padding: 0.35rem 0.8rem; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 600; margin: 0.15rem; color: #fff; }
+    @media (max-width: 600px) { .toolbar { flex-direction: column; align-items: stretch; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to All Tools</a>
+    <div class="header">
+      <h1>📊 CSV Viewer & Editor</h1>
+      <p>View, filter, sort, and export CSV data right in your browser. No uploads, full privacy.</p>
+    </div>
+
+    <div class="tool-card">
+      <div class="toolbar">
+        <div class="file-upload">
+          <input type="file" id="fileInput" accept=".csv,.tsv,.txt">
+          <label for="fileInput">📁 Open CSV File</label>
+        </div>
+        <button class="btn" onclick="loadSample()">📄 Load Sample Data</button>
+        <button class="btn btn-primary" id="applyBtn" onclick="renderTable()">🔄 Refresh Table</button>
+        <button class="btn" onclick="exportCSV()">📥 Export CSV</button>
+        <span class="spacer"></span>
+        <span class="row-count" id="rowCount"></span>
+      </div>
+
+      <div class="search-row">
+        <input type="text" id="filterInput" placeholder="🔍 Filter rows… (type any value to filter across all columns)" oninput="renderTable()">
+      </div>
+
+      <label for="csvInput">CSV Data</label>
+      <textarea id="csvInput">Name,Email,Role,Department,Salary,Start Date,Location
+Alice Johnson,alice@example.com,Engineer,Engineering,85000,2021-03-15,New York
+Bob Smith,bob@example.com,Designer,Design,72000,2020-07-01,San Francisco
+Carol Williams,carol@example.com,Manager,Engineering,95000,2019-01-20,Austin
+David Brown,david@example.com,Analyst,Data,68000,2022-06-10,Chicago
+Eve Davis,eve@example.com,Engineer,Engineering,88000,2020-11-05,Seattle
+Frank Miller,frank@example.com,Intern,Engineering,42000,2024-01-15,New York
+Grace Wilson,grace@example.com,Designer,Design,76000,2021-09-22,Los Angeles
+Henry Moore,henry@example.com,Director,Data,120000,2018-04-18,New York
+Ivy Taylor,ivy@example.com,Engineer,Engineering,82000,2022-02-28,Austin
+Jack Anderson,jack@example.com,Analyst,Data,65000,2023-08-14,Chicago</textarea>
+
+      <div class="table-wrapper" id="tableWrapper">
+        <div class="empty-state">Enter CSV data above and click "Refresh Table" or open a CSV file</div>
+      </div>
+    </div>
+
+    <!-- Adsterra Native Banner Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="share-buttons">
+      <a href="https://twitter.com/intent/tweet?text=Free+Online+CSV+Viewer+%26+Editor+%E2%80%94+View%2C+filter%2C+sort+CSV+files+in+your+browser&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fcsv-viewer%2F" target="_blank" rel="noopener" style="background:#1d9bf0;">🐦 Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fcsv-viewer%2F" target="_blank" rel="noopener" style="background:#1877f2;">📘 Facebook</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fcsv-viewer%2F&title=Free+Online+CSV+Viewer+and+Editor" target="_blank" rel="noopener" style="background:#ff4500;">🔴 Reddit</a>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fcsv-viewer%2F" target="_blank" rel="noopener" style="background:#0a66c2;">💼 LinkedIn</a>
+    </div>
+
+    <div class="footer">
+      <p><a href="../../">Free Web Tools</a> &middot; <a href="../../privacy/">Privacy Policy</a></p>
+    </div>
+  </div>
+
+  <script>
+    const csvInput = document.getElementById('csvInput');
+    const filterInput = document.getElementById('filterInput');
+    const tableWrapper = document.getElementById('tableWrapper');
+    const rowCount = document.getElementById('rowCount');
+    const fileInput = document.getElementById('fileInput');
+
+    let sortColumn = -1;
+    let sortAsc = true;
+
+    function parseCSV(text) {
+      const lines = [];
+      let current = [];
+      let field = '';
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const next = text[i + 1];
+        if (inQuotes) {
+          if (ch === '"' && next === '"') {
+            field += '"';
+            i++;
+          } else if (ch === '"') {
+            inQuotes = false;
+          } else {
+            field += ch;
+          }
+        } else {
+          if (ch === '"') {
+            inQuotes = true;
+          } else if (ch === ',') {
+            current.push(field.trim());
+            field = '';
+          } else if (ch === '\n' || (ch === '\r' && next === '\n')) {
+            current.push(field.trim());
+            if (current.length > 0 && current.some(c => c !== '')) lines.push(current);
+            current = [];
+            field = '';
+            if (ch === '\r') i++;
+          } else if (ch === '\r') {
+            current.push(field.trim());
+            if (current.length > 0 && current.some(c => c !== '')) lines.push(current);
+            current = [];
+            field = '';
+          } else {
+            field += ch;
+          }
+        }
+      }
+      current.push(field.trim());
+      if (current.length > 0 && current.some(c => c !== '')) lines.push(current);
+      return lines;
+    }
+
+    function renderTable() {
+      const text = csvInput.value;
+      const lines = parseCSV(text);
+      if (lines.length < 1) {
+        tableWrapper.innerHTML = '<div class="empty-state">No data found</div>';
+        rowCount.textContent = '';
+        return;
+      }
+
+      const headers = lines[0];
+      const data = lines.slice(1);
+      const filter = filterInput.value.toLowerCase().trim();
+
+      let filtered = data;
+      if (filter) {
+        filtered = data.filter(row =>
+          row.some(cell => cell.toLowerCase().includes(filter))
+        );
+      }
+
+      // Sort
+      if (sortColumn >= 0 && sortColumn < headers.length) {
+        filtered.sort((a, b) => {
+          const va = (a[sortColumn] || '').toLowerCase();
+          const vb = (b[sortColumn] || '').toLowerCase();
+          const numA = parseFloat(va.replace(/[^0-9.-]/g, ''));
+          const numB = parseFloat(vb.replace(/[^0-9.-]/g, ''));
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return sortAsc ? numA - numB : numB - numA;
+          }
+          return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+        });
+      }
+
+      rowCount.textContent = filtered.length + ' rows' + (filter ? ' (filtered from ' + data.length + ')' : '');
+
+      let html = '<table><thead><tr>';
+      headers.forEach((h, i) => {
+        const sortedClass = sortColumn === i ? 'sorted' : '';
+        const arrow = sortColumn === i ? (sortAsc ? '▲' : '▼') : '⇅';
+        html += '<th class="' + sortedClass + '" onclick="sortTable(' + i + ')">' + escapeHtml(h) + ' <span class="sort-arrow">' + arrow + '</span></th>';
+      });
+      html += '</tr></thead><tbody>';
+
+      filtered.forEach(row => {
+        html += '<tr>';
+        for (let i = 0; i < headers.length; i++) {
+          html += '<td title="' + escapeHtml(row[i] || '') + '">' + escapeHtml(row[i] || '') + '</td>';
+        }
+        html += '</tr>';
+      });
+
+      html += '</tbody></table>';
+      tableWrapper.innerHTML = html;
+    }
+
+    function sortTable(col) {
+      if (sortColumn === col) {
+        sortAsc = !sortAsc;
+      } else {
+        sortColumn = col;
+        sortAsc = true;
+      }
+      renderTable();
+    }
+
+    function escapeHtml(t) {
+      if (t === null || t === undefined) return '';
+      const d = document.createElement('div');
+      d.textContent = String(t);
+      return d.innerHTML;
+    }
+
+    function loadSample() {
+      csvInput.value = `Name,Email,Role,Department,Salary,Start Date,Location
+Alice Johnson,alice@example.com,Engineer,Engineering,85000,2021-03-15,New York
+Bob Smith,bob@example.com,Designer,Design,72000,2020-07-01,San Francisco
+Carol Williams,carol@example.com,Manager,Engineering,95000,2019-01-20,Austin
+David Brown,david@example.com,Analyst,Data,68000,2022-06-10,Chicago
+Eve Davis,eve@example.com,Engineer,Engineering,88000,2020-11-05,Seattle
+Frank Miller,frank@example.com,Intern,Engineering,42000,2024-01-15,New York
+Grace Wilson,grace@example.com,Designer,Design,76000,2021-09-22,Los Angeles
+Henry Moore,henry@example.com,Director,Data,120000,2018-04-18,New York
+Ivy Taylor,ivy@example.com,Engineer,Engineering,82000,2022-02-28,Austin
+Jack Anderson,jack@example.com,Analyst,Data,65000,2023-08-14,Chicago`;
+      renderTable();
+    }
+
+    function exportCSV() {
+      const text = csvInput.value;
+      const blob = new Blob([text], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'exported-data.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    fileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        csvInput.value = ev.target.result;
+        renderTable();
+      };
+      reader.readAsText(file);
+      fileInput.value = '';
+    });
+
+    // Auto-render on page load
+    renderTable();
+  </script>
+
+  <!-- GDPR Cookie Consent Banner -->
+  <div id="gdprBanner" style="position:fixed;bottom:0;left:0;right:0;background:#161b22;border-top:1px solid #30363d;padding:1rem;z-index:9999;display:none;font-size:0.85rem;">
+    <div style="max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+      <p style="color:#8b949e;flex:1;min-width:200px;">🍪 This site uses cookies from ad networks. <a href="#" style="color:#58a6ff;" onclick="document.getElementById('gdprMore').style.display=document.getElementById('gdprMore').style.display==='none'?'block':'none';return false;">Learn more</a></p>
+      <div style="display:flex;gap:0.5rem;">
+        <button onclick="acceptCookies()" style="background:#238636;border:none;border-radius:6px;color:#fff;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;font-size:0.85rem;">✅ Accept</button>
+        <button onclick="declineCookies()" style="background:#21262d;border:1px solid #30363d;border-radius:6px;color:#8b949e;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;font-size:0.85rem;">✋ Decline</button>
+      </div>
+    </div>
+    <div id="gdprMore" style="display:none;max-width:800px;margin:0.5rem auto 0;color:#484f58;font-size:0.75rem;line-height:1.5;">We use Adsterra ad network which may set cookies for personalized advertising. All tools run entirely in your browser.</div>
+  </div>
+  <script>
+    !function(){var c=localStorage.getItem('gdpr_consent');if(c===null)document.getElementById('gdprBanner').style.display='block'}();
+    window.acceptCookies=function(){localStorage.setItem('gdpr_consent','accepted');document.getElementById('gdprBanner').style.display='none'};
+    window.declineCookies=function(){localStorage.setItem('gdpr_consent','declined');document.getElementById('gdprBanner').style.display='none'};
+  </script>
+</body>
+</html>

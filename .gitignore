@@ -15,6 +15,7 @@ npm-debug.log*
 # Sensitive / credential files
 data/*.log
 data/*.token*
+data/github-token.txt
 data/.git-credentials
 data/requests.txt
 

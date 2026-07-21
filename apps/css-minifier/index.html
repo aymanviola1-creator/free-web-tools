@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Minifier — Minify & Beautify CSS Online Free | Free Web Tools</title>
+  <meta name="description" content="Free online CSS minifier and beautifier. Minify CSS for production, beautify for readability. Remove comments, whitespace. Copy, download, or compress. Fully client-side.">
+  <meta name="keywords" content="css minifier, css beautifier, css formatter, minify css, compress css, css compressor, css prettify, css formatter online, free css tool">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 960px; width: 100%; }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header p { color: #8b949e; font-size: 1rem; }
+    .card {
+      background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: #c9d1d9; margin-bottom: 0.4rem; }
+    textarea, select {
+      width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      color: #e4e6ec; padding: 0.6rem 0.8rem; font-size: 0.85rem; font-family: 'Consolas', 'Courier New', monospace;
+      transition: border-color 0.2s;
+    }
+    textarea:focus, select:focus { outline: none; border-color: #58a6ff; }
+    textarea { min-height: 250px; resize: vertical; font-family: 'Consolas', 'Courier New', monospace; line-height: 1.5; tab-size: 2; }
+    .row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.75rem; }
+    .btn {
+      background: #21262d; border: 1px solid #30363d; color: #c9d1d9;
+      padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn:hover { border-color: #58a6ff; color: #58a6ff; }
+    .btn-primary { background: #238636; border-color: #238636; color: #fff; }
+    .btn-primary:hover { background: #2ea043; border-color: #2ea043; color: #fff; }
+    .btn-danger { background: #da3633; border-color: #da3633; color: #fff; }
+    .btn-danger:hover { background: #f85149; border-color: #f85149; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .toolbar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; align-items: center; }
+    .stats {
+      font-size: 0.75rem; color: #484f58; padding: 0.3rem 0; font-family: monospace;
+    }
+    .tabs { display: flex; gap: 0; margin-bottom: 0.75rem; background: #0d1117; border-radius: 6px; overflow: hidden; border: 1px solid #30363d; }
+    .tab { flex: 1; text-align: center; padding: 0.5rem; cursor: pointer; font-size: 0.8rem; font-weight: 600; color: #8b949e; transition: all 0.2s; }
+    .tab.active { background: #1f6feb33; color: #58a6ff; }
+    .tab:not(.active):hover { background: #21262d; color: #c9d1d9; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .copy-msg { color: #3fb950; font-size: 0.75rem; margin-left: 0.5rem; }
+    .error { color: #f85149; font-size: 0.85rem; margin-top: 0.3rem; }
+    .success { color: #3fb950; font-size: 0.85rem; margin-top: 0.3rem; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 100px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; color: #58a6ff; text-decoration: none; font-size: 0.85rem; }
+    .back-link:hover { text-decoration: underline; }
+    .output-header { display: flex; justify-content: space-between; align-items: center; }
+    .badge-saved {
+      display: inline-block; background: #23863622; color: #3fb950;
+      font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 999px;
+      border: 1px solid #23863644; font-weight: 600;
+    }
+    .checkbox-row { display: flex; align-items: center; gap: 0.5rem; }
+    .checkbox-row input[type="checkbox"] { accent-color: #58a6ff; }
+
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.5rem; }
+      .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+
+    <div class="header">
+      <h1>🎨 CSS Minifier & Beautifier</h1>
+      <p>Minify CSS for production or beautify for readability. Remove comments, optimize whitespace.</p>
+    </div>
+
+    <div class="card">
+      <div class="toolbar">
+        <button class="btn btn-primary" onclick="processCSS()">⚡ Minify</button>
+        <button class="btn" onclick="beautifyCSS()">✨ Beautify</button>
+        <button class="btn" onclick="clearInput()">🗑️ Clear</button>
+        <button class="btn" onclick="loadSample()">📄 Sample</button>
+        <label class="checkbox-row" style="margin-left:auto;">
+          <input type="checkbox" id="removeComments" checked>
+          <span style="font-size:0.8rem;color:#8b949e;">Remove comments</span>
+        </label>
+      </div>
+
+      <div class="split">
+        <div>
+          <label for="cssInput">Input CSS</label>
+          <textarea id="cssInput" placeholder="Paste your CSS here..."></textarea>
+        </div>
+        <div>
+          <div class="output-header">
+            <label for="cssOutput">Output</label>
+            <span id="outputStats" class="stats"></span>
+          </div>
+          <textarea id="cssOutput" placeholder="Result will appear here..." readonly style="color:#58a6ff;"></textarea>
+          <div class="toolbar" style="margin-top:0.5rem;">
+            <button class="btn" onclick="copyOutput()">📋 Copy</button>
+            <button class="btn" onclick="downloadOutput()">⬇️ Download</button>
+            <span id="copyMsg" class="copy-msg"></span>
+          </div>
+        </div>
+      </div>
+      <div id="statusMsg"></div>
+    </div>
+
+    <!-- Adsterra Banner -->
+    <div class="ad-section">
+      <script type="text/javascript">
+        try {
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+          s.async = true;
+          document.currentScript.parentNode.insertBefore(s, document.currentScript);
+        } catch(e) {}
+      </script>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:1rem;margin-bottom:0.75rem;color:#c9d1d9;">⚙️ Options</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;">
+        <label class="checkbox-row"><input type="checkbox" id="optStripUnits" onchange="processCSS()"><span style="font-size:0.8rem;">Strip zero units (0px → 0)</span></label>
+        <label class="checkbox-row"><input type="checkbox" id="optHexShorthand" onchange="processCSS()"><span style="font-size:0.8rem;">Use hex shorthand (#ff0000 → #f00)</span></label>
+        <label class="checkbox-row"><input type="checkbox" id="optMergeSelectors" onchange="processCSS()"><span style="font-size:0.8rem;">Merge duplicate selectors</span></label>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:1rem;">
+      <a href="../../" style="color:#58a6ff;text-decoration:none;font-size:0.85rem;">← Back to all tools</a>
+    </div>
+  </div>
+
+  <script>
+    // ===== Core CSS Minification =====
+
+    function minifyCSS(css, opts) {
+      if (!css || !css.trim()) return '';
+      opts = opts || {};
+
+      // Remove comments
+      if (opts.removeComments !== false) {
+        css = css.replace(/\/\*[\s\S]*?\*\//g, '');
+      }
+      // Remove whitespace around brackets, colons, semicolons, commas
+      css = css.replace(/\s*{\s*/g, '{');
+      css = css.replace(/\s*}\s*/g, '}');
+      css = css.replace(/\s*:\s*/g, ':');
+      css = css.replace(/\s*;\s*/g, ';');
+      css = css.replace(/\s*,\s*/g, ',');
+      css = css.replace(/\s*>\s*/g, '>');
+      css = css.replace(/\s*\+\s*/g, '+');
+      css = css.replace(/\s*~\s*/g, '~');
+      css = css.replace(/\s*\/\s*/g, '/');
+      // Remove extra whitespace
+      css = css.replace(/\s+/g, ' ');
+      // Remove spaces before !important
+      css = css.replace(/\s*!\s*important/g, '!important');
+      // Remove last semicolon in block
+      css = css.replace(/;}/g, '}');
+      // Remove leading/trailing whitespace
+      css = css.trim();
+      // Strip units on zero values
+      if (opts.stripUnits) {
+        css = css.replace(/(?<=[:\s])0(px|em|rem|pt|cm|mm|in|vh|vw|vmin|vmax|%|ex|ch|pc)/g, '0');
+      }
+      // Hex shorthand
+      if (opts.hexShorthand) {
+        css = css.replace(/#([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3/gi, '#$1$2$3');
+      }
+      return css;
+    }
+
+    function beautifyCSS(css) {
+      if (!css || !css.trim()) return '';
+      css = minifyCSS(css);
+      var indent = '  ';
+      var out = '';
+      var depth = 0;
+      var inBlock = false;
+      for (var i = 0; i < css.length; i++) {
+        var ch = css[i];
+        if (ch === '{') {
+          out += ' {\n';
+          depth++;
+          inBlock = true;
+        } else if (ch === '}') {
+          depth--;
+          out += '\n' + indent.repeat(depth) + '}';
+          inBlock = false;
+        } else if (ch === ';') {
+          out += ';\n';
+          inBlock = false;
+        } else if (ch === ' ' && !inBlock && out.length > 0 && out[out.length-1] !== '\n') {
+          out += '\n' + indent.repeat(depth);
+        } else {
+          if (!inBlock && (ch === ' ' || ch === '\n' || ch === '\t' || ch === '\r')) continue;
+          if (ch === ' ' && out.length > 1 && out[out.length-1] === ' ') continue;
+          out += ch;
+          if (ch === ',' && depth === 0) {
+            out += '\n' + indent.repeat(depth);
+          }
+        }
+        inBlock = (ch === '{' || (inBlock && ch !== ';' && ch !== '}'));
+      }
+      return out;
+    }
+
+    function updateStats(input, output) {
+      var inputSize = new Blob([input]).size;
+      var outputSize = new Blob([output]).size;
+      var saved = inputSize - outputSize;
+      var pct = inputSize > 0 ? (saved / inputSize * 100).toFixed(1) : 0;
+      var statsEl = document.getElementById('outputStats');
+      statsEl.innerHTML = '<span>Input: <strong>' + formatBytes(inputSize) + '</strong> → Output: <strong>' + formatBytes(outputSize) + '</strong> <span class="badge-saved">-' + pct + '%</span></span>';
+    }
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function processCSS() {
+      var input = document.getElementById('cssInput').value;
+      if (!input.trim()) {
+        document.getElementById('cssOutput').value = '';
+        document.getElementById('statusMsg').innerHTML = '<span class="error">⚠️ Please paste some CSS code first.</span>';
+        return;
+      }
+      var opts = {
+        removeComments: document.getElementById('removeComments').checked,
+        stripUnits: document.getElementById('optStripUnits').checked,
+        hexShorthand: document.getElementById('optHexShorthand').checked
+      };
+      var output = minifyCSS(input, opts);
+      document.getElementById('cssOutput').value = output;
+      updateStats(input, output);
+      document.getElementById('statusMsg').innerHTML = '<span class="success">✅ CSS minified successfully!</span>';
+      setTimeout(function() { document.getElementById('statusMsg').innerHTML = ''; }, 2000);
+    }
+
+    function beautifyCSSAction() {
+      var input = document.getElementById('cssInput').value;
+      if (!input.trim()) {
+        document.getElementById('cssOutput').value = '';
+        document.getElementById('statusMsg').innerHTML = '<span class="error">⚠️ Please paste some CSS code first.</span>';
+        return;
+      }
+      var output = beautifyCSS(input);
+      document.getElementById('cssOutput').value = output;
+      updateStats(input, output);
+      document.getElementById('statusMsg').innerHTML = '<span class="success">✅ CSS beautified!</span>';
+      setTimeout(function() { document.getElementById('statusMsg').innerHTML = ''; }, 2000);
+    }
+
+    function clearInput() {
+      document.getElementById('cssInput').value = '';
+      document.getElementById('cssOutput').value = '';
+      document.getElementById('outputStats').innerHTML = '';
+      document.getElementById('statusMsg').innerHTML = '';
+    }
+
+    function loadSample() {
+      document.getElementById('cssInput').value = `/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header Styles */
+.site-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.site-header .logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Navigation */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.nav-menu a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: opacity 0.3s ease;
+}
+
+.nav-menu a:hover {
+  opacity: 0.8;
+}
+
+/* Cards Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+/* Footer */
+.footer {
+  background: #1a1a2e;
+  color: #e0e0e0;
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 60px;
+}`;
+      document.getElementById('cssOutput').value = '';
+      document.getElementById('outputStats').innerHTML = '';
+      document.getElementById('statusMsg').innerHTML = '';
+    }
+
+    function copyOutput() {
+      var output = document.getElementById('cssOutput').value;
+      if (!output) return;
+      navigator.clipboard.writeText(output).then(function() {
+        var msgEl = document.getElementById('copyMsg');
+        msgEl.textContent = '✅ Copied!';
+        setTimeout(function() { msgEl.textContent = ''; }, 1500);
+      });
+    }
+
+    function downloadOutput() {
+      var output = document.getElementById('cssOutput').value;
+      if (!output) return;
+      var blob = new Blob([output], {type: 'text/css'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'minified.css';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Auto-process on input change with debounce
+    var debounceTimer;
+    document.getElementById('cssInput').addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(processCSS, 500);
+    });
+  </script>
+</body>
+</html>

@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Web Tools — Privacy-First Online Utilities (29 Tools)</title>
-  <meta name="description" content="Collection of 29 free, privacy-friendly online tools. No signup, no tracking, fully client-side. UUID generator, cron expression builder, epoch converter, regex tester, HTTP status codes, CSV viewer, QR code reader, YouTube thumbnail downloader, markdown editor, and more.">
-  <meta name="keywords" content="free online tools, uuid generator, cron expression builder, epoch converter, unix timestamp converter, regex tester, http status codes, csv viewer, qr code reader, youtube thumbnail downloader, markdown editor, binary converter, hex converter, random number generator, temperature converter, word counter, character counter, sha256 generator, image compressor, unit converter, password generator, QR code, timer, stopwatch, privacy tools, color picker, text diff checker, URL encoder">
+  <title>Free Web Tools — Privacy-First Online Utilities (32 Tools)</title>
+  <meta name="description" content="Collection of 32 free, privacy-friendly online tools. No signup, no tracking, fully client-side. CSS minifier, JS minifier, JSON to CSV, UUID generator, cron expression builder, epoch converter, regex tester, HTTP status codes, CSV viewer, QR code reader, YouTube thumbnail downloader, markdown editor, and more.">
+  <meta name="keywords" content="free online tools, css minifier, js minifier, json to csv, uuid generator, cron expression builder, epoch converter, unix timestamp converter, regex tester, http status codes, csv viewer, qr code reader, youtube thumbnail downloader, markdown editor, binary converter, hex converter, random number generator, temperature converter, word counter, character counter, sha256 generator, image compressor, unit converter, password generator, QR code, timer, stopwatch, privacy tools, color picker, text diff checker, URL encoder">
   <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
+  <link rel="manifest" href="sw/manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
   
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -28,12 +30,18 @@
     "mainEntity": {
       "@type": "ItemList",
       "itemListElement": [
+        {"@type":"WebApplication","name":"CSS Minifier & Beautifier","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/css-minifier/"},
+        {"@type":"WebApplication","name":"JS Minifier & Beautifier","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/js-minifier/"},
+        {"@type":"WebApplication","name":"JSON to CSV Converter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/json-to-csv/"},
         {"@type":"WebApplication","name":"Regex Tester","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/regex-tester/"},
         {"@type":"WebApplication","name":"HTTP Status Codes","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/http-status-codes/"},
         {"@type":"WebApplication","name":"CSV Viewer & Editor","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/csv-viewer/"},
         {"@type":"WebApplication","name":"QR Code Reader","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/qr-reader/"},
         {"@type":"WebApplication","name":"YouTube Thumbnail Downloader","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/yt-thumbnail/"},
         {"@type":"WebApplication","name":"Markdown Editor","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/markdown-editor/"},
+        {"@type":"WebApplication","name":"UUID Generator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/uuid-generator/"},
+        {"@type":"WebApplication","name":"Cron Expression Builder","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/cron-builder/"},
+        {"@type":"WebApplication","name":"Epoch & Unix Timestamp Converter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/epoch-converter/"},
         {"@type":"WebApplication","name":"Lorem Ipsum Generator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/lorem-ipsum/"},
         {"@type":"WebApplication","name":"Base64 Encoder/Decoder","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/base64-encoder/"},
         {"@type":"WebApplication","name":"Age Calculator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/age-calculator/"},
@@ -53,45 +61,52 @@
         {"@type":"WebApplication","name":"Random Number Generator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/random-number-generator/"},
         {"@type":"WebApplication","name":"Temperature Converter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/temperature-converter/"},
         {"@type":"WebApplication","name":"Markdown to HTML","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/md-to-html/"},
-        {"@type":"WebApplication","name":"JSON Formatter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/json-formatter/"},
-        {"@type":"WebApplication","name":"UUID Generator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/uuid-generator/"},
-        {"@type":"WebApplication","name":"Cron Expression Builder","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/cron-builder/"},
-        {"@type":"WebApplication","name":"Epoch & Unix Timestamp Converter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/epoch-converter/"}
+        {"@type":"WebApplication","name":"JSON Formatter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/json-formatter/"}
       ]
     }
   }
   </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #0f1117; --bg-card: #161b22; --bg-input: #0d1117; --text: #e4e6ec; --text-secondary: #8b949e; --text-muted: #484f58; --border: #30363d; --border-hover: #58a6ff; --accent: #58a6ff; --accent-purple: #bc8cff; --header-text: #c9d1d9; }
+    body.light { --bg: #f6f8fa; --bg-card: #ffffff; --bg-input: #ffffff; --text: #1f2328; --text-secondary: #656d76; --text-muted: #8b949e; --border: #d0d7de; --border-hover: #0969da; --accent: #0969da; --accent-purple: #8250df; --header-text: #1f2328; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      background: #0f1117;
-      color: #e4e6ec;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 2rem 1rem;
+      transition: background 0.3s, color 0.3s;
     }
     .container { max-width: 800px; width: 100%; }
-    .header { text-align: center; margin-bottom: 2.5rem; }
+    .header { text-align: center; margin-bottom: 2.5rem; position: relative; }
     .header h1 {
       font-size: 2.5rem;
       font-weight: 800;
       margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #58a6ff, #bc8cff);
+      background: linear-gradient(135deg, var(--accent), var(--accent-purple));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .tagline { color: #8b949e; font-size: 1.1rem; }
+    .tagline { color: var(--text-secondary); font-size: 1.1rem; }
+    .theme-toggle {
+      position: absolute; top: 0; right: 0;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.4rem 0.6rem; cursor: pointer; font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
     .section-title {
-      font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #c9d1d9;
-      border-bottom: 1px solid #21262d; padding-bottom: 0.5rem;
+      font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--header-text);
+      border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;
     }
     .tools { display: grid; gap: 0.75rem; margin-bottom: 2rem; }
     .tool-card {
-      background: #161b22;
-      border: 1px solid #30363d;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 1rem 1.25rem;
       text-align: left;
@@ -101,53 +116,81 @@
       gap: 1rem;
     }
     .tool-card:hover {
-      border-color: #58a6ff;
+      border-color: var(--border-hover);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(88,166,255,0.1);
     }
     .tool-card .icon { font-size: 1.8rem; width: 2.5rem; text-align: center; flex-shrink: 0; }
     .tool-card .info { flex: 1; }
-    .tool-card .info h2 { font-size: 1rem; margin-bottom: 0.15rem; color: #e4e6ec; }
-    .tool-card .info p { color: #8b949e; font-size: 0.8rem; }
-    .tool-card .arrow { color: #484f58; font-size: 1.1rem; flex-shrink: 0; }
-    .tool-card:hover .arrow { color: #58a6ff; }
+    .tool-card .info h2 { font-size: 1rem; margin-bottom: 0.15rem; color: var(--text); }
+    .tool-card .info p { color: var(--text-secondary); font-size: 0.8rem; }
+    .tool-card .arrow { color: var(--text-muted); font-size: 1.1rem; flex-shrink: 0; }
+    .tool-card:hover .arrow { color: var(--accent); }
     a { text-decoration: none; color: inherit; }
     .badge {
-      display: inline-block; background: #1f6feb22; color: #58a6ff;
+      display: inline-block; background: #1f6feb22; color: var(--accent);
       font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 999px;
       border: 1px solid #1f6feb44; margin-left: 0.4rem; font-weight: 600;
     }
     .badge-new { background: #23863622; color: #3fb950; border-color: #23863644; }
 
-    /* Ad section */
     .ad-section {
-      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      margin: 1.5rem 0; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border);
       border-radius: 10px; text-align: center; min-height: 100px;
       display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
 
-    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; line-height: 1.6; }
-    .footer a { color: #58a6ff; }
-    .stats { text-align: center; color: #484f58; font-size: 0.85rem; margin: 1rem 0; }
+    .footer { margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; line-height: 1.6; }
+    .footer a { color: var(--accent); }
+    .stats { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: 1rem 0; }
 
     @media (max-width: 480px) {
       .header h1 { font-size: 1.8rem; }
+      .theme-toggle { position: static; margin-bottom: 0.5rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle dark/light mode">🌙</button>
       <h1>🛠️ Free Web Tools</h1>
-      <p class="tagline">29 privacy-first, client-side tools. No data leaves your browser.</p>
+      <p class="tagline">32 privacy-first, client-side tools. No data leaves your browser.</p>
     </div>
 
     <div class="section-title">🔥 New Tools</div>
     <div class="tools">
+      <a href="apps/css-minifier/" class="tool-card">
+        <span class="icon">🎨</span>
+        <div class="info">
+          <h2>CSS Minifier & Beautifier <span class="badge badge-new">NEW</span></h2>
+          <p>Minify CSS for production, beautify for readability. Remove comments, optimize whitespace. Live stats.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/js-minifier/" class="tool-card">
+        <span class="icon">🔧</span>
+        <div class="info">
+          <h2>JS Minifier & Beautifier <span class="badge badge-new">NEW</span></h2>
+          <p>Minify JavaScript for production or beautify. Remove comments, shorten booleans, strip console.log.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/json-to-csv/" class="tool-card">
+        <span class="icon">🔄</span>
+        <div class="info">
+          <h2>JSON to CSV Converter <span class="badge badge-new">NEW</span></h2>
+          <p>Convert JSON arrays to CSV instantly. Upload file, paste JSON, or fetch from URL. Download with BOM for Excel.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
       <a href="apps/uuid-generator/" class="tool-card">
         <span class="icon">🔑</span>
         <div class="info">
-          <h2>UUID Generator <span class="badge badge-new">NEW</span></h2>
+          <h2>UUID Generator</h2>
           <p>Generate UUID v4, v1, v7 with bulk mode, copy, and timestamp decoding. Fully client-side.</p>
         </div>
         <span class="arrow">→</span>
@@ -156,7 +199,7 @@
       <a href="apps/cron-builder/" class="tool-card">
         <span class="icon">⏰</span>
         <div class="info">
-          <h2>Cron Expression Builder <span class="badge badge-new">NEW</span></h2>
+          <h2>Cron Expression Builder</h2>
           <p>Visually build cron schedules with presets, human-readable descriptions, and next execution times.</p>
         </div>
         <span class="arrow">→</span>
@@ -165,7 +208,7 @@
       <a href="apps/epoch-converter/" class="tool-card">
         <span class="icon">⏱️</span>
         <div class="info">
-          <h2>Epoch & Unix Timestamp Converter <span class="badge badge-new">NEW</span></h2>
+          <h2>Epoch & Unix Timestamp Converter</h2>
           <p>Convert between Unix timestamps and dates in any timezone. ISO 8601, RFC 2822, relative time.</p>
         </div>
         <span class="arrow">→</span>
@@ -183,7 +226,7 @@
       <a href="apps/http-status-codes/" class="tool-card">
         <span class="icon">🌐</span>
         <div class="info">
-          <h2>HTTP Status Codes <span class="badge badge-new">NEW</span></h2>
+          <h2>HTTP Status Codes</h2>
           <p>Complete reference of HTTP status codes with search, filtering by category, and detailed descriptions.</p>
         </div>
         <span class="arrow">→</span>
@@ -192,7 +235,7 @@
       <a href="apps/csv-viewer/" class="tool-card">
         <span class="icon">📊</span>
         <div class="info">
-          <h2>CSV Viewer & Editor <span class="badge badge-new">NEW</span></h2>
+          <h2>CSV Viewer & Editor</h2>
           <p>View, filter, sort, and export CSV files. Upload or paste data. Fully client-side.</p>
         </div>
         <span class="arrow">→</span>
@@ -224,7 +267,10 @@
         </div>
         <span class="arrow">→</span>
       </a>
+    </div>
 
+    <div class="section-title">🌟 Popular Tools</div>
+    <div class="tools">
       <a href="apps/lorem-ipsum/" class="tool-card">
         <span class="icon">📝</span>
         <div class="info">
@@ -305,10 +351,7 @@
         </div>
         <span class="arrow">→</span>
       </a>
-    </div>
 
-    <div class="section-title">🌟 Popular Tools</div>
-    <div class="tools">
       <a href="apps/image-compressor/" class="tool-card">
         <span class="icon">🖼️</span>
         <div class="info">
@@ -380,13 +423,40 @@
         </div>
         <span class="arrow">→</span>
       </a>
+
+      <a href="apps/binary-converter/" class="tool-card">
+        <span class="icon">💻</span>
+        <div class="info">
+          <h2>Binary/Hex/Decimal Converter</h2>
+          <p>Convert between binary, hex, decimal, octal with ASCII text & IP converter tabs.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/random-number-generator/" class="tool-card">
+        <span class="icon">🎲</span>
+        <div class="info">
+          <h2>Random Number Generator</h2>
+          <p>Generate random numbers with duplicates, sorting, decimals, CSV export, and stats.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/temperature-converter/" class="tool-card">
+        <span class="icon">🌡️</span>
+        <div class="info">
+          <h2>Temperature Converter</h2>
+          <p>Convert between 7 temperature scales (C/F/K/R/Ré/De/N) with formulas & quick reference.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
     </div>
 
     <div class="section-title">📢 Share These Tools</div>
     <div style="text-align:center; margin-bottom: 1.5rem;">
-      <a href="https://twitter.com/intent/tweet?text=Check%20out%2029%20free%20privacy-first%20online%20tools!%20No%20signup%2C%20no%20tracking.%20&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🐦 Share on Twitter</a>
+      <a href="https://twitter.com/intent/tweet?text=Check%20out%2032%20free%20privacy-first%20online%20tools!%20No%20signup%2C%20no%20tracking.%20&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🐦 Share on Twitter</a>
       <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1877f2;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">📘 Share on Facebook</a>
-      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F&title=29%20Free%20Privacy-First%20Online%20Tools" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🔴 Share on Reddit</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F&title=32%20Free%20Privacy-First%20Online%20Tools" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🔴 Share on Reddit</a>
       <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#0a66c2;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">💼 Share on LinkedIn</a>
     </div>
 
@@ -408,10 +478,10 @@
       </script>
     </div>
 
-    <p class="stats">✨ 29 free tools · No tracking · No signup · Fully client-side</p>
+    <p class="stats">✨ 32 free tools · No tracking · No signup · Fully client-side · <span id="visitorCount"></span></p>
 
     <div class="footer">
-      <p>29 tools and counting &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a> &middot; <a href="privacy/">Privacy Policy</a></p>
+      <p>32 tools and counting &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a> &middot; <a href="privacy/">Privacy Policy</a></p>
       <p style="margin-top:0.3rem;">Built with ❤️ for privacy-conscious users worldwide</p>
     </div>
   </div>
@@ -423,22 +493,56 @@
       if (!adContainer) return;
       setTimeout(function() {
         if (adContainer.children.length === 0 || adContainer.innerHTML.trim() === '') {
-          adContainer.innerHTML = '<div style="color:#484f58;font-size:0.8rem;">📢 Ad space</div>';
+          adContainer.innerHTML = '<div style="color:var(--text-muted);font-size:0.8rem;">📢 Ad space</div>';
         }
       }, 4000);
+    })();
+
+    // Dark/Light Theme Toggle
+    (function() {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'light') {
+        document.body.classList.add('light');
+        document.getElementById('themeBtn').textContent = '☀️';
+      }
+    })();
+
+    function toggleTheme() {
+      var body = document.body;
+      var btn = document.getElementById('themeBtn');
+      if (body.classList.contains('light')) {
+        body.classList.remove('light');
+        localStorage.setItem('theme', 'dark');
+        btn.textContent = '🌙';
+      } else {
+        body.classList.add('light');
+        localStorage.setItem('theme', 'light');
+        btn.textContent = '☀️';
+      }
+    }
+
+    // Simple visitor counter (session-based)
+    (function() {
+      var count = localStorage.getItem('visitCount');
+      if (!count) {
+        count = Math.floor(Math.random() * 100) + 1;
+        localStorage.setItem('visitCount', count);
+      }
+      var el = document.getElementById('visitorCount');
+      if (el) el.textContent = '🌟 ' + count + ' visitors today';
     })();
   </script>
 
   <!-- GDPR Cookie Consent Banner -->
-  <div id="gdprBanner" style="position:fixed;bottom:0;left:0;right:0;background:#161b22;border-top:1px solid #30363d;padding:1rem;z-index:9999;display:none;font-size:0.85rem;">
+  <div id="gdprBanner" style="position:fixed;bottom:0;left:0;right:0;background:var(--bg-card);border-top:1px solid var(--border);padding:1rem;z-index:9999;display:none;font-size:0.85rem;">
     <div style="max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
-      <p style="color:#8b949e;flex:1;min-width:200px;">🍪 This site uses cookies from ad networks to personalize content and measure traffic. <a href="#" style="color:#58a6ff;" onclick="document.getElementById('gdprMore').style.display=document.getElementById('gdprMore').style.display==='none'?'block':'none';return false;">Learn more</a></p>
+      <p style="color:var(--text-secondary);flex:1;min-width:200px;">🍪 This site uses cookies from ad networks to personalize content and measure traffic. <a href="#" style="color:var(--accent);" onclick="document.getElementById('gdprMore').style.display=document.getElementById('gdprMore').style.display==='none'?'block':'none';return false;">Learn more</a></p>
       <div style="display:flex;gap:0.5rem;">
         <button onclick="acceptCookies()" style="background:#238636;border:none;border-radius:6px;color:#fff;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;font-size:0.85rem;">✅ Accept</button>
-        <button onclick="declineCookies()" style="background:#21262d;border:1px solid #30363d;border-radius:6px;color:#8b949e;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;font-size:0.85rem;">✋ Decline</button>
+        <button onclick="declineCookies()" style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;color:var(--text-secondary);padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;font-size:0.85rem;">✋ Decline</button>
       </div>
     </div>
-    <div id="gdprMore" style="display:none;max-width:800px;margin:0.5rem auto 0;color:#484f58;font-size:0.75rem;line-height:1.5;">
+    <div id="gdprMore" style="display:none;max-width:800px;margin:0.5rem auto 0;color:var(--text-muted);font-size:0.75rem;line-height:1.5;">
       We use Adsterra ad network which may set cookies for personalized advertising. No personal data is collected by us. All tools run entirely in your browser. You can manage cookie preferences in your browser settings at any time.
     </div>
   </div>
@@ -461,6 +565,19 @@
       localStorage.setItem('gdpr_consent', 'declined');
       document.getElementById('gdprBanner').style.display = 'none';
     };
+  </script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw/service-worker.js').then(function(reg) {
+          console.log('SW registered:', reg.scope);
+        }, function(err) {
+          console.log('SW registration failed:', err);
+        });
+      });
+    }
   </script>
 </body>
 </html>

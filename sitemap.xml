@@ -6,18 +6,63 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/binary-converter/</loc>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/css-minifier/</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/random-number-generator/</loc>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/js-minifier/</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/temperature-converter/</loc>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/json-to-csv/</loc>
     <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/uuid-generator/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/cron-builder/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/epoch-converter/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/regex-tester/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/http-status-codes/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/csv-viewer/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/qr-reader/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/yt-thumbnail/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/markdown-editor/</loc>
+    <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
@@ -36,11 +81,6 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/color-picker/</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
     <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/word-counter/</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
@@ -52,6 +92,11 @@
   </url>
   <url>
     <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/sha256-generator/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/color-picker/</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -106,48 +151,18 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/uuid-generator/</loc>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/binary-converter/</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/cron-builder/</loc>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/random-number-generator/</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/epoch-converter/</loc>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/temperature-converter/</loc>
     <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/regex-tester/</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/http-status-codes/</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/csv-viewer/</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/qr-reader/</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/yt-thumbnail/</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/markdown-editor/</loc>
-    <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>

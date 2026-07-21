@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator – Free Online Age Tool</title>
+  <meta name="description" content="Free online age calculator. Calculate your exact age in years, months, days, hours, minutes, and seconds. Find your age on any given date. No signup required.">
+  <meta name="keywords" content="age calculator, how old am i, age in years months days, birthday calculator, age tool, free web tools">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 600px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    .date-inputs { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .date-group { flex: 1; min-width: 100px; display: flex; flex-direction: column; gap: 0.3rem; }
+    .date-group label { color: #8b949e; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .date-group select, .date-group input {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.6rem 0.75rem; color: #e4e6ec; font-size: 0.9rem;
+    }
+    .date-group select:focus, .date-group input:focus { outline: none; border-color: #58a6ff; }
+    .btn {
+      background: #238636; border: none; border-radius: 6px; color: #fff;
+      padding: 0.7rem 1.5rem; font-size: 0.95rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s; width: 100%;
+    }
+    .btn:hover { background: #2ea043; }
+    .age-display { text-align: center; }
+    .age-main { font-size: 3.5rem; font-weight: 800; color: #58a6ff; line-height: 1.2; margin-bottom: 0.3rem; }
+    .age-main .unit { font-size: 1.2rem; color: #8b949e; font-weight: 400; }
+    .age-detail { color: #8b949e; font-size: 1rem; margin-bottom: 1.5rem; }
+    .age-breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+    .breakdown-item {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+      padding: 0.8rem; text-align: center;
+    }
+    .breakdown-item .num { font-size: 1.5rem; font-weight: 700; color: #e4e6ec; }
+    .breakdown-item .lbl { font-size: 0.7rem; color: #484f58; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.15rem; }
+    .breakdown-wide { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .breakdown-wide .breakdown-item .num { font-size: 1.1rem; }
+    .next-birthday { text-align: center; color: #8b949e; font-size: 0.85rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #21262d; }
+    .next-birthday strong { color: #e4e6ec; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) {
+      h1 { font-size: 1.5rem; } .age-main { font-size: 2.5rem; }
+      .date-inputs { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>🎂 Age Calculator</h1>
+    <p class="subtitle">Calculate your exact age down to the second — find out how old you really are</p>
+
+    <div class="card">
+      <div class="date-inputs">
+        <div class="date-group">
+          <label>Date of Birth</label>
+          <input type="date" id="birthDate">
+        </div>
+        <div class="date-group">
+          <label>On This Date (optional)</label>
+          <input type="date" id="targetDate">
+        </div>
+      </div>
+
+      <button class="btn" id="calculateBtn">🎯 Calculate Age</button>
+    </div>
+
+    <div class="card" id="resultCard" style="display:none;">
+      <div class="age-display">
+        <div class="age-main" id="ageMain">0 <span class="unit">years</span></div>
+        <div class="age-detail" id="ageDetail">or 0 months, or 0 days old</div>
+
+        <div class="age-breakdown" id="breakdownBasic">
+          <div class="breakdown-item">
+            <div class="num" id="dispYears">0</div>
+            <div class="lbl">Years</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="num" id="dispMonths">0</div>
+            <div class="lbl">Months</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="num" id="dispDays">0</div>
+            <div class="lbl">Days</div>
+          </div>
+        </div>
+
+        <div class="breakdown-wide">
+          <div class="breakdown-item">
+            <div class="num" id="dispHours">0</div>
+            <div class="lbl">Hours</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="num" id="dispMinutes">0</div>
+            <div class="lbl">Minutes</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="num" id="dispSeconds">0</div>
+            <div class="lbl">Seconds</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="num" id="dispTotalDays">0</div>
+            <div class="lbl">Total Days</div>
+          </div>
+        </div>
+
+        <div class="next-birthday" id="nextBirthday"></div>
+      </div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="footer">
+      <p>Free Age Calculator &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var birthInput = document.getElementById('birthDate');
+      var targetInput = document.getElementById('targetDate');
+      var calculateBtn = document.getElementById('calculateBtn');
+      var resultCard = document.getElementById('resultCard');
+
+      // Set max to today
+      var today = new Date();
+      var y = today.getFullYear();
+      var m = String(today.getMonth() + 1).padStart(2, '0');
+      var d = String(today.getDate()).padStart(2, '0');
+      var todayStr = y + '-' + m + '-' + d;
+      birthInput.max = todayStr;
+      targetInput.value = todayStr;
+
+      // Set default birth date to 18 years ago
+      var defY = y - 18;
+      birthInput.value = defY + '-' + m + '-' + d;
+
+      function calculateAge() {
+        var birthVal = birthInput.value;
+        var targetVal = targetInput.value || todayStr;
+
+        if (!birthVal) {
+          alert('Please select your date of birth.');
+          return;
+        }
+
+        var birth = new Date(birthVal + 'T00:00:00');
+        var target = new Date(targetVal + 'T00:00:00');
+
+        if (birth >= target) {
+          alert('Date of birth must be before the target date.');
+          return;
+        }
+
+        // Years, months, days
+        var years = target.getFullYear() - birth.getFullYear();
+        var months = target.getMonth() - birth.getMonth();
+        var days = target.getDate() - birth.getDate();
+
+        if (days < 0) {
+          months--;
+          var prevMonth = new Date(target.getFullYear(), target.getMonth(), 0);
+          days += prevMonth.getDate();
+        }
+        if (months < 0) {
+          years--;
+          months += 12;
+        }
+
+        // Total calculations
+        var diffMs = target - birth;
+        var totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        var totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+        var totalMinutes = Math.floor(diffMs / (1000 * 60));
+        var totalSeconds = Math.floor(diffMs / 1000);
+        var remainingHours = totalHours % 24;
+        var remainingMinutes = totalMinutes % 60;
+        var remainingSeconds = totalSeconds % 60;
+
+        // Update display
+        document.getElementById('ageMain').innerHTML = years + ' <span class="unit">years</span>';
+        document.getElementById('ageDetail').textContent = 'or ' + (years * 12 + months) + ' months, or ' + totalDays.toLocaleString() + ' days old';
+
+        document.getElementById('dispYears').textContent = years;
+        document.getElementById('dispMonths').textContent = months;
+        document.getElementById('dispDays').textContent = days;
+        document.getElementById('dispHours').textContent = remainingHours;
+        document.getElementById('dispMinutes').textContent = remainingMinutes;
+        document.getElementById('dispSeconds').textContent = remainingSeconds;
+        document.getElementById('dispTotalDays').textContent = totalDays.toLocaleString();
+
+        // Next birthday
+        var nextBday = new Date(target.getFullYear(), birth.getMonth(), birth.getDate());
+        if (nextBday <= target) {
+          nextBday.setFullYear(nextBday.getFullYear() + 1);
+        }
+        var daysUntil = Math.ceil((nextBday - target) / (1000 * 60 * 60 * 24));
+        var nextBdayStr = nextBday.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+        document.getElementById('nextBirthday').innerHTML = '🎉 Next birthday: <strong>' + nextBdayStr + '</strong> (' + daysUntil + ' days away)';
+
+        resultCard.style.display = 'block';
+      }
+
+      calculateBtn.addEventListener('click', calculateAge);
+
+      // Auto-calculate on date change
+      birthInput.addEventListener('change', calculateAge);
+      targetInput.addEventListener('change', calculateAge);
+
+      // Calculate on load
+      calculateAge();
+    })();
+  </script>
+</body>
+</html>

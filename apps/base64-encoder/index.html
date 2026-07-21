@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 Encoder / Decoder – Free Online Tool</title>
+  <meta name="description" content="Free online Base64 encoder and decoder. Encode text to Base64 or decode Base64 back to text instantly. Supports UTF-8. Client-side only, no data uploaded.">
+  <meta name="keywords" content="base64 encoder, base64 decoder, base64 encode, base64 decode, base64 converter, free web tools">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 720px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    .mode-switch { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .mode-btn {
+      flex: 1; padding: 0.7rem; border: 1px solid #30363d; border-radius: 6px;
+      background: #0d1117; color: #8b949e; cursor: pointer; font-size: 0.9rem;
+      font-weight: 600; transition: all 0.2s; text-align: center;
+    }
+    .mode-btn.active { background: #1f6feb22; border-color: #58a6ff; color: #58a6ff; }
+    .mode-btn:hover { border-color: #58a6ff; }
+    .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+    .label-row label { color: #8b949e; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .label-row .char-count { color: #484f58; font-size: 0.75rem; }
+    textarea {
+      width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+      padding: 1rem; color: #e4e6ec; font-size: 0.9rem; font-family: 'Courier New', monospace;
+      resize: vertical; min-height: 120px; line-height: 1.5;
+    }
+    textarea:focus { outline: none; border-color: #58a6ff; }
+    textarea.output { min-height: 100px; }
+    .btn {
+      background: #238636; border: none; border-radius: 6px; color: #fff;
+      padding: 0.6rem 1.25rem; font-size: 0.9rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #2ea043; }
+    .btn-secondary { background: #21262d; border: 1px solid #30363d; }
+    .btn-secondary:hover { background: #30363d; }
+    .action-row { display: flex; gap: 0.5rem; margin: 0.8rem 0; flex-wrap: wrap; }
+    .swap-btn {
+      display: block; margin: 0.5rem auto; background: #21262d; border: 1px solid #30363d;
+      border-radius: 50%; width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+      color: #8b949e; transition: all 0.2s;
+    }
+    .swap-btn:hover { border-color: #58a6ff; color: #58a6ff; }
+    .error { color: #f85149; font-size: 0.85rem; min-height: 1.2rem; margin-top: 0.3rem; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>🔐 Base64 Encoder / Decoder</h1>
+    <p class="subtitle">Encode text to Base64 or decode Base64 back to plain text instantly</p>
+
+    <div class="card">
+      <div class="mode-switch">
+        <div class="mode-btn active" data-mode="encode">🔒 Encode</div>
+        <div class="mode-btn" data-mode="decode">🔓 Decode</div>
+      </div>
+
+      <div class="label-row">
+        <label id="inputLabel">Input Text</label>
+        <span class="char-count" id="inputCount">0 chars</span>
+      </div>
+      <textarea id="inputText" placeholder="Type or paste text here..."></textarea>
+
+      <button class="swap-btn" id="swapBtn" title="Swap input/output">⇅</button>
+
+      <div class="label-row">
+        <label id="outputLabel">Base64 Output</label>
+        <span class="char-count" id="outputCount">0 chars</span>
+      </div>
+      <textarea class="output" id="outputText" placeholder="Result will appear here..." readonly></textarea>
+
+      <div class="error" id="errorMsg"></div>
+
+      <div class="action-row">
+        <button class="btn" id="processBtn">⚡ Process</button>
+        <button class="btn btn-secondary" id="copyBtn">📋 Copy Result</button>
+        <button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button>
+      </div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="footer">
+      <p>Free Base64 Encoder/Decoder &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var modeBtns = document.querySelectorAll('.mode-btn');
+      var inputText = document.getElementById('inputText');
+      var outputText = document.getElementById('outputText');
+      var inputLabel = document.getElementById('inputLabel');
+      var outputLabel = document.getElementById('outputLabel');
+      var inputCount = document.getElementById('inputCount');
+      var outputCount = document.getElementById('outputCount');
+      var errorMsg = document.getElementById('errorMsg');
+      var processBtn = document.getElementById('processBtn');
+      var copyBtn = document.getElementById('copyBtn');
+      var clearBtn = document.getElementById('clearBtn');
+      var swapBtn = document.getElementById('swapBtn');
+
+      var currentMode = 'encode';
+
+      function updateLabels() {
+        if (currentMode === 'encode') {
+          inputLabel.textContent = 'Input Text (plain)';
+          outputLabel.textContent = 'Base64 Output';
+        } else {
+          inputLabel.textContent = 'Input Base64';
+          outputLabel.textContent = 'Decoded Text';
+        }
+      }
+
+      function updateCounts() {
+        inputCount.textContent = inputText.value.length + ' chars';
+        outputCount.textContent = outputText.value.length + ' chars';
+      }
+
+      function process() {
+        var text = inputText.value;
+        errorMsg.textContent = '';
+        if (!text) {
+          outputText.value = '';
+          updateCounts();
+          return;
+        }
+
+        try {
+          if (currentMode === 'encode') {
+            // Encode to Base64 with UTF-8 support
+            var bytes = new TextEncoder().encode(text);
+            var binary = '';
+            for (var i = 0; i < bytes.length; i++) {
+              binary += String.fromCharCode(bytes[i]);
+            }
+            outputText.value = btoa(binary);
+          } else {
+            // Decode from Base64
+            var decoded = atob(text);
+            var bytes2 = new Uint8Array(decoded.length);
+            for (var j = 0; j < decoded.length; j++) {
+              bytes2[j] = decoded.charCodeAt(j);
+            }
+            outputText.value = new TextDecoder().decode(bytes2);
+          }
+        } catch(e) {
+          if (currentMode === 'decode') {
+            errorMsg.textContent = '❌ Invalid Base64 input. Please check your string.';
+          } else {
+            errorMsg.textContent = '❌ Encoding error: ' + e.message;
+          }
+          outputText.value = '';
+        }
+        updateCounts();
+      }
+
+      // Mode switching
+      modeBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          modeBtns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          currentMode = btn.dataset.mode;
+          updateLabels();
+          // Swap input and output content
+          var temp = inputText.value;
+          inputText.value = outputText.value;
+          outputText.value = '';
+          errorMsg.textContent = '';
+          updateCounts();
+        });
+      });
+
+      // Auto-process on input (with debounce)
+      var debounceTimer;
+      inputText.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(process, 300);
+      });
+
+      processBtn.addEventListener('click', process);
+
+      copyBtn.addEventListener('click', function() {
+        var text = outputText.value;
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(function() {
+          var orig = copyBtn.textContent;
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(function() { copyBtn.textContent = orig; }, 2000);
+        }).catch(function() {
+          outputText.select();
+          document.execCommand('copy');
+          var orig = copyBtn.textContent;
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(function() { copyBtn.textContent = orig; }, 2000);
+        });
+      });
+
+      clearBtn.addEventListener('click', function() {
+        inputText.value = '';
+        outputText.value = '';
+        errorMsg.textContent = '';
+        updateCounts();
+        inputText.focus();
+      });
+
+      swapBtn.addEventListener('click', function() {
+        var temp = inputText.value;
+        inputText.value = outputText.value;
+        outputText.value = '';
+        // Toggle mode
+        var newMode = currentMode === 'encode' ? 'decode' : 'encode';
+        modeBtns.forEach(function(b) {
+          b.classList.toggle('active', b.dataset.mode === newMode);
+        });
+        currentMode = newMode;
+        updateLabels();
+        errorMsg.textContent = '';
+        process();
+      });
+
+      updateLabels();
+      updateCounts();
+    })();
+  </script>
+</body>
+</html>

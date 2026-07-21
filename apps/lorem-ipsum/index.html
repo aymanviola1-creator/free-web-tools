@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lorem Ipsum Generator – Free Placeholder Text</title>
+  <meta name="description" content="Free Lorem Ipsum generator. Create placeholder text with custom words, sentences, paragraphs, or bytes. Copy with one click. No signup required.">
+  <meta name="keywords" content="lorem ipsum, placeholder text, dummy text, text generator, lorem ipsum generator, free web tools">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 720px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    .controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-bottom: 1.5rem; }
+    .control-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .control-group label { color: #8b949e; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .control-group select, .control-group input {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.55rem 0.75rem; color: #e4e6ec; font-size: 0.9rem;
+    }
+    .control-group select:focus, .control-group input:focus { outline: none; border-color: #58a6ff; }
+    .control-group input[type="number"] { width: 90px; }
+    .btn {
+      background: #238636; border: none; border-radius: 6px; color: #fff;
+      padding: 0.6rem 1.25rem; font-size: 0.9rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #2ea043; }
+    .btn-secondary { background: #21262d; border: 1px solid #30363d; }
+    .btn-secondary:hover { background: #30363d; }
+    .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .output-area {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+      padding: 1rem; width: 100%; min-height: 220px; color: #e4e6ec;
+      font-size: 0.9rem; line-height: 1.6; resize: vertical;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .output-area:focus { outline: none; border-color: #58a6ff; }
+    .word-count { color: #484f58; font-size: 0.8rem; text-align: right; margin-top: 0.4rem; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } .controls { flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>📝 Lorem Ipsum Generator</h1>
+    <p class="subtitle">Generate dummy placeholder text for your designs, mockups, and layouts</p>
+
+    <div class="card">
+      <div class="controls">
+        <div class="control-group">
+          <label>Unit</label>
+          <select id="unitSelect">
+            <option value="paragraphs">Paragraphs</option>
+            <option value="sentences">Sentences</option>
+            <option value="words">Words</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Count</label>
+          <input type="number" id="countInput" value="3" min="1" max="100">
+        </div>
+        <div class="control-group">
+          <label>Start with</label>
+          <select id="startSelect">
+            <option value="lorem">Classic "Lorem ipsum..."</option>
+            <option value="custom">No prefix</option>
+          </select>
+        </div>
+        <button class="btn" id="generateBtn">🔄 Generate</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="copyBtn">📋 Copy to Clipboard</button>
+        <button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button>
+      </div>
+
+      <textarea class="output-area" id="outputArea" readonly></textarea>
+      <div class="word-count" id="wordCount">0 words generated</div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="footer">
+      <p>Free Lorem Ipsum Generator &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var LOREM_WORDS = [
+        'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
+        'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore',
+        'magna', 'aliqua', 'enim', 'ad', 'minim', 'veniam', 'quis', 'nostrud',
+        'exercitation', 'ullamco', 'laboris', 'nisi', 'aliquip', 'ex', 'ea', 'commodo',
+        'consequat', 'duis', 'aute', 'irure', 'dolor', 'in', 'reprehenderit', 'voluptate',
+        'velit', 'esse', 'cillum', 'eu', 'fugiat', 'nulla', 'pariatur', 'excepteur',
+        'sint', 'occaecat', 'cupidatat', 'non', 'proident', 'sunt', 'culpa', 'qui',
+        'officia', 'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum', 'perspiciatis',
+        'unde', 'omnis', 'iste', 'natus', 'error', 'voluptatem', 'accusantium',
+        'doloremque', 'laudantium', 'totam', 'aperiam', 'eaque', 'ipsa', 'quae',
+        'ab', 'illo', 'inventore', 'veritatis', 'quasi', 'architecto', 'beatae',
+        'vitae', 'dicta', 'sunt', 'explicabo', 'nemo', 'enim', 'ipsam', 'voluptatem',
+        'quia', 'voluptas', 'aspernatur', 'odit', 'fugit', 'consequuntur', 'magni',
+        'dolores', 'eos', 'qui', 'ratione', 'sequi', 'nesciunt', 'neque', 'porro',
+        'quisquam', 'est', 'dolorem', 'ipsum', 'quia', 'dolor', 'amet', 'consectetur'
+      ];
+
+      var unitSelect = document.getElementById('unitSelect');
+      var countInput = document.getElementById('countInput');
+      var startSelect = document.getElementById('startSelect');
+      var generateBtn = document.getElementById('generateBtn');
+      var outputArea = document.getElementById('outputArea');
+      var copyBtn = document.getElementById('copyBtn');
+      var clearBtn = document.getElementById('clearBtn');
+      var wordCount = document.getElementById('wordCount');
+
+      function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+
+      function randomWord() {
+        return LOREM_WORDS[Math.floor(Math.random() * LOREM_WORDS.length)];
+      }
+
+      function generateSentence() {
+        var count = 5 + Math.floor(Math.random() * 10);
+        var words = [];
+        for (var i = 0; i < count; i++) {
+          words.push(randomWord());
+        }
+        var sentence = capitalize(words.join(' ')) + '.';
+        return sentence;
+      }
+
+      function generateParagraph() {
+        var count = 3 + Math.floor(Math.random() * 6);
+        var sentences = [];
+        for (var i = 0; i < count; i++) {
+          sentences.push(generateSentence());
+        }
+        return sentences.join(' ');
+      }
+
+      function generateText() {
+        var unit = unitSelect.value;
+        var count = parseInt(countInput.value) || 3;
+        if (count < 1) count = 1;
+        if (count > 100) count = 100;
+        countInput.value = count;
+
+        var useLorem = startSelect.value === 'lorem';
+        var result = '';
+        var totalWords = 0;
+
+        if (unit === 'words') {
+          var words = [];
+          if (useLorem) {
+            words.push('Lorem', 'ipsum', 'dolor', 'sit', 'amet');
+            count = Math.max(count, 5);
+          }
+          for (var i = 0; i < count; i++) {
+            words.push(randomWord());
+          }
+          if (useLorem) {
+            result = capitalize(words[0]) + ' ' + words.slice(1).join(' ') + '.';
+          } else {
+            var sentences = [];
+            var chunk = 8 + Math.floor(Math.random() * 5);
+            for (var j = 0; j < words.length; j += chunk) {
+              var seg = words.slice(j, j + chunk);
+              if (seg.length > 0) {
+                sentences.push(capitalize(seg.join(' ')) + '.');
+              }
+            }
+            result = sentences.join(' ');
+          }
+          totalWords = words.length;
+        } else if (unit === 'sentences') {
+          var sents = [];
+          for (var k = 0; k < count; k++) {
+            sents.push(generateSentence());
+          }
+          if (useLorem) {
+            result = 'Lorem ipsum dolor sit amet, ' + sents.slice(1).join(' ');
+          } else {
+            result = sents.join(' ');
+          }
+          totalWords = result.split(/\s+/).length;
+        } else {
+          var paras = [];
+          for (var m = 0; m < count; m++) {
+            paras.push(generateParagraph());
+          }
+          if (useLorem && paras.length > 0) {
+            paras[0] = 'Lorem ipsum dolor sit amet, ' + paras[0].slice(paras[0].indexOf(' ') + 1);
+          }
+          result = paras.join('\n\n');
+          totalWords = result.split(/\s+/).length;
+        }
+
+        outputArea.value = result;
+        wordCount.textContent = totalWords + ' words generated';
+      }
+
+      generateBtn.addEventListener('click', generateText);
+
+      copyBtn.addEventListener('click', function() {
+        var text = outputArea.value;
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(function() {
+          var orig = copyBtn.textContent;
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(function() { copyBtn.textContent = orig; }, 2000);
+        }).catch(function() {
+          outputArea.select();
+          document.execCommand('copy');
+          var orig = copyBtn.textContent;
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(function() { copyBtn.textContent = orig; }, 2000);
+        });
+      });
+
+      clearBtn.addEventListener('click', function() {
+        outputArea.value = '';
+        wordCount.textContent = '0 words generated';
+      });
+
+      // Generate on load
+      generateText();
+    })();
+  </script>
+</body>
+</html>

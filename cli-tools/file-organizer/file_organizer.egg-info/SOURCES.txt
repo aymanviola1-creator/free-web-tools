@@ -1,9 +1,0 @@
-setup.py
-file_organizer/__init__.py
-file_organizer/categories.py
-file_organizer/organizer.py
-file_organizer.egg-info/PKG-INFO
-file_organizer.egg-info/SOURCES.txt
-file_organizer.egg-info/dependency_links.txt
-file_organizer.egg-info/entry_points.txt
-file_organizer.egg-info/top_level.txt

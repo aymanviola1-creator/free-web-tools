@@ -12,8 +12,13 @@ Thumbs.db
 node_modules/
 npm-debug.log*
 
-# Agent work directory specific
+# Sensitive / credential files
 data/*.log
-data/github-token.txt
+data/*.token*
 data/.git-credentials
-data/github-token.txt
+data/requests.txt
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.egg-info/

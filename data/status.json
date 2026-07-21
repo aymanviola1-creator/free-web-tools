@@ -1,0 +1,11 @@
+{
+  "running": false,
+  "sessions": 0,
+  "earnings": 0,
+  "tasks_completed": 0,
+  "last_run": null,
+  "current_activity": "في انتظار التشغيل",
+  "model": "opencode/deepseek-v4-flash-free",
+  "started_at": null,
+  "uptime_hours": 0
+}

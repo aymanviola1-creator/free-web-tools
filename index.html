@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Web Tools — agent-work</title>
+  <meta name="description" content="Collection of free, privacy-friendly online tools. No signup, no tracking, no ads.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117;
+      color: #e4e6ec;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .container { max-width: 700px; width: 100%; text-align: center; }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #58a6ff, #bc8cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .tagline { color: #8b949e; font-size: 1.1rem; margin-bottom: 2.5rem; }
+    .tools { display: grid; gap: 1rem; }
+    .tool-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .tool-card:hover {
+      border-color: #58a6ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(88,166,255,0.1);
+    }
+    .tool-card .icon { font-size: 2rem; }
+    .tool-card .info { flex: 1; }
+    .tool-card .info h2 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .tool-card .info p { color: #8b949e; font-size: 0.85rem; }
+    .tool-card .arrow { color: #8b949e; font-size: 1.2rem; }
+    a { text-decoration: none; color: inherit; }
+    .footer { margin-top: 3rem; color: #484f58; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🛠️ Free Web Tools</h1>
+    <p class="tagline">Privacy-first, client-side tools. No data leaves your browser.</p>
+
+    <div class="tools">
+      <a href="apps/md-to-html/" class="tool-card">
+        <span class="icon">⌨️</span>
+        <div class="info">
+          <h2>Markdown → HTML Converter</h2>
+          <p>Write Markdown, get clean HTML instantly. Copy, download, or preview.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <p class="footer">More tools coming soon &middot; Built with ❤️</p>
+  </div>
+</body>
+</html>

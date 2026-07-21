@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown to HTML Converter — Free Online Tool</title>
+  <meta name="description" content="Free online Markdown to HTML converter. Write Markdown and instantly see the HTML output. Copy, download, and use anywhere.">
+  <style>
+    /* ───── Reset & Base ───── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117;
+      color: #e4e6ec;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ───── Header ───── */
+    header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #58a6ff, #bc8cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header .subtitle { font-size: 0.85rem; color: #8b949e; }
+
+    /* ───── Main Layout ───── */
+    .app-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem 2rem 2rem;
+      gap: 1rem;
+    }
+    .editor-row {
+      display: flex;
+      gap: 1.25rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: #1c2333;
+      border-bottom: 1px solid #30363d;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .panel-header .actions { display: flex; gap: 0.5rem; }
+    .panel-header .actions button {
+      background: none;
+      border: 1px solid #30363d;
+      color: #8b949e;
+      padding: 0.25rem 0.7rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: all 0.2s;
+    }
+    .panel-header .actions button:hover {
+      background: #30363d;
+      color: #e4e6ec;
+    }
+    .panel-body {
+      flex: 1;
+      padding: 0;
+      overflow: auto;
+      position: relative;
+    }
+    .panel-body textarea {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      background: #0d1117;
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 1rem;
+      color: #e4e6ec;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      tab-size: 2;
+    }
+    .panel-body textarea::placeholder { color: #484f58; }
+
+    /* ───── Output Preview ───── */
+    .preview {
+      padding: 1rem 1.25rem;
+      min-height: 400px;
+      line-height: 1.7;
+      word-wrap: break-word;
+    }
+    .preview h1 { font-size: 1.8rem; border-bottom: 1px solid #30363d; padding-bottom: 0.4rem; margin: 0 0 1rem; }
+    .preview h2 { font-size: 1.45rem; margin: 1.5rem 0 0.6rem; }
+    .preview h3 { font-size: 1.2rem; margin: 1.2rem 0 0.5rem; }
+    .preview p { margin: 0 0 0.8rem; }
+    .preview ul, .preview ol { padding-left: 1.5rem; margin: 0 0 0.8rem; }
+    .preview li { margin-bottom: 0.3rem; }
+    .preview code {
+      background: #1c2333;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+    }
+    .preview pre {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 0 0 1rem;
+    }
+    .preview pre code { background: none; padding: 0; border-radius: 0; }
+    .preview blockquote {
+      border-left: 4px solid #58a6ff;
+      padding: 0.5rem 1rem;
+      margin: 0 0 1rem;
+      background: #1c2333;
+      border-radius: 0 6px 6px 0;
+      color: #8b949e;
+    }
+    .preview table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 0 0 1rem;
+    }
+    .preview th, .preview td {
+      border: 1px solid #30363d;
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    .preview th { background: #1c2333; font-weight: 600; }
+    .preview hr { border: none; border-top: 1px solid #30363d; margin: 1.5rem 0; }
+    .preview img { max-width: 100%; border-radius: 6px; }
+
+    /* ───── Footer / Status ───── */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: #8b949e;
+    }
+    .status-bar .word-count span { color: #58a6ff; font-weight: 600; }
+
+    /* ───── Toast ───── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #238636;
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ───── Responsive ───── */
+    @media (max-width: 768px) {
+      header { padding: 1rem; }
+      .app-container { padding: 1rem; }
+      .editor-row { flex-direction: column; }
+      .panel-body textarea { min-height: 250px; }
+      .preview { min-height: 250px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Header ─── -->
+  <header>
+    <div>
+      <h1>⌨️ Markdown → HTML</h1>
+      <span class="subtitle">Free online converter — no signup, no ads, no tracking</span>
+    </div>
+    <div>
+      <a href="#" id="sampleBtn" style="font-size:0.85rem;">📄 Load Sample</a>
+    </div>
+  </header>
+
+  <!-- ─── App ─── -->
+  <div class="app-container">
+
+    <div class="editor-row">
+      <!-- Input Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>✏️ Markdown Input</span>
+          <div class="actions">
+            <button id="clearBtn">Clear</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <textarea id="markdownInput" placeholder="Type or paste Markdown here..."># Hello World
+
+Start typing **Markdown** on the left, see the HTML on the right.
+
+## Features
+- Real-time preview
+- Syntax highlighting
+- Copy & download HTML</textarea>
+        </div>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>🌐 HTML Output</span>
+          <div class="actions">
+            <button id="copyBtn">📋 Copy</button>
+            <button id="downloadBtn">⬇ Download</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="htmlPreview" class="preview"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="word-count">Words: <span id="wordCount">0</span> &middot; Characters: <span id="charCount">0</span></div>
+      <div>⚡ Instant · Fully client-side</div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast">Copied!</div>
+
+  <!-- ─── Script ─── -->
+  <script>
+    (function() {
+      'use strict';
+
+      // ── Simple Markdown Parser (no dependencies) ──
+      function mdToHtml(md) {
+        if (!md) return '';
+
+        // Escape HTML entities first
+        let html = md
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+
+        // Code blocks (fenced) — must come before inline code
+        html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+          const langClass = lang ? ` class="language-${lang}"` : '';
+          return `<pre><code${langClass}>${code.trim()}</code></pre>`;
+        });
+
+        // Inline code
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        // Headings (must be at start of line)
+        html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+        html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+        html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+        // Horizontal rules
+        html = html.replace(/^---$/gm, '<hr>');
+        html = html.replace(/^\*\*\*$/gm, '<hr>');
+
+        // Blockquotes
+        html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+
+        // Bold and italic
+        html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        html = html.replace(/___(.+?)___/g, '<strong><em>$1</em></strong>');
+        html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+        html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+
+        // Strikethrough
+        html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+
+        // Images
+        html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
+
+        // Links
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+        // Unordered lists
+        html = html.replace(/^(\s*)[-*+] (.+)$/gm, (_, indent, text) => {
+          const level = Math.floor(indent.length / 2);
+          const prefix = '  '.repeat(level);
+          return `${prefix}<li>${text}</li>`;
+        });
+
+        // Ordered lists
+        html = html.replace(/^(\s*)\d+\. (.+)$/gm, (_, indent, text) => {
+          const level = Math.floor(indent.length / 2);
+          const prefix = '  '.repeat(level);
+          return `${prefix}<li>${text}</li>`;
+        });
+
+        // Wrap consecutive <li> in <ul> or <ol>
+        html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, (match) => {
+          // Determine if it's an ordered list by checking for <li> preceded by numbers in original
+          // Default to ul for simplicity, but we can check
+          return `<ul>\n${match}\n</ul>`;
+        });
+
+        // Clean up nested list wrapping
+        html = html.replace(/<\/ul>\n?<ul>/g, '');
+
+        // Paragraphs — wrap remaining text that isn't already in a block element
+        const blockElements = /^<(\/?(?:h[1-6]|p|ul|ol|li|blockquote|pre|hr|div|table|tr|td|th|thead|tbody|img))|^\s*$/im;
+        let lines = html.split('\n');
+        let result = [];
+        let inParagraph = false;
+
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const trimmed = line.trim();
+
+          if (!trimmed) {
+            if (inParagraph) { result.push('</p>'); inParagraph = false; }
+            continue;
+          }
+
+          // Check if this line is already a block-level element
+          if (/^<(h[1-6]|ul|ol|li|blockquote|pre|hr|div|table|img|p)/.test(trimmed) ||
+              /^<\/(ul|ol|blockquote|pre|table|p)/.test(trimmed)) {
+            if (inParagraph) { result.push('</p>'); inParagraph = false; }
+            result.push(line);
+            continue;
+          }
+
+          if (!inParagraph) {
+            result.push('<p>');
+            inParagraph = true;
+          } else {
+            result.push(' ');
+          }
+          result.push(trimmed);
+        }
+        if (inParagraph) result.push('</p>');
+
+        return result.join('\n');
+      }
+
+      // ── DOM refs ──
+      const input = document.getElementById('markdownInput');
+      const preview = document.getElementById('htmlPreview');
+      const wordCount = document.getElementById('wordCount');
+      const charCount = document.getElementById('charCount');
+      const toast = document.getElementById('toast');
+
+      // ── Render ──
+      function render() {
+        const md = input.value;
+        const html = mdToHtml(md);
+        preview.innerHTML = html;
+
+        // Word & char count
+        const text = md.trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        const chars = text.length;
+        wordCount.textContent = words.toLocaleString();
+        charCount.textContent = chars.toLocaleString();
+      }
+
+      // ── Events ──
+      input.addEventListener('input', render);
+
+      // Clear
+      document.getElementById('clearBtn').addEventListener('click', () => {
+        input.value = '';
+        render();
+      });
+
+      // Sample
+      document.getElementById('sampleBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        input.value = `# Markdown Demo
+
+## Text Formatting
+
+This is **bold**, this is *italic*, and this is ~~strikethrough~~.
+
+## Lists
+
+- Item one
+- Item two
+- Item three
+
+1. First step
+2. Second step
+3. Third step
+
+## Code
+
+Inline \`code\` looks like this.
+
+\`\`\`javascript
+function greet(name) {
+  return \`Hello, \${name}!\`;
+}
+console.log(greet("World"));
+\`\`\`
+
+## Blockquote
+
+> This is a blockquote.
+> It can span multiple lines.
+
+## Links & Images
+
+[Visit GitHub](https://github.com)
+
+## Table
+
+| Feature | Status |
+|---------|--------|
+| Headers | ✅ |
+| Bold | ✅ |
+| Lists | ✅ |
+| Code | ✅ |
+
+---
+
+*That's all folks!*`;
+        render();
+      });
+
+      // Copy HTML
+      document.getElementById('copyBtn').addEventListener('click', async () => {
+        const htmlOutput = preview.innerHTML;
+        try {
+          await navigator.clipboard.writeText(htmlOutput);
+          showToast('📋 HTML copied to clipboard!');
+        } catch {
+          // Fallback
+          const textarea = document.createElement('textarea');
+          textarea.value = htmlOutput;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          showToast('📋 HTML copied!');
+        }
+      });
+
+      // Download HTML
+      document.getElementById('downloadBtn').addEventListener('click', () => {
+        const htmlOutput = preview.innerHTML;
+        const fullDoc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Converted from Markdown</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; line-height: 1.7; color: #333; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f5f5f5; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 4px solid #0366d6; padding-left: 1rem; margin-left: 0; color: #555; }
+    img { max-width: 100%; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; }
+    th { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+${htmlOutput}
+</body>
+</html>`;
+
+        const blob = new Blob([fullDoc], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'converted.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('⬇️ HTML file downloaded!');
+      });
+
+      // ── Toast ──
+      let toastTimeout;
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      // ── Init ──
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHA256 Hash Generator – Free Online Hash Tool</title>
+  <meta name="description" content="Free online SHA-256 hash generator. Generate SHA-256 hashes from any text input. Compare texts by their hash values. Fully client-side, no data leaves your browser.">
+  <meta name="keywords" content="sha256 generator, sha-256 hash, hash generator, text to sha256, online hash tool, cryptography, free online tools">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 700px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    textarea {
+      width: 100%; min-height: 120px; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; padding: 0.75rem; color: #e4e6ec; font-size: 0.9rem;
+      font-family: 'Courier New', monospace; resize: vertical; line-height: 1.5;
+    }
+    textarea:focus { outline: none; border-color: #58a6ff; }
+    .hash-output {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.9rem;
+      color: #58a6ff; word-break: break-all; line-height: 1.6;
+      min-height: 50px; display: flex; align-items: center; margin-top: 0.75rem;
+    }
+    .hash-label { color: #8b949e; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; }
+    .btn {
+      background: #238636; border: none; border-radius: 6px; color: #fff;
+      padding: 0.55rem 1.2rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #2ea043; }
+    .btn-blue { background: #1f6feb; }
+    .btn-blue:hover { background: #388bfd; }
+    .btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    .hash-info { margin-top: 1rem; }
+    .hash-info h3 { color: #8b949e; font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600; }
+    .hash-info p { color: #8b949e; font-size: 0.8rem; line-height: 1.6; }
+    .hash-info code { background: #0d1117; padding: 0.15rem 0.4rem; border-radius: 4px; color: #e4e6ec; font-size: 0.8rem; }
+    .hash-comparison { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    .hash-compare-item { flex: 1; min-width: 200px; }
+    .badge-match { display: inline-block; background: #23863622; color: #3fb950; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+    .badge-no-match { display: inline-block; background: #f8514922; color: #f85149; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>🔐 SHA-256 Hash Generator</h1>
+    <p class="subtitle">Generate SHA-256 cryptographic hashes from any text — fully client-side, no data uploaded</p>
+
+    <div class="card">
+      <div class="hash-label">📥 Input Text</div>
+      <textarea id="textInput" placeholder="Enter text to generate its SHA-256 hash..." spellcheck="false"></textarea>
+
+      <div class="btn-group">
+        <button class="btn" id="generateBtn">🔐 Generate Hash</button>
+        <button class="btn btn-blue" onclick="copyHash()">📋 Copy Hash</button>
+        <button class="btn btn-blue" onclick="clearAll()">🗑️ Clear</button>
+      </div>
+    </div>
+
+    <div class="card" id="resultCard">
+      <div class="hash-label">🔑 SHA-256 Hash</div>
+      <div class="hash-output" id="hashOutput">Enter text above and click "Generate Hash"</div>
+    </div>
+
+    <div class="card" id="compareCard">
+      <div class="hash-label">🔄 Compare with Another Hash</div>
+      <input type="text" id="compareInput" placeholder="Paste another SHA-256 hash to compare..." style="width:100%;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:0.6rem 0.75rem;color:#e4e6ec;font-family:'Courier New',monospace;font-size:0.85rem;">
+      <div id="compareResult" style="margin-top:0.5rem;"></div>
+    </div>
+
+    <div class="card hash-info">
+      <h3>📖 About SHA-256</h3>
+      <p>
+        SHA-256 (Secure Hash Algorithm 256-bit) is a cryptographic hash function that produces a fixed-size 256-bit (32-byte) hash value. It's part of the SHA-2 family designed by the NSA.
+      </p>
+      <p style="margin-top:0.5rem;">
+        <strong>Key properties:</strong><br>
+        ✅ <strong>Deterministic</strong> — Same input always produces the same hash<br>
+        ✅ <strong>Fast computation</strong> — Can compute hash of any size input quickly<br>
+        ✅ <strong>Pre-image resistant</strong> — Cannot reverse a hash back to original text<br>
+        ✅ <strong>Collision resistant</strong> — Extremely unlikely two inputs produce the same hash<br>
+        ✅ <strong>Avalanche effect</strong> — A small change in input completely changes the hash
+      </p>
+      <p style="margin-top:0.5rem;">
+        <strong>Common uses:</strong> Bitcoin mining (proof-of-work), blockchain technology, digital signatures, certificate verification, file integrity checks, password hashing (with salt).
+      </p>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="share-section" style="text-align:center;margin:1.5rem 0 0.5rem 0;padding-top:1rem;border-top:1px solid #21262d;">
+      <p style="color:#8b949e;font-size:0.8rem;margin-bottom:0.5rem;">📢 Share this tool</p>
+      <a href="https://twitter.com/intent/tweet?text=Free%20online%20SHA-256%20hash%20generator%20-%20generate%20hashes%20from%20any%20text!&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fsha256-generator%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🐦 Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fsha256-generator%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1877f2;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">📘 Facebook</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fsha256-generator%2F&title=Free%20Online%20SHA-256%20Hash%20Generator" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🔴 Reddit</a>
+    </div>
+
+    <div class="footer">
+      <p>Free SHA-256 Hash Generator &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var textInput = document.getElementById('textInput');
+      var hashOutput = document.getElementById('hashOutput');
+      var generateBtn = document.getElementById('generateBtn');
+      var compareInput = document.getElementById('compareInput');
+      var compareResult = document.getElementById('compareResult');
+      var currentHash = '';
+
+      // SHA-256 Implementation (pure JS)
+      function sha256(input) {
+        function rightRotate(value, amount) {
+          return (value >>> amount) | (value << (32 - amount));
+        }
+
+        var mathPow = Math.pow;
+        var mathFloor = Math.floor;
+
+        var K = [
+          0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
+          0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+          0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
+          0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+          0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc,
+          0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+          0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
+          0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+          0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13,
+          0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+          0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3,
+          0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+          0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
+          0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+          0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
+          0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+        ];
+
+        var H = [
+          0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+          0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
+        ];
+
+        // Encode
+        var utf8 = unescape(encodeURIComponent(input));
+        var msg = [];
+        for (var i = 0; i < utf8.length; i++) {
+          msg.push(utf8.charCodeAt(i));
+        }
+
+        var originalByteLen = msg.length * 8;
+        msg.push(0x80);
+
+        while (msg.length % 64 !== 56) {
+          msg.push(0);
+        }
+
+        for (var i = 0; i < 8; i++) {
+          msg.push((originalByteLen >>> (56 - i * 8)) & 0xff);
+        }
+
+        for (var blockStart = 0; blockStart < msg.length; blockStart += 64) {
+          var W = [];
+          for (var t = 0; t < 64; t++) {
+            if (t < 16) {
+              W[t] = (msg[blockStart + t * 4] << 24) |
+                     (msg[blockStart + t * 4 + 1] << 16) |
+                     (msg[blockStart + t * 4 + 2] << 8) |
+                     msg[blockStart + t * 4 + 3];
+            } else {
+              var s0 = rightRotate(W[t-15], 7) ^ rightRotate(W[t-15], 18) ^ (W[t-15] >>> 3);
+              var s1 = rightRotate(W[t-2], 17) ^ rightRotate(W[t-2], 19) ^ (W[t-2] >>> 10);
+              W[t] = (W[t-16] + s0 + W[t-7] + s1) >>> 0;
+            }
+          }
+
+          var a = H[0], b = H[1], c = H[2], d = H[3];
+          var e = H[4], f = H[5], g = H[6], h = H[7];
+
+          for (var t = 0; t < 64; t++) {
+            var S1 = rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25);
+            var ch = (e & f) ^ (~e & g);
+            var temp1 = (h + S1 + ch + K[t] + W[t]) >>> 0;
+            var S0 = rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22);
+            var maj = (a & b) ^ (a & c) ^ (b & c);
+            var temp2 = (S0 + maj) >>> 0;
+
+            h = g;
+            g = f;
+            f = e;
+            e = (d + temp1) >>> 0;
+            d = c;
+            c = b;
+            b = a;
+            a = (temp1 + temp2) >>> 0;
+          }
+
+          H[0] = (H[0] + a) >>> 0;
+          H[1] = (H[1] + b) >>> 0;
+          H[2] = (H[2] + c) >>> 0;
+          H[3] = (H[3] + d) >>> 0;
+          H[4] = (H[4] + e) >>> 0;
+          H[5] = (H[5] + f) >>> 0;
+          H[6] = (H[6] + g) >>> 0;
+          H[7] = (H[7] + h) >>> 0;
+        }
+
+        var hex = '';
+        for (var i = 0; i < 8; i++) {
+          hex += ('00000000' + H[i].toString(16)).slice(-8);
+        }
+        return hex;
+      }
+
+      function generateHash() {
+        var text = textInput.value;
+        if (!text) {
+          hashOutput.textContent = '⚠️ Please enter some text to hash';
+          hashOutput.style.color = '#f85149';
+          currentHash = '';
+          compareResult.innerHTML = '';
+          return;
+        }
+        currentHash = sha256(text);
+        hashOutput.textContent = currentHash;
+        hashOutput.style.color = '#58a6ff';
+
+        // Auto-compare if compare field has value
+        if (compareInput.value.trim()) {
+          doCompare();
+        }
+      }
+
+      window.copyHash = function() {
+        if (!currentHash) return;
+        navigator.clipboard.writeText(currentHash).then(function() {
+          var btn = document.querySelector('#resultCard + .btn-group .btn') || document.querySelector('.btn-blue');
+          var orig = '📋 Copy Hash';
+          var btns = document.querySelectorAll('.btn-blue');
+          for (var i = 0; i < btns.length; i++) {
+            if (btns[i].textContent.indexOf('Copy') !== -1) {
+              btns[i].textContent = '✅ Copied!';
+              setTimeout(function() { btns[i].textContent = orig; }, 2000);
+              break;
+            }
+          }
+        });
+      };
+
+      window.clearAll = function() {
+        textInput.value = '';
+        hashOutput.textContent = 'Enter text above and click "Generate Hash"';
+        hashOutput.style.color = '#58a6ff';
+        currentHash = '';
+        compareInput.value = '';
+        compareResult.innerHTML = '';
+        textInput.focus();
+      };
+
+      function doCompare() {
+        var otherHash = compareInput.value.trim();
+        if (!currentHash || !otherHash) {
+          compareResult.innerHTML = '';
+          return;
+        }
+        // Validate hash format
+        if (!/^[0-9a-f]{64}$/i.test(otherHash)) {
+          compareResult.innerHTML = '<span class="badge-no-match">⚠️ Invalid hash format (expected 64 hex characters)</span>';
+          return;
+        }
+        if (currentHash.toLowerCase() === otherHash.toLowerCase()) {
+          compareResult.innerHTML = '<span class="badge-match">✅ MATCH! The hashes are identical. The inputs are the same.</span>';
+        } else {
+          compareResult.innerHTML = '<span class="badge-no-match">❌ NO MATCH. The hashes are different. The inputs differ.</span>';
+        }
+      }
+
+      generateBtn.addEventListener('click', generateHash);
+
+      compareInput.addEventListener('input', function() {
+        if (currentHash) doCompare();
+      });
+
+      // Allow Ctrl+Enter to generate
+      textInput.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'Enter') {
+          generateHash();
+        }
+      });
+
+      // Sample
+      textInput.value = 'Hello, world! This is a sample text to generate a SHA-256 hash.';
+      generateHash();
+    })();
+  </script>
+</body>
+</html>

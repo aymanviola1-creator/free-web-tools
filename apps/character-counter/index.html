@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Counter – Free Online Character Count Tool</title>
+  <meta name="description" content="Free online character counter. Count characters with and without spaces, words, sentences, paragraphs, and get real-time text analysis. No signup required.">
+  <meta name="keywords" content="character counter, character count, letter count, word counter, text analyzer, character limit, free online tools">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 700px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    textarea {
+      width: 100%; min-height: 200px; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; padding: 0.75rem; color: #e4e6ec; font-size: 0.9rem;
+      font-family: inherit; resize: vertical; line-height: 1.5;
+    }
+    textarea:focus { outline: none; border-color: #58a6ff; }
+    .char-progress { margin-top: 0.75rem; }
+    .char-progress .bar-bg { background: #0d1117; border: 1px solid #30363d; border-radius: 999px; height: 8px; overflow: hidden; }
+    .char-progress .bar-fill { height: 100%; background: linear-gradient(90deg, #58a6ff, #bc8cff); border-radius: 999px; transition: width 0.2s; width: 0%; }
+    .char-progress .limits { display: flex; justify-content: space-between; font-size: 0.75rem; color: #484f58; margin-top: 0.25rem; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin: 1rem 0; }
+    .stat-item { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem; text-align: center; }
+    .stat-item .num { font-size: 1.8rem; font-weight: 700; color: #58a6ff; }
+    .stat-item .lbl { font-size: 0.7rem; color: #484f58; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.15rem; }
+    @media (max-width: 500px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    .density-section { margin-top: 0.5rem; }
+    .density-section h3 { color: #8b949e; font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600; }
+    .char-freq { max-height: 150px; overflow-y: auto; }
+    .char-freq-item { display: flex; justify-content: space-between; padding: 0.2rem 0.5rem; border-bottom: 1px solid #21262d; font-size: 0.85rem; }
+    .char-freq-item .l { color: #58a6ff; font-weight: 600; }
+    .limit-bar { display: flex; gap: 1rem; margin-top: 0.75rem; flex-wrap: wrap; }
+    .limit-preset { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 0.4rem 0.75rem; cursor: pointer; font-size: 0.8rem; color: #8b949e; transition: all 0.2s; }
+    .limit-preset:hover { border-color: #58a6ff; color: #e4e6ec; }
+    .limit-preset.active { border-color: #58a6ff; background: #1f6feb22; color: #58a6ff; }
+    .btn {
+      background: #1f6feb; border: none; border-radius: 6px; color: #fff;
+      padding: 0.5rem 1rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #388bfd; }
+    .btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>🔤 Character Counter</h1>
+    <p class="subtitle">Track characters, words, and meet social media limits — real-time text analysis</p>
+
+    <div class="card">
+      <textarea id="textInput" placeholder="Start typing or paste your text here..." spellcheck="true"></textarea>
+
+      <div class="char-progress">
+        <div class="bar-bg"><div class="bar-fill" id="progressBar"></div></div>
+        <div class="limits">
+          <span id="charDisplay">0 / 280 (Twitter)</span>
+          <span id="remainingChars">280 remaining</span>
+        </div>
+      </div>
+
+      <div class="limit-bar" id="limitBar">
+        <span class="limit-preset active" data-limit="280">🐦 Twitter</span>
+        <span class="limit-preset" data-limit="150">💬 SMS</span>
+        <span class="limit-preset" data-limit="500">📧 Subject</span>
+        <span class="limit-preset" data-limit="2200">📝 LinkedIn</span>
+        <span class="limit-preset" data-limit="5000">❌ Custom</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="num" id="charCount">0</div>
+          <div class="lbl">Characters</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="charNoSpace">0</div>
+          <div class="lbl">No Spaces</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="wordCount">0</div>
+          <div class="lbl">Words</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="sentenceCount">0</div>
+          <div class="lbl">Sentences</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="paragraphCount">0</div>
+          <div class="lbl">Paragraphs</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="lineCount">0</div>
+          <div class="lbl">Lines</div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" onclick="clearText()">🗑️ Clear</button>
+        <button class="btn" onclick="copyResult()">📋 Copy Stats</button>
+      </div>
+    </div>
+
+    <div class="card density-section">
+      <h3>📊 Character Frequency</h3>
+      <div class="char-freq" id="charFreq"></div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="share-section" style="text-align:center;margin:1.5rem 0 0.5rem 0;padding-top:1rem;border-top:1px solid #21262d;">
+      <p style="color:#8b949e;font-size:0.8rem;margin-bottom:0.5rem;">📢 Share this tool</p>
+      <a href="https://twitter.com/intent/tweet?text=Free%20online%20character%20counter%20-%20count%20characters,%20words,%20and%20check%20social%20media%20limits!&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fcharacter-counter%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🐦 Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fcharacter-counter%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1877f2;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">📘 Facebook</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fcharacter-counter%2F&title=Free%20Online%20Character%20Counter" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🔴 Reddit</a>
+    </div>
+
+    <div class="footer">
+      <p>Free Character Counter &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var input = document.getElementById('textInput');
+      var currentLimit = 280;
+
+      function analyze() {
+        var text = input.value;
+        var chars = text.length;
+        var charsNoSpace = text.replace(/\s/g, '').length;
+        var words = text.trim() ? text.trim().split(/\s+/) : [];
+        var wordCount = words.length;
+        var sentences = text.split(/[.!?]+/).filter(function(s) { return s.trim().length > 0; });
+        var sentenceCount = sentences.length;
+        var paragraphs = text.split(/\n\s*\n/).filter(function(p) { return p.trim().length > 0; });
+        var paragraphCount = paragraphs.length || (text.trim() ? 1 : 0);
+        var lineCount = text ? text.split('\n').length : 0;
+
+        document.getElementById('charCount').textContent = chars.toLocaleString();
+        document.getElementById('charNoSpace').textContent = charsNoSpace.toLocaleString();
+        document.getElementById('wordCount').textContent = wordCount.toLocaleString();
+        document.getElementById('sentenceCount').textContent = sentenceCount.toLocaleString();
+        document.getElementById('paragraphCount').textContent = paragraphCount.toLocaleString();
+        document.getElementById('lineCount').textContent = lineCount.toLocaleString();
+
+        // Progress bar
+        var pct = Math.min(100, (chars / currentLimit) * 100);
+        document.getElementById('progressBar').style.width = pct + '%';
+        if (pct > 90) {
+          document.getElementById('progressBar').style.background = 'linear-gradient(90deg, #f85149, #bc8cff)';
+        } else {
+          document.getElementById('progressBar').style.background = 'linear-gradient(90deg, #58a6ff, #bc8cff)';
+        }
+
+        document.getElementById('charDisplay').textContent = chars.toLocaleString() + ' / ' + currentLimit.toLocaleString();
+        var remaining = Math.max(0, currentLimit - chars);
+        document.getElementById('remainingChars').textContent = remaining.toLocaleString() + ' remaining';
+        document.getElementById('remainingChars').style.color = remaining === 0 ? '#f85149' : '#484f58';
+
+        // Character frequency (letters only, top 15)
+        var freq = {};
+        var lettersOnly = text.toLowerCase().replace(/[^a-z]/g, '');
+        for (var i = 0; i < lettersOnly.length; i++) {
+          var ch = lettersOnly[i];
+          freq[ch] = (freq[ch] || 0) + 1;
+        }
+        var sorted = Object.keys(freq).sort(function(a, b) { return freq[b] - freq[a]; }).slice(0, 15);
+        var freqDiv = document.getElementById('charFreq');
+        if (sorted.length === 0) {
+          freqDiv.innerHTML = '<div style="color:#484f58;font-size:0.8rem;">Type some text to see character frequency</div>';
+        } else {
+          var maxFreq = freq[sorted[0]];
+          var html = '';
+          for (var i = 0; i < sorted.length; i++) {
+            var barW = (freq[sorted[i]] / maxFreq) * 100;
+            html += '<div class="char-freq-item"><span><strong>' + sorted[i] + '</strong></span><span class="l">' + freq[sorted[i]].toLocaleString() + '</span></div>';
+          }
+          freqDiv.innerHTML = html;
+        }
+      }
+
+      window.clearText = function() {
+        input.value = '';
+        analyze();
+        input.focus();
+      };
+
+      window.copyResult = function() {
+        var text = 'Character Counter Results:\n';
+        text += 'Characters: ' + document.getElementById('charCount').textContent + '\n';
+        text += 'Characters (no spaces): ' + document.getElementById('charNoSpace').textContent + '\n';
+        text += 'Words: ' + document.getElementById('wordCount').textContent + '\n';
+        text += 'Sentences: ' + document.getElementById('sentenceCount').textContent + '\n';
+        text += 'Paragraphs: ' + document.getElementById('paragraphCount').textContent + '\n';
+        text += 'Lines: ' + document.getElementById('lineCount').textContent;
+        navigator.clipboard.writeText(text).then(function() {
+          var btn = document.querySelector('.btn-group .btn:last-child');
+          var orig = btn.textContent;
+          btn.textContent = '✅ Copied!';
+          setTimeout(function() { btn.textContent = orig; }, 2000);
+        });
+      };
+
+      // Limit presets
+      var presets = document.querySelectorAll('.limit-preset');
+      for (var i = 0; i < presets.length; i++) {
+        presets[i].addEventListener('click', function() {
+          for (var j = 0; j < presets.length; j++) presets[j].classList.remove('active');
+          this.classList.add('active');
+          var limit = parseInt(this.getAttribute('data-limit'));
+          if (limit === 5000) {
+            var custom = prompt('Enter your custom character limit:', '1000');
+            if (custom && !isNaN(custom) && parseInt(custom) > 0) {
+              limit = parseInt(custom);
+              this.textContent = '✏️ ' + limit;
+              this.setAttribute('data-limit', limit);
+            } else {
+              limit = 1000;
+              this.textContent = '✏️ ' + limit;
+              this.setAttribute('data-limit', limit);
+            }
+          }
+          currentLimit = limit;
+          analyze();
+        });
+      }
+
+      input.addEventListener('input', analyze);
+
+      // Set sample text
+      input.value = 'Character counters are essential tools for writers, social media managers, and students. They help you stay within character limits across different platforms.\n\nTwitter has a 280 character limit for tweets. SMS messages are limited to 160 characters. LinkedIn posts can be up to 3000 characters. Each platform has its own rules!\n\nUse this tool to check if your text fits within the required limits before posting.';
+      analyze();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Counter – Free Online Word & Character Count Tool</title>
+  <meta name="description" content="Free online word counter. Count words, characters, sentences, paragraphs, and estimate reading time. Real-time analysis with keyword density. No signup required.">
+  <meta name="keywords" content="word counter, character counter, word count, reading time, keyword density, free online tools, text analyzer">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 700px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    textarea {
+      width: 100%; min-height: 200px; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; padding: 0.75rem; color: #e4e6ec; font-size: 0.9rem;
+      font-family: inherit; resize: vertical; line-height: 1.5;
+    }
+    textarea:focus { outline: none; border-color: #58a6ff; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+    .stat-item { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem; text-align: center; }
+    .stat-item .num { font-size: 1.8rem; font-weight: 700; color: #58a6ff; }
+    .stat-item .lbl { font-size: 0.7rem; color: #484f58; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.15rem; }
+    .stat-wide { grid-column: span 2; }
+    @media (max-width: 500px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .stat-wide { grid-column: span 1; } }
+    .stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 0.75rem; }
+    .reading-time { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem; text-align: center; }
+    .reading-time .num { font-size: 1.2rem; font-weight: 700; color: #e4e6ec; }
+    .reading-time .lbl { font-size: 0.7rem; color: #484f58; text-transform: uppercase; letter-spacing: 0.5px; }
+    .keyword-density { margin-top: 1rem; }
+    .keyword-density h3 { color: #8b949e; font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 600; }
+    .keyword-list { max-height: 150px; overflow-y: auto; }
+    .keyword-item { display: flex; justify-content: space-between; padding: 0.25rem 0.5rem; border-bottom: 1px solid #21262d; font-size: 0.85rem; }
+    .keyword-item .count { color: #58a6ff; font-weight: 600; }
+    .btn {
+      background: #1f6feb; border: none; border-radius: 6px; color: #fff;
+      padding: 0.5rem 1rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #388bfd; }
+    .btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>📝 Word Counter</h1>
+    <p class="subtitle">Real-time word, character, sentence & paragraph count with reading time estimate</p>
+
+    <div class="card">
+      <textarea id="textInput" placeholder="Start typing or paste your text here..." spellcheck="true"></textarea>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="num" id="wordCount">0</div>
+          <div class="lbl">Words</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="charCount">0</div>
+          <div class="lbl">Characters</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="charNoSpace">0</div>
+          <div class="lbl">Chars (no space)</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="sentenceCount">0</div>
+          <div class="lbl">Sentences</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="paragraphCount">0</div>
+          <div class="lbl">Paragraphs</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="syllableCount">0</div>
+          <div class="lbl">Syllables</div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="reading-time">
+          <div class="num" id="readingTime">0 min</div>
+          <div class="lbl">Reading Time</div>
+        </div>
+        <div class="reading-time">
+          <div class="num" id="speakingTime">0 min</div>
+          <div class="lbl">Speaking Time</div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" onclick="clearText()">🗑️ Clear</button>
+        <button class="btn" onclick="copyText()">📋 Copy Text</button>
+      </div>
+    </div>
+
+    <div class="card keyword-density" id="keywordCard">
+      <h3>🔑 Keyword Density</h3>
+      <div class="keyword-list" id="keywordList"></div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="share-section" style="text-align:center;margin:1.5rem 0 0.5rem 0;padding-top:1rem;border-top:1px solid #21262d;">
+      <p style="color:#8b949e;font-size:0.8rem;margin-bottom:0.5rem;">📢 Share this tool</p>
+      <a href="https://twitter.com/intent/tweet?text=Free%20online%20word%20counter%20-%20count%20words,%20characters,%20sentences%20and%20more!&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fword-counter%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🐦 Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fword-counter%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1877f2;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">📘 Facebook</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fword-counter%2F&title=Free%20Online%20Word%20Counter" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.4rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.8rem;margin:0.15rem;font-weight:600;">🔴 Reddit</a>
+    </div>
+
+    <div class="footer">
+      <p>Free Word Counter &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var input = document.getElementById('textInput');
+
+      // Syllable counting (approximate)
+      function countSyllables(word) {
+        word = word.toLowerCase().replace(/[^a-z]/g, '');
+        if (!word) return 0;
+        if (word.length <= 3) return 1;
+        var syllables = 0;
+        var vowels = 'aeiouy';
+        var prevVowel = false;
+        for (var i = 0; i < word.length; i++) {
+          var isVowel = vowels.indexOf(word[i]) !== -1;
+          if (isVowel && !prevVowel) syllables++;
+          prevVowel = isVowel;
+        }
+        if (word.endsWith('e') && syllables > 1) syllables--;
+        if (syllables === 0) syllables = 1;
+        return syllables;
+      }
+
+      function analyze() {
+        var text = input.value;
+        var words = text.trim() ? text.trim().split(/\s+/) : [];
+        var wordCount = words.length;
+
+        // Count characters
+        var charCount = text.length;
+        var charNoSpace = text.replace(/\s/g, '').length;
+
+        // Count sentences
+        var sentences = text.split(/[.!?]+/).filter(function(s) { return s.trim().length > 0; });
+        var sentenceCount = sentences.length;
+
+        // Count paragraphs
+        var paragraphs = text.split(/\n\s*\n/).filter(function(p) { return p.trim().length > 0; });
+        var paragraphCount = paragraphs.length || (text.trim() ? 1 : 0);
+
+        // Count syllables
+        var totalSyllables = 0;
+        for (var i = 0; i < words.length; i++) {
+          totalSyllables += countSyllables(words[i]);
+        }
+
+        // Reading time (200 words/min)
+        var readingMin = Math.max(1, Math.round(wordCount / 200));
+        var readingTime = readingMin + ' min' + (readingMin > 1 ? '' : '');
+        if (wordCount < 200) readingTime = '<1 min';
+
+        // Speaking time (130 words/min)
+        var speakMin = Math.max(1, Math.round(wordCount / 130));
+        var speakingTime = speakMin + ' min' + (speakMin > 1 ? '' : '');
+        if (wordCount < 130) speakingTime = '<1 min';
+
+        // Update stats
+        document.getElementById('wordCount').textContent = wordCount.toLocaleString();
+        document.getElementById('charCount').textContent = charCount.toLocaleString();
+        document.getElementById('charNoSpace').textContent = charNoSpace.toLocaleString();
+        document.getElementById('sentenceCount').textContent = sentenceCount.toLocaleString();
+        document.getElementById('paragraphCount').textContent = paragraphCount.toLocaleString();
+        document.getElementById('syllableCount').textContent = totalSyllables.toLocaleString();
+        document.getElementById('readingTime').textContent = readingTime;
+        document.getElementById('speakingTime').textContent = speakingTime;
+
+        // Keyword density (words with 3+ chars, top 15)
+        var freq = {};
+        var minLen = 3;
+        for (var i = 0; i < words.length; i++) {
+          var w = words[i].toLowerCase().replace(/[^a-z0-9']/g, '');
+          if (w.length >= minLen) {
+            freq[w] = (freq[w] || 0) + 1;
+          }
+        }
+        var sorted = Object.keys(freq).sort(function(a, b) { return freq[b] - freq[a]; }).slice(0, 15);
+        var list = document.getElementById('keywordList');
+        if (sorted.length === 0) {
+          list.innerHTML = '<div style="color:#484f58;font-size:0.8rem;">Type some text to see keyword density</div>';
+        } else {
+          var html = '';
+          for (var i = 0; i < sorted.length; i++) {
+            var pct = ((freq[sorted[i]] / wordCount) * 100).toFixed(1);
+            html += '<div class="keyword-item"><span>' + sorted[i] + '</span><span class="count">' + freq[sorted[i]] + ' (' + pct + '%)</span></div>';
+          }
+          list.innerHTML = html;
+        }
+      }
+
+      window.clearText = function() {
+        input.value = '';
+        analyze();
+        input.focus();
+      };
+
+      window.copyText = function() {
+        if (!input.value) return;
+        navigator.clipboard.writeText(input.value).then(function() {
+          var btn = event.target;
+          var orig = btn.textContent;
+          btn.textContent = '✅ Copied!';
+          setTimeout(function() { btn.textContent = orig; }, 2000);
+        });
+      };
+
+      input.addEventListener('input', analyze);
+
+      // Set sample text
+      input.value = 'The quick brown fox jumps over the lazy dog. This is a sample sentence to demonstrate the word counter tool. It counts words, characters, sentences, and paragraphs in real time. Feel free to replace this text with your own content.\n\nWord counters are useful tools for writers, students, and professionals. They help ensure your writing meets specific length requirements. Many platforms like social media sites and submission forms have character limits that you need to stay within.\n\nStart typing above or paste your own text to see the analysis update instantly!';
+      analyze();
+    })();
+  </script>
+</body>
+</html>

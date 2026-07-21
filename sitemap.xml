@@ -26,6 +26,21 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/word-counter/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/character-counter/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/sha256-generator/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/text-diff/</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>

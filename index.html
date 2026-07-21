@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Web Tools — Privacy-First Online Utilities</title>
-  <meta name="description" content="Collection of free, privacy-friendly online tools. No signup, no tracking, fully client-side. Password generator, QR code creator, image compressor, unit converter, timer, and more.">
-  <meta name="keywords" content="free online tools, image compressor, unit converter, password generator, QR code, timer, stopwatch, privacy tools, color picker, text diff checker, URL encoder">
+  <meta name="description" content="Collection of 17 free, privacy-friendly online tools. No signup, no tracking, fully client-side. Word counter, SHA256 hash generator, password generator, QR code creator, image compressor, and more.">
+  <meta name="keywords" content="free online tools, word counter, character counter, sha256 generator, image compressor, unit converter, password generator, QR code, timer, stopwatch, privacy tools, color picker, text diff checker, URL encoder, hash generator">
   <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
   
   <!-- Google Analytics -->
@@ -31,6 +31,9 @@
         {"@type":"WebApplication","name":"Lorem Ipsum Generator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/lorem-ipsum/"},
         {"@type":"WebApplication","name":"Base64 Encoder/Decoder","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/base64-encoder/"},
         {"@type":"WebApplication","name":"Age Calculator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/age-calculator/"},
+        {"@type":"WebApplication","name":"Word Counter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/word-counter/"},
+        {"@type":"WebApplication","name":"Character Counter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/character-counter/"},
+        {"@type":"WebApplication","name":"SHA-256 Hash Generator","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/sha256-generator/"},
         {"@type":"WebApplication","name":"Color Picker","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/color-picker/"},
         {"@type":"WebApplication","name":"Text Diff Checker","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/text-diff/"},
         {"@type":"WebApplication","name":"URL Encoder/Decoder","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/url-encoder/"},
@@ -152,6 +155,33 @@
         <div class="info">
           <h2>Age Calculator <span class="badge badge-new">NEW</span></h2>
           <p>Calculate your exact age in years, months, days, hours, minutes, and seconds.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/word-counter/" class="tool-card">
+        <span class="icon">📝</span>
+        <div class="info">
+          <h2>Word Counter <span class="badge badge-new">NEW</span></h2>
+          <p>Count words, characters, sentences, paragraphs, and estimate reading time with keyword density.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/character-counter/" class="tool-card">
+        <span class="icon">🔤</span>
+        <div class="info">
+          <h2>Character Counter <span class="badge badge-new">NEW</span></h2>
+          <p>Count characters with/without spaces, check social media limits (Twitter, SMS, LinkedIn).</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/sha256-generator/" class="tool-card">
+        <span class="icon">🔐</span>
+        <div class="info">
+          <h2>SHA-256 Hash Generator <span class="badge badge-new">NEW</span></h2>
+          <p>Generate SHA-256 cryptographic hashes from any text. Fully client-side, no data uploaded.</p>
         </div>
         <span class="arrow">→</span>
       </a>
@@ -285,10 +315,10 @@
       </script>
     </div>
 
-    <p class="stats">✨ 14 free tools · No tracking · No signup · Fully client-side</p>
+    <p class="stats">✨ 17 free tools · No tracking · No signup · Fully client-side</p>
 
     <div class="footer">
-      <p>More tools added regularly &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a></p>
+      <p>17 tools and counting &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a></p>
       <p style="margin-top:0.3rem;">Built with ❤️ for privacy-conscious users worldwide</p>
     </div>
   </div>
@@ -304,6 +334,40 @@
         }
       }, 4000);
     })();
+  </script>
+
+  <!-- GDPR Cookie Consent Banner -->
+  <div id="gdprBanner" style="position:fixed;bottom:0;left:0;right:0;background:#161b22;border-top:1px solid #30363d;padding:1rem;z-index:9999;display:none;font-size:0.85rem;">
+    <div style="max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+      <p style="color:#8b949e;flex:1;min-width:200px;">🍪 This site uses cookies from ad networks to personalize content and measure traffic. <a href="#" style="color:#58a6ff;" onclick="document.getElementById('gdprMore').style.display=document.getElementById('gdprMore').style.display==='none'?'block':'none';return false;">Learn more</a></p>
+      <div style="display:flex;gap:0.5rem;">
+        <button onclick="acceptCookies()" style="background:#238636;border:none;border-radius:6px;color:#fff;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;font-size:0.85rem;">✅ Accept</button>
+        <button onclick="declineCookies()" style="background:#21262d;border:1px solid #30363d;border-radius:6px;color:#8b949e;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;font-size:0.85rem;">✋ Decline</button>
+      </div>
+    </div>
+    <div id="gdprMore" style="display:none;max-width:800px;margin:0.5rem auto 0;color:#484f58;font-size:0.75rem;line-height:1.5;">
+      We use Adsterra ad network which may set cookies for personalized advertising. No personal data is collected by us. All tools run entirely in your browser. You can manage cookie preferences in your browser settings at any time.
+    </div>
+  </div>
+
+  <script>
+    // GDPR Cookie Consent
+    (function() {
+      var consent = localStorage.getItem('gdpr_consent');
+      if (consent === null) {
+        document.getElementById('gdprBanner').style.display = 'block';
+      }
+    })();
+
+    window.acceptCookies = function() {
+      localStorage.setItem('gdpr_consent', 'accepted');
+      document.getElementById('gdprBanner').style.display = 'none';
+    };
+
+    window.declineCookies = function() {
+      localStorage.setItem('gdpr_consent', 'declined');
+      document.getElementById('gdprBanner').style.display = 'none';
+    };
   </script>
 </body>
 </html>

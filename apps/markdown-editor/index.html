@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Editor — Write & Preview Markdown Online Free | Free Web Tools</title>
+  <meta name="description" content="Free online Markdown Editor with live preview. Write Markdown and see formatted HTML in real-time. Export as HTML, copy to clipboard, download. Fully client-side.">
+  <meta name="keywords" content="markdown editor, markdown preview, online markdown editor, live markdown, markdown to html, markdown viewer, md editor, write markdown">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 1rem;
+    }
+    .container { max-width: 1200px; width: 100%; }
+    .header { text-align: center; margin-bottom: 1rem; }
+    .header h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.3rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header p { color: #8b949e; font-size: 0.9rem; }
+    .toolbar {
+      display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem;
+      background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 0.5rem;
+      align-items: center;
+    }
+    .toolbar-group { display: flex; gap: 0.25rem; align-items: center; }
+    .toolbar-sep { width: 1px; height: 24px; background: #30363d; margin: 0 0.3rem; }
+    .toolbar button, .toolbar .btn {
+      padding: 0.35rem 0.7rem; background: #21262d; border: 1px solid #30363d;
+      border-radius: 5px; color: #c9d1d9; font-size: 0.8rem; cursor: pointer;
+      transition: all 0.15s; font-weight: 500;
+    }
+    .toolbar button:hover { background: #30363d; border-color: #58a6ff; }
+    .toolbar button.active { background: #1f6feb22; border-color: #58a6ff; color: #58a6ff; }
+    .toolbar .btn-primary { background: #238636; border-color: #238636; color: #fff; }
+    .toolbar .btn-primary:hover { background: #2ea043; }
+    .editor-container {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;
+    }
+    .editor-pane, .preview-pane {
+      background: #161b22; border: 1px solid #30363d; border-radius: 8px; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .pane-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 0.75rem; background: #0d1117; border-bottom: 1px solid #21262d;
+      font-size: 0.75rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .pane-header .count { color: #484f58; font-size: 0.7rem; text-transform: none; letter-spacing: 0; }
+    .pane-body { flex: 1; position: relative; }
+    #editor {
+      width: 100%; height: 500px; padding: 1rem; background: #0d1117; color: #e4e6ec;
+      border: none; outline: none; resize: vertical; font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+      font-size: 0.85rem; line-height: 1.6; tab-size: 2;
+    }
+    #editor:focus { background: #0f1117; }
+    #editor::placeholder { color: #484f58; }
+    #preview {
+      padding: 1rem; overflow-y: auto; height: 500px; line-height: 1.7; font-size: 0.95rem;
+    }
+    /* Markdown Preview Styles */
+    #preview h1 { font-size: 1.8rem; border-bottom: 1px solid #21262d; padding-bottom: 0.3rem; margin: 1rem 0 0.5rem; }
+    #preview h2 { font-size: 1.5rem; border-bottom: 1px solid #21262d; padding-bottom: 0.2rem; margin: 0.9rem 0 0.4rem; }
+    #preview h3 { font-size: 1.25rem; margin: 0.8rem 0 0.3rem; }
+    #preview h4 { font-size: 1.1rem; margin: 0.7rem 0 0.3rem; }
+    #preview h5, #preview h6 { font-size: 1rem; margin: 0.6rem 0 0.2rem; color: #8b949e; }
+    #preview p { margin: 0.5rem 0; }
+    #preview a { color: #58a6ff; }
+    #preview a:hover { text-decoration: underline; }
+    #preview ul, #preview ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+    #preview li { margin: 0.2rem 0; }
+    #preview code { background: #21262d; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; font-family: 'Cascadia Code', monospace; }
+    #preview pre { background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 0.75rem; overflow-x: auto; margin: 0.75rem 0; }
+    #preview pre code { background: none; padding: 0; border-radius: 0; }
+    #preview blockquote { border-left: 3px solid #30363d; padding: 0.25rem 0.75rem; margin: 0.75rem 0; color: #8b949e; background: #0d1117; border-radius: 0 6px 6px 0; }
+    #preview img { max-width: 100%; border-radius: 6px; margin: 0.5rem 0; }
+    #preview table { border-collapse: collapse; width: 100%; margin: 0.75rem 0; }
+    #preview th, #preview td { border: 1px solid #30363d; padding: 0.4rem 0.6rem; text-align: left; }
+    #preview th { background: #161b22; font-weight: 600; }
+    #preview hr { border: none; border-top: 1px solid #30363d; margin: 1rem 0; }
+    #preview .task-list-item { list-style: none; margin-left: -1.5rem; }
+    #preview .task-list-item input { margin-right: 0.5rem; }
+    #preview .tag { display: inline-block; background: #1f6feb22; color: #58a6ff; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.75rem; }
+    .empty-preview { display: flex; align-items: center; justify-content: center; height: 100%; color: #484f58; flex-direction: column; gap: 0.5rem; }
+    .empty-preview .icon { font-size: 2.5rem; }
+    .empty-preview .text { font-size: 0.9rem; }
+    .status-msg { margin-top: 0.75rem; padding: 0.75rem; border-radius: 6px; font-size: 0.85rem; display: none; }
+    .status-msg.info { display: block; background: #0c1a29; border: 1px solid #1f6feb; color: #93c5fd; }
+    .ad-section { margin: 1rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d; border-radius: 10px; text-align: center; min-height: 80px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .back-link { display: inline-block; margin-bottom: 0.75rem; color: #58a6ff; text-decoration: none; font-size: 0.85rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 1rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 768px) {
+      .editor-container { grid-template-columns: 1fr; }
+      #editor, #preview { height: 350px; }
+      .header h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <div class="header">
+      <h1>📝 Markdown Editor</h1>
+      <p>Write Markdown on the left, see formatted preview on the right — in real-time.</p>
+    </div>
+
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <button onclick="wrapText('**','**')" title="Bold"><strong>B</strong></button>
+        <button onclick="wrapText('*','*')" title="Italic"><em>I</em></button>
+        <button onclick="wrapText('~~','~~')" title="Strikethrough"><span style="text-decoration:line-through;">S</span></button>
+        <button onclick="wrapText('`','`')" title="Inline Code">&lt;/&gt;</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group">
+        <button onclick="insertBefore('# ')">H1</button>
+        <button onclick="insertBefore('## ')">H2</button>
+        <button onclick="insertBefore('### ')">H3</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group">
+        <button onclick="insertBefore('- ')">• List</button>
+        <button onclick="insertBefore('1. ')">1. List</button>
+        <button onclick="insertBefore('> ')">❝ Quote</button>
+        <button onclick="insertBefore('```\n','\n```')">``` Code</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group">
+        <button onclick="insertBefore('---\n')">— HR</button>
+        <button onclick="insertTable()">📊 Table</button>
+        <button onclick="insertLink()">🔗 Link</button>
+        <button onclick="insertImage()">🖼 Img</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group">
+        <button class="btn-primary" onclick="copyHtml()">📋 Copy HTML</button>
+        <button class="btn-primary" onclick="downloadHtml()">⬇ Download HTML</button>
+        <button class="btn-primary" onclick="downloadMd()">⬇ Download MD</button>
+        <button onclick="clearEditor()">🗑 Clear</button>
+      </div>
+    </div>
+
+    <div class="editor-container">
+      <div class="editor-pane">
+        <div class="pane-header">
+          <span>✏️ Markdown</span>
+          <span class="count" id="charCount">0 chars</span>
+        </div>
+        <div class="pane-body">
+          <textarea id="editor" placeholder="Type your Markdown here...&#10;&#10;# Hello World&#10;This is **bold** and *italic* text.&#10;&#10;- List item 1&#10;- List item 2&#10;&#10;```python&#10;print(&#34;Hello!&#34;)&#10;```"></textarea>
+        </div>
+      </div>
+      <div class="preview-pane">
+        <div class="pane-header">
+          <span>👁️ Preview</span>
+          <span class="count">Live</span>
+        </div>
+        <div class="pane-body">
+          <div id="preview"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-msg" id="statusMsg"></div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section">
+      <script type="text/javascript">
+        (function() {
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            document.currentScript.parentNode.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="footer">
+      <p><a href="../../">Free Web Tools</a> &middot; Markdown Editor &middot; Fully client-side, nothing leaves your browser</p>
+      <p style="margin-top:0.3rem;">Also try our <a href="../md-to-html/">Markdown to HTML Converter</a> for batch conversion</p>
+    </div>
+  </div>
+
+  <script>
+    const editor = document.getElementById('editor');
+    const preview = document.getElementById('preview');
+    const statusMsg = document.getElementById('statusMsg');
+
+    // Simple markdown to HTML parser (pure JS, no dependencies)
+    function mdToHtml(text) {
+      if (!text || !text.trim()) return '<div class="empty-preview"><div class="icon">👁️</div><div class="text">Start typing Markdown to see the preview here</div></div>';
+
+      let html = text;
+
+      // Escape HTML tags to prevent XSS
+      html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+      // Code blocks (fenced) - must be before other inline formatting
+      html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>');
+
+      // Horizontal rules
+      html = html.replace(/^---$/gm, '<hr>');
+      html = html.replace(/^\*\*\*$/gm, '<hr>');
+      html = html.replace(/^___$/gm, '<hr>');
+
+      // Headings
+      html = html.replace(/^###### (.*)$/gm, '<h6>$1</h6>');
+      html = html.replace(/^##### (.*)$/gm, '<h5>$1</h5>');
+      html = html.replace(/^#### (.*)$/gm, '<h4>$1</h4>');
+      html = html.replace(/^### (.*)$/gm, '<h3>$1</h3>');
+      html = html.replace(/^## (.*)$/gm, '<h2>$1</h2>');
+      html = html.replace(/^# (.*)$/gm, '<h1>$1</h1>');
+
+      // Blockquotes
+      html = html.replace(/^&gt; (.*)$/gm, '<blockquote>$1</blockquote>');
+
+      // Unordered lists
+      html = html.replace(/^[\*\-] (.*)$/gm, '<li>$1</li>');
+      html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+
+      // Ordered lists
+      html = html.replace(/^\d+\. (.*)$/gm, '<li>$1</li>');
+      // Wrap consecutive <li> in <ol>
+      html = html.replace(/(<li>.*<\/li>\n?)+/g, function(m) {
+        if (m.match(/^\d+\./m)) return '<ol>' + m.replace(/^\d+\. /gm, '') + '</ol>';
+        return '<ul>' + m + '</ul>';
+      });
+      // Fix double-wrapping from unordered
+      html = html.replace(/<ul>(<li>.*<\/li>\n?)+<\/ul>/g, function(m) {
+        if (m.includes('&gt;')) return m;
+        return m;
+      });
+
+      // Task lists
+      html = html.replace(/<li>\[ \] (.*?)<\/li>/g, '<li class="task-list-item"><input type="checkbox" disabled> $1</li>');
+      html = html.replace(/<li>\[x\] (.*?)<\/li>/g, '<li class="task-list-item"><input type="checkbox" checked disabled> $1</li>');
+
+      // Tables
+      html = html.replace(/\|(.+)\|\n\|[-| ]+\|\n((?:\|.+\|\n?)*)/g, function(match, header, rows) {
+        const headers = header.split('|').filter(c => c.trim()).map(c => '<th>' + c.trim() + '</th>');
+        const rowHtml = rows.trim().split('\n').map(row => {
+          const cells = row.split('|').filter(c => c.trim()).map(c => '<td>' + c.trim() + '</td>');
+          return '<tr>' + cells.join('') + '</tr>';
+        }).join('\n');
+        return '<table><thead><tr>' + headers.join('') + '</tr></thead><tbody>' + rowHtml + '</tbody></table>';
+      });
+
+      // Inline code
+      html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+
+      // Bold + Italic (order matters)
+      html = html.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
+      html = html.replace(/___([^_]+)___/g, '<strong><em>$1</em></strong>');
+
+      // Bold
+      html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+
+      // Italic
+      html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+      // Strikethrough
+      html = html.replace(/~~([^~]+)~~/g, '<del>$1</del>');
+
+      // Images
+      html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
+
+      // Links
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+      // Line breaks
+      html = html.replace(/\n\n/g, '</p><p>');
+      html = html.replace(/\n/g, '<br>');
+
+      // Wrap in paragraph if not already wrapped in block elements
+      if (!html.startsWith('<h') && !html.startsWith('<p') && !html.startsWith('<ul') && !html.startsWith('<ol') && !html.startsWith('<blockquote') && !html.startsWith('<pre') && !html.startsWith('<table') && !html.startsWith('<hr')) {
+        html = '<p>' + html + '</p>';
+      }
+
+      return html;
+    }
+
+    function updatePreview() {
+      const text = editor.value;
+      const html = mdToHtml(text);
+      preview.innerHTML = html;
+      document.getElementById('charCount').textContent = text.length + ' chars';
+    }
+
+    // Toolbar functions
+    function wrapText(before, after) {
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      const text = editor.value;
+      const selected = text.substring(start, end);
+      editor.value = text.substring(0, start) + before + selected + after + text.substring(end);
+      editor.focus();
+      editor.selectionStart = start + before.length + selected.length + after.length;
+      editor.selectionEnd = editor.selectionStart;
+      updatePreview();
+    }
+
+    function insertBefore(text, after) {
+      after = after || '';
+      const pos = editor.selectionStart;
+      const lineStart = editor.value.lastIndexOf('\n', pos - 1) + 1;
+      editor.value = editor.value.substring(0, lineStart) + text + editor.value.substring(lineStart);
+      editor.focus();
+      editor.selectionStart = editor.selectionEnd = lineStart + text.length;
+      updatePreview();
+    }
+
+    function insertTable() {
+      const table = '\n| Header 1 | Header 2 | Header 3 |\n| -------- | -------- | -------- |\n| Cell 1   | Cell 2   | Cell 3   |\n| Cell 4   | Cell 5   | Cell 6   |\n';
+      const pos = editor.selectionStart;
+      editor.value = editor.value.substring(0, pos) + table + editor.value.substring(pos);
+      editor.focus();
+      editor.selectionStart = editor.selectionEnd = pos + table.length;
+      updatePreview();
+    }
+
+    function insertLink() {
+      const text = editor.value.substring(editor.selectionStart, editor.selectionEnd) || 'link text';
+      wrapText('[', '](https://example.com)');
+    }
+
+    function insertImage() {
+      wrapText('![', '](https://example.com/image.png)');
+    }
+
+    function copyHtml() {
+      const html = mdToHtml(editor.value);
+      navigator.clipboard.writeText(html).then(() => {
+        showStatus('✅ HTML copied to clipboard!');
+      }).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = html; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); ta.remove();
+        showStatus('✅ HTML copied to clipboard!');
+      });
+    }
+
+    function downloadHtml() {
+      const html = mdToHtml(editor.value);
+      const fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Markdown Export</title><style>body{font-family:-apple-system,sans-serif;max-width:800px;margin:0 auto;padding:2rem;line-height:1.6;}img{max-width:100%;}code{background:#f0f0f0;padding:0.2em 0.4em;border-radius:3px;}pre code{background:none;padding:0;}</style></head><body>' + html + '</body></html>';
+      const blob = new Blob([fullHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'markdown-export.html'; a.click();
+      URL.revokeObjectURL(url);
+      showStatus('✅ HTML file downloaded!');
+    }
+
+    function downloadMd() {
+      const text = editor.value;
+      const blob = new Blob([text], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'document.md'; a.click();
+      URL.revokeObjectURL(url);
+      showStatus('✅ Markdown file downloaded!');
+    }
+
+    function clearEditor() {
+      if (editor.value && !confirm('Clear all content?')) return;
+      editor.value = '';
+      updatePreview();
+      showStatus('🗑 Editor cleared');
+    }
+
+    function showStatus(msg) {
+      statusMsg.textContent = msg;
+      statusMsg.className = 'status-msg info';
+      setTimeout(() => { statusMsg.style.display = 'none'; }, 3000);
+    }
+
+    // Live preview on input
+    editor.addEventListener('input', updatePreview);
+
+    // Initial render with placeholder content
+    setTimeout(updatePreview, 100);
+  </script>
+
+  <!-- GDPR Cookie Consent -->
+  <div id="gdprBanner" style="position:fixed;bottom:0;left:0;right:0;background:#161b22;border-top:1px solid #30363d;padding:1rem;z-index:9999;display:none;font-size:0.85rem;">
+    <div style="max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+      <p style="color:#8b949e;flex:1;min-width:200px;">🍪 This site uses cookies from ad networks. <a href="../../privacy/" style="color:#58a6ff;">Privacy Policy</a></p>
+      <div style="display:flex;gap:0.5rem;">
+        <button onclick="localStorage.setItem('gdpr_consent','accepted');document.getElementById('gdprBanner').style.display='none'" style="background:#238636;border:none;border-radius:6px;color:#fff;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;">✅ Accept</button>
+        <button onclick="localStorage.setItem('gdpr_consent','declined');document.getElementById('gdprBanner').style.display='none'" style="background:#21262d;border:1px solid #30363d;border-radius:6px;color:#8b949e;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;">✋ Decline</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    if (localStorage.getItem('gdpr_consent') === null) { document.getElementById('gdprBanner').style.display = 'block'; }
+  </script>
+</body>
+</html>

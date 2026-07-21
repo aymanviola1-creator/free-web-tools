@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Thumbnail Downloader — Get HD Thumbnails Free | Free Web Tools</title>
+  <meta name="description" content="Free YouTube Thumbnail Downloader. Extract and download thumbnails from any YouTube video in all available qualities: HD, SD, HQ, and max resolution. Just paste a URL.">
+  <meta name="keywords" content="youtube thumbnail downloader, download youtube thumbnail, get youtube thumbnail, youtube thumbnail extractor, youtube thumbnail saver, free thumbnail downloader, yt thumbnail">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 720px; width: 100%; }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header p { color: #8b949e; font-size: 1rem; }
+    .tool-card {
+      background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .input-group {
+      display: flex; gap: 0.5rem; margin-bottom: 0.75rem;
+    }
+    .input-group input {
+      flex: 1; padding: 0.75rem 1rem; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 8px; color: #e4e6ec; font-size: 0.95rem; outline: none;
+      transition: border 0.2s;
+    }
+    .input-group input:focus { border-color: #58a6ff; }
+    .input-group input::placeholder { color: #484f58; }
+    .input-group button {
+      padding: 0.75rem 1.5rem; background: #238636; border: none; border-radius: 8px;
+      color: #fff; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .input-group button:hover { background: #2ea043; }
+    .input-group button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .url-tips {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;
+    }
+    .url-tip {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.35rem 0.7rem; color: #8b949e; font-size: 0.75rem; cursor: pointer;
+      transition: all 0.2s; font-family: monospace;
+    }
+    .url-tip:hover { border-color: #58a6ff; color: #58a6ff; background: #1c2333; }
+    .thumbnails { display: none; }
+    .thumbnails.show { display: block; }
+    .thumbnail-grid {
+      display: grid; gap: 1rem; margin-top: 1rem;
+    }
+    .thumbnail-item {
+      background: #0d1117; border: 1px solid #21262d; border-radius: 8px; overflow: hidden;
+    }
+    .thumbnail-item img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; background: #0d1117; }
+    .thumbnail-info {
+      padding: 0.75rem; display: flex; align-items: center; justify-content: space-between;
+    }
+    .thumbnail-info .quality {
+      font-weight: 600; font-size: 0.9rem; color: #c9d1d9;
+    }
+    .thumbnail-info .resolution {
+      color: #8b949e; font-size: 0.8rem;
+    }
+    .download-btn {
+      padding: 0.45rem 0.9rem; background: #1f6feb; border: none; border-radius: 6px;
+      color: #fff; font-size: 0.8rem; font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .download-btn:hover { background: #388bfd; }
+    .status-msg {
+      padding: 0.75rem; border-radius: 6px; font-size: 0.9rem; display: none; margin-bottom: 0.75rem;
+    }
+    .status-msg.error { display: block; background: #290c0c; border: 1px solid #da3633; color: #f87171; }
+    .status-msg.success { display: block; background: #0c2914; border: 1px solid #238636; color: #6ee7b7; }
+    .status-msg.info { display: block; background: #0c1a29; border: 1px solid #1f6feb; color: #93c5fd; }
+    .features { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin: 1.5rem 0; }
+    .feature { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 0.75rem; text-align: center; }
+    .feature .icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+    .feature .label { color: #8b949e; font-size: 0.8rem; }
+    .ad-section { margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d; border-radius: 10px; text-align: center; min-height: 100px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .back-link { display: inline-block; margin-bottom: 1rem; color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    .recent-list { margin-top: 0.75rem; }
+    .recent-item { display: inline-block; background: #21262d; border-radius: 4px; padding: 0.2rem 0.5rem; margin: 0.2rem; font-size: 0.75rem; color: #8b949e; cursor: pointer; }
+    .recent-item:hover { color: #58a6ff; }
+    @media (max-width: 480px) { .header h1 { font-size: 1.5rem; } .features { grid-template-columns: 1fr 1fr; } .input-group { flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <div class="header">
+      <h1>▶️ YouTube Thumbnail Downloader</h1>
+      <p>Extract and download thumbnails from any YouTube video in all available resolutions.</p>
+    </div>
+
+    <div class="tool-card">
+      <div class="input-group">
+        <input type="text" id="urlInput" placeholder="Paste YouTube URL here... (e.g. https://youtu.be/dQw4w9WgXcQ)" />
+        <button id="fetchBtn" onclick="fetchThumbnails()">📥 Get Thumbnails</button>
+      </div>
+
+      <div class="url-tips" id="urlTips">
+        <span class="url-tip" onclick="document.getElementById('urlInput').value=this.textContent">https://youtube.com/watch?v=dQw4w9WgXcQ</span>
+        <span class="url-tip" onclick="document.getElementById('urlInput').value=this.textContent">https://youtu.be/dQw4w9WgXcQ</span>
+        <span class="url-tip" onclick="document.getElementById('urlInput').value=this.textContent">https://m.youtube.com/watch?v=dQw4w9WgXcQ</span>
+      </div>
+
+      <div class="status-msg" id="statusMsg"></div>
+
+      <div id="videoInfo" style="display:none; margin-bottom: 1rem;">
+        <div style="display:flex; align-items:center; gap:0.75rem; background:#0d1117; border-radius:8px; padding:0.75rem; border:1px solid #21262d;">
+          <img id="videoThumbSmall" src="" alt="" style="width:120px; border-radius:4px; aspect-ratio:16/9; object-fit:cover; background:#0d1117;">
+          <div>
+            <div id="videoTitle" style="font-weight:600; color:#c9d1d9; font-size:0.9rem; margin-bottom:0.25rem;"></div>
+            <div id="videoChannel" style="color:#8b949e; font-size:0.8rem;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumbnails" id="thumbnails">
+        <div style="font-size:0.9rem; color:#8b949e; margin-bottom:0.5rem;">Choose a thumbnail quality to download:</div>
+        <div class="thumbnail-grid" id="thumbnailGrid"></div>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="icon">🎯</div>
+        <div class="label">All Qualities</div>
+      </div>
+      <div class="feature">
+        <div class="icon">⚡</div>
+        <div class="label">Instant Results</div>
+      </div>
+      <div class="feature">
+        <div class="icon">📥</div>
+        <div class="label">Free Download</div>
+      </div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section">
+      <script type="text/javascript">
+        (function() {
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            document.currentScript.parentNode.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="footer">
+      <p><a href="../../">Free Web Tools</a> &middot; YouTube Thumbnail Downloader &middot; No data stored or tracked</p>
+      <p style="margin-top:0.3rem;">All processing is client-side. We do not host or store any YouTube content.</p>
+    </div>
+  </div>
+
+  <script>
+    function extractVideoId(url) {
+      if (!url) return null;
+      // Handle various YouTube URL formats
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+        /^([a-zA-Z0-9_-]{11})$/
+      ];
+      for (const p of patterns) {
+        const m = url.match(p);
+        if (m) return m[1];
+      }
+      return null;
+    }
+
+    const THUMBNAIL_QUALITIES = [
+      { id: 'maxresdefault', label: 'Max Resolution', res: '3840×2160 / 1920×1080', badge: '4K/HD' },
+      { id: 'sddefault', label: 'Standard HD', res: '640×480', badge: 'SD' },
+      { id: 'hqdefault', label: 'High Quality', res: '480×360', badge: 'HQ' },
+      { id: 'mqdefault', label: 'Medium Quality', res: '320×180', badge: 'MQ' },
+      { id: 'default', label: 'Default', res: '120×90', badge: 'SD' },
+    ];
+
+    let recentVideos = JSON.parse(localStorage.getItem('ytRecent') || '[]');
+
+    function fetchThumbnails() {
+      const url = document.getElementById('urlInput').value.trim();
+      const videoId = extractVideoId(url);
+      const statusMsg = document.getElementById('statusMsg');
+      const fetchBtn = document.getElementById('fetchBtn');
+
+      if (!videoId) {
+        showStatus('❌ Invalid YouTube URL. Please paste a valid YouTube video link.', 'error');
+        return;
+      }
+
+      fetchBtn.disabled = true;
+      fetchBtn.textContent = '⏳ Loading...';
+      showStatus('🔍 Extracting thumbnails...', 'info');
+
+      // Add to recent
+      if (!recentVideos.includes(videoId)) {
+        recentVideos.unshift(videoId);
+        if (recentVideos.length > 5) recentVideos.pop();
+        localStorage.setItem('ytRecent', JSON.stringify(recentVideos));
+      }
+
+      // Try to fetch video info via oEmbed API (no API key needed)
+      const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
+      
+      fetch(oembedUrl)
+        .then(r => r.json())
+        .then(data => {
+          document.getElementById('videoTitle').textContent = data.title || 'Unknown Video';
+          document.getElementById('videoChannel').textContent = data.author_name || 'Unknown Channel';
+          document.getElementById('videoThumbSmall').src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+          document.getElementById('videoInfo').style.display = 'block';
+        })
+        .catch(() => {
+          // oEmbed might be blocked - still show thumbnails
+          document.getElementById('videoInfo').style.display = 'none';
+        });
+
+      // Generate thumbnails
+      const grid = document.getElementById('thumbnailGrid');
+      grid.innerHTML = '';
+      document.getElementById('thumbnails').classList.add('show');
+
+      THUMBNAIL_QUALITIES.forEach(q => {
+        const imgUrl = `https://img.youtube.com/vi/${videoId}/${q.id}.jpg`;
+        const item = document.createElement('div');
+        item.className = 'thumbnail-item';
+        item.innerHTML = `
+          <img src="${imgUrl}" alt="${q.label}" loading="lazy" onerror="this.parentElement.style.display='none'">
+          <div class="thumbnail-info">
+            <div>
+              <div class="quality">${q.label} <span style="background:#1f6feb22;color:#58a6ff;font-size:0.7rem;padding:0.1rem 0.4rem;border-radius:4px;margin-left:0.3rem;">${q.badge}</span></div>
+              <div class="resolution">${q.res}</div>
+            </div>
+            <a class="download-btn" href="${imgUrl}" download="youtube_${videoId}_${q.id}.jpg" target="_blank">⬇ Download</a>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+
+      fetchBtn.disabled = false;
+      fetchBtn.textContent = '📥 Get Thumbnails';
+      showStatus('✅ Thumbnails found! Click Download to save.', 'success');
+    }
+
+    function showStatus(msg, type) {
+      const el = document.getElementById('statusMsg');
+      el.className = 'status-msg ' + type;
+      el.textContent = msg;
+    }
+
+    // Allow Enter key to submit
+    document.getElementById('urlInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') fetchThumbnails();
+    });
+  </script>
+
+  <!-- GDPR Cookie Consent -->
+  <div id="gdprBanner" style="position:fixed;bottom:0;left:0;right:0;background:#161b22;border-top:1px solid #30363d;padding:1rem;z-index:9999;display:none;font-size:0.85rem;">
+    <div style="max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+      <p style="color:#8b949e;flex:1;min-width:200px;">🍪 This site uses cookies from ad networks. <a href="../../privacy/" style="color:#58a6ff;">Privacy Policy</a></p>
+      <div style="display:flex;gap:0.5rem;">
+        <button onclick="localStorage.setItem('gdpr_consent','accepted');document.getElementById('gdprBanner').style.display='none'" style="background:#238636;border:none;border-radius:6px;color:#fff;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;">✅ Accept</button>
+        <button onclick="localStorage.setItem('gdpr_consent','declined');document.getElementById('gdprBanner').style.display='none'" style="background:#21262d;border:1px solid #30363d;border-radius:6px;color:#8b949e;padding:0.5rem 1.2rem;cursor:pointer;font-weight:600;">✋ Decline</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    if (localStorage.getItem('gdpr_consent') === null) { document.getElementById('gdprBanner').style.display = 'block'; }
+  </script>
+</body>
+</html>

@@ -105,4 +105,24 @@
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/qr-reader/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/yt-thumbnail/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/apps/markdown-editor/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://aymanviola1-creator.github.io/free-web-tools/privacy/</loc>
+    <priority>0.3</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>

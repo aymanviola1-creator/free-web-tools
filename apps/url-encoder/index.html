@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Encoder / Decoder – Encode & Decode URLs Online</title>
+  <meta name="description" content="Free online URL encoder and decoder. Encode or decode URLs, query strings, and special characters instantly. Supports full UTF-8 and RFC 3986 compliance.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 680px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+
+    .input-group { margin-bottom: 1rem; }
+    .input-group label { font-size: 0.85rem; color: #c9d1d9; font-weight: 600; margin-bottom: 0.4rem; display: block; }
+    .input-group textarea, .input-group input {
+      width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.8rem; color: #e4e6ec; font-size: 0.9rem; font-family: 'Courier New', monospace;
+      outline: none; resize: vertical;
+    }
+    .input-group textarea:focus, .input-group input:focus { border-color: #58a6ff; }
+    .input-group textarea { min-height: 120px; line-height: 1.5; }
+
+    .mode-toggle {
+      display: flex; gap: 0; margin-bottom: 1.5rem; border-radius: 8px; overflow: hidden;
+      border: 1px solid #30363d; background: #0d1117;
+    }
+    .mode-btn {
+      flex: 1; padding: 0.7rem; text-align: center; cursor: pointer;
+      font-size: 0.85rem; font-weight: 600; transition: all 0.2s;
+      color: #8b949e; background: transparent; border: none;
+    }
+    .mode-btn.active { background: #1f6feb; color: #fff; }
+    .mode-btn:hover:not(.active) { background: #21262d; }
+
+    .actions { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .btn {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px;
+      color: #c9d1d9; padding: 0.6rem 1.2rem; cursor: pointer; font-size: 0.85rem;
+      transition: all 0.2s; font-weight: 600;
+    }
+    .btn:hover { background: #30363d; border-color: #58a6ff; }
+    .btn-encode { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .btn-encode:hover { background: #388bfd; }
+    .btn-decode { background: #238636; border-color: #238636; color: #fff; }
+    .btn-decode:hover { background: #2ea043; }
+    .btn-copy { background: #21262d; }
+    .btn-copy:hover { background: #30363d; border-color: #58a6ff; }
+
+    .result-box {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.8rem; min-height: 60px; word-break: break-all;
+      font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.5;
+      color: #e4e6ec; margin-top: 0.5rem; max-height: 200px; overflow-y: auto;
+    }
+    .result-label { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+    .result-label span { font-size: 0.85rem; color: #8b949e; font-weight: 600; }
+    .char-count { font-size: 0.75rem; color: #484f58; }
+    .char-count strong { color: #8b949e; }
+
+    .encoding-options { margin-bottom: 1rem; }
+    .encoding-options label { font-size: 0.8rem; color: #8b949e; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+    .encoding-options input[type="checkbox"] { accent-color: #58a6ff; }
+
+    .quick-examples { margin-top: 1rem; }
+    .quick-examples summary { cursor: pointer; color: #58a6ff; font-size: 0.8rem; }
+    .quick-examples .example { display: inline-block; background: #21262d; border: 1px solid #30363d; border-radius: 4px; padding: 0.3rem 0.6rem; font-size: 0.75rem; color: #c9d1d9; cursor: pointer; margin: 0.2rem; transition: all 0.15s; }
+    .quick-examples .example:hover { border-color: #58a6ff; }
+
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>🔗 URL Encoder / Decoder</h1>
+    <p class="subtitle">Encode or decode URLs and query strings instantly</p>
+
+    <div class="card">
+      <div class="mode-toggle">
+        <button class="mode-btn active" data-mode="encode">🔒 Encode</button>
+        <button class="mode-btn" data-mode="decode">🔓 Decode</button>
+      </div>
+
+      <div class="input-group">
+        <label for="inputText">Input</label>
+        <textarea id="inputText" placeholder="Paste text to encode or decode here...">https://example.com/search?q=hello world&category=web & tools</textarea>
+      </div>
+
+      <div class="encoding-options">
+        <label><input type="checkbox" id="encodeAll"> Encode all special characters (RFC 3986 strict)</label>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-encode" id="encodeBtn">🔒 Encode</button>
+        <button class="btn btn-decode" id="decodeBtn">🔓 Decode</button>
+        <button class="btn" id="clearBtn">🗑️ Clear</button>
+        <button class="btn btn-copy" id="copyBtn">📋 Copy Result</button>
+      </div>
+
+      <div class="result-label">
+        <span>Result</span>
+        <span class="char-count">Chars: <strong id="charCount">0</strong></span>
+      </div>
+      <div class="result-box" id="resultBox">Click Encode or Decode to see the result...</div>
+
+      <details class="quick-examples">
+        <summary>Quick examples</summary>
+        <div style="margin-top:0.5rem;">
+          <span class="example" data-text="hello world">hello world</span>
+          <span class="example" data-text="a & b + c = d">a & b + c = d</span>
+          <span class="example" data-text="https://example.com/path?name=John Doe&age=25">URL with query</span>
+          <span class="example" data-text="100% of profits + tax">Percentage & plus</span>
+          <span class="example" data-text="你好世界">Chinese characters</span>
+          <span class="example" data-text="スペシャル文字">Japanese characters</span>
+        </div>
+      </details>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="footer">
+      <p>Free URL Encoder/Decoder &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var inputText = document.getElementById('inputText');
+      var resultBox = document.getElementById('resultBox');
+      var charCount = document.getElementById('charCount');
+      var encodeBtn = document.getElementById('encodeBtn');
+      var decodeBtn = document.getElementById('decodeBtn');
+      var clearBtn = document.getElementById('clearBtn');
+      var copyBtn = document.getElementById('copyBtn');
+      var encodeAll = document.getElementById('encodeAll');
+      var modeBtns = document.querySelectorAll('.mode-btn');
+
+      var currentMode = 'encode';
+
+      modeBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          modeBtns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          currentMode = btn.dataset.mode;
+        });
+      });
+
+      function doEncode() {
+        var text = inputText.value;
+        if (!text) { resultBox.textContent = 'Please enter some text to encode.'; updateCount(); return; }
+        try {
+          var result;
+          if (encodeAll.checked) {
+            result = encodeURIComponent(text);
+          } else {
+            result = encodeURI(text);
+          }
+          resultBox.textContent = result;
+        } catch(e) {
+          resultBox.textContent = 'Error: ' + e.message;
+        }
+        updateCount();
+      }
+
+      function doDecode() {
+        var text = inputText.value;
+        if (!text) { resultBox.textContent = 'Please enter some text to decode.'; updateCount(); return; }
+        try {
+          var result;
+          if (encodeAll.checked) {
+            result = decodeURIComponent(text);
+          } else {
+            result = decodeURI(text);
+          }
+          resultBox.textContent = result;
+        } catch(e) {
+          resultBox.textContent = 'Error: Invalid encoded URL — ' + e.message;
+        }
+        updateCount();
+      }
+
+      function updateCount() {
+        charCount.textContent = resultBox.textContent.length;
+      }
+
+      encodeBtn.addEventListener('click', function() { currentMode = 'encode'; doEncode(); });
+      decodeBtn.addEventListener('click', function() { currentMode = 'decode'; doDecode(); });
+
+      clearBtn.addEventListener('click', function() {
+        inputText.value = '';
+        resultBox.textContent = 'Cleared. Enter text and click Encode or Decode.';
+        updateCount();
+      });
+
+      copyBtn.addEventListener('click', function() {
+        var text = resultBox.textContent;
+        if (!text || text.startsWith('Click') || text.startsWith('Please') || text.startsWith('Cleared') || text.startsWith('Error')) return;
+        navigator.clipboard.writeText(text).then(function() {
+          var orig = copyBtn.textContent;
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(function() { copyBtn.textContent = orig; }, 1500);
+        });
+      });
+
+      document.querySelectorAll('.example').forEach(function(el) {
+        el.addEventListener('click', function() {
+          inputText.value = this.dataset.text;
+          if (currentMode === 'encode') doEncode(); else doDecode();
+        });
+      });
+
+      // Real-time
+      inputText.addEventListener('input', function() {
+        if (currentMode === 'encode') doEncode(); else doDecode();
+      });
+
+      encodeAll.addEventListener('change', function() {
+        if (currentMode === 'encode') doEncode(); else doDecode();
+      });
+
+      doEncode();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Diff Checker – Compare Text Online</title>
+  <meta name="description" content="Free online text diff checker. Compare two texts side-by-side, find differences instantly. Highlight additions, deletions, and changes. No upload required.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 900px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+
+    .editor-row { display: flex; gap: 1rem; margin-bottom: 1rem; }
+    .editor-col { flex: 1; display: flex; flex-direction: column; }
+    .editor-col label { font-size: 0.85rem; color: #8b949e; margin-bottom: 0.4rem; font-weight: 600; }
+    .editor-col textarea {
+      width: 100%; min-height: 220px; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; padding: 0.8rem; color: #e4e6ec; font-size: 0.85rem;
+      font-family: 'Courier New', monospace; resize: vertical; outline: none; line-height: 1.5;
+    }
+    .editor-col textarea:focus { border-color: #58a6ff; }
+
+    .actions { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .btn {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px;
+      color: #c9d1d9; padding: 0.6rem 1.2rem; cursor: pointer; font-size: 0.85rem;
+      transition: all 0.2s; font-weight: 600;
+    }
+    .btn:hover { background: #30363d; border-color: #58a6ff; }
+    .btn-primary { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .btn-primary:hover { background: #388bfd; }
+    .btn-success { background: #238636; border-color: #238636; color: #fff; }
+    .btn-success:hover { background: #2ea043; }
+
+    .diff-output {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      min-height: 200px; padding: 1rem; font-family: 'Courier New', monospace;
+      font-size: 0.8rem; line-height: 1.6; white-space: pre-wrap; overflow-x: auto;
+      max-height: 400px; overflow-y: auto;
+    }
+    .diff-output .added { background: rgba(35,134,54,0.3); color: #7ee787; display: block; }
+    .diff-output .removed { background: rgba(248,81,73,0.3); color: #ffa198; display: block; }
+    .diff-output .unchanged { color: #8b949e; display: block; }
+    .diff-output .line-num {
+      display: inline-block; width: 2.5rem; color: #484f58;
+      user-select: none; text-align: right; margin-right: 0.8rem;
+    }
+    .diff-stats { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .stat { font-size: 0.8rem; color: #8b949e; }
+    .stat strong { color: #c9d1d9; }
+    .stat .add { color: #7ee787; }
+    .stat .del { color: #ffa198; }
+
+    .swap-btn { background: none; border: 1px solid #30363d; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; color: #8b949e; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; align-self: flex-end; margin-bottom: 0.4rem; transition: all 0.2s; flex-shrink: 0; }
+    .swap-btn:hover { border-color: #58a6ff; color: #58a6ff; }
+    .editor-header { display: flex; align-items: center; gap: 0.5rem; }
+    .editor-header label { flex: 1; }
+
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    .footer a { color: #58a6ff; }
+    @media (max-width: 640px) { h1 { font-size: 1.5rem; } .editor-row { flex-direction: column; } .editor-col textarea { min-height: 150px; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>📝 Text Diff Checker</h1>
+    <p class="subtitle">Compare two texts and find every difference — instantly</p>
+
+    <div class="card">
+      <div class="diff-stats" id="stats">
+        <span class="stat">Added: <strong class="add" id="addCount">0</strong> lines</span>
+        <span class="stat">Removed: <strong class="del" id="delCount">0</strong> lines</span>
+        <span class="stat">Unchanged: <strong id="sameCount">0</strong> lines</span>
+      </div>
+
+      <div class="editor-row">
+        <div class="editor-col">
+          <div class="editor-header">
+            <label for="textA">Original Text</label>
+            <button class="swap-btn" id="swapBtn" title="Swap texts">⇄</button>
+          </div>
+          <textarea id="textA" placeholder="Paste original text here...">Hello world
+This is a test
+Third line here</textarea>
+        </div>
+        <div class="editor-col">
+          <label for="textB">Changed Text</label>
+          <textarea id="textB" placeholder="Paste modified text here...">Hello everyone
+This is a test
+Fourth line added</textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="diffBtn">🔍 Compare</button>
+        <button class="btn" id="clearBtn">🗑️ Clear All</button>
+        <button class="btn" id="copyDiffBtn">📋 Copy Result</button>
+      </div>
+
+      <label style="font-size:0.85rem;color:#8b949e;font-weight:600;margin-bottom:0.4rem;display:block;">Diff Result</label>
+      <div class="diff-output" id="diffOutput">
+        <span style="color:#484f58;">Click "Compare" to see differences...</span>
+      </div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="footer">
+      <p>Free Text Diff Checker &middot; 100% client-side &middot; <a href="../../">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var textA = document.getElementById('textA');
+      var textB = document.getElementById('textB');
+      var output = document.getElementById('diffOutput');
+      var addCount = document.getElementById('addCount');
+      var delCount = document.getElementById('delCount');
+      var sameCount = document.getElementById('sameCount');
+      var swapBtn = document.getElementById('swapBtn');
+      var diffBtn = document.getElementById('diffBtn');
+      var clearBtn = document.getElementById('clearBtn');
+      var copyBtn = document.getElementById('copyDiffBtn');
+
+      function computeDiff(aLines, bLines) {
+        var m = aLines.length, n = bLines.length;
+        var dp = [];
+        for (var i = 0; i <= m; i++) { dp[i] = []; dp[i][0] = i; }
+        for (var j = 0; j <= n; j++) { dp[0][j] = j; }
+        for (i = 1; i <= m; i++) {
+          for (j = 1; j <= n; j++) {
+            var cost = aLines[i-1] === bLines[j-1] ? 0 : 1;
+            dp[i][j] = Math.min(dp[i-1][j] + 1, dp[i][j-1] + 1, dp[i-1][j-1] + cost);
+          }
+        }
+
+        var result = [];
+        i = m; j = n;
+        while (i > 0 || j > 0) {
+          if (i > 0 && j > 0 && aLines[i-1] === bLines[j-1]) {
+            result.unshift({ type: 'same', text: aLines[i-1] });
+            i--; j--;
+          } else if (j > 0 && (i === 0 || dp[i][j-1] <= dp[i-1][j])) {
+            result.unshift({ type: 'add', text: bLines[j-1] });
+            j--;
+          } else if (i > 0) {
+            result.unshift({ type: 'del', text: aLines[i-1] });
+            i--;
+          }
+        }
+        return result;
+      }
+
+      function runDiff() {
+        var aText = textA.value;
+        var bText = textB.value;
+        var aLines = aText.split('\n');
+        var bLines = bText.split('\n');
+
+        if (!aText && !bText) {
+          output.innerHTML = '<span style="color:#484f58;">Enter text in both panels and click Compare...</span>';
+          addCount.textContent = '0';
+          delCount.textContent = '0';
+          sameCount.textContent = '0';
+          return;
+        }
+
+        var diff = computeDiff(aLines, bLines);
+        var html = '';
+        var adds = 0, dels = 0, sames = 0;
+
+        var lineNum = 0;
+        diff.forEach(function(part) {
+          if (part.type === 'add') {
+            lineNum++;
+            html += '<span class="added"><span class="line-num">' + lineNum + '</span>+ ' + escapeHtml(part.text) + '</span>';
+            adds++;
+          } else if (part.type === 'del') {
+            lineNum++;
+            html += '<span class="removed"><span class="line-num">' + lineNum + '</span>− ' + escapeHtml(part.text) + '</span>';
+            dels++;
+          } else {
+            lineNum++;
+            html += '<span class="unchanged"><span class="line-num">' + lineNum + '</span>  ' + escapeHtml(part.text) + '</span>';
+            sames++;
+          }
+        });
+
+        output.innerHTML = html || '<span style="color:#484f58;">No differences found — texts are identical.</span>';
+        addCount.textContent = adds;
+        delCount.textContent = dels;
+        sameCount.textContent = sames;
+      }
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      diffBtn.addEventListener('click', runDiff);
+
+      swapBtn.addEventListener('click', function() {
+        var tmp = textA.value;
+        textA.value = textB.value;
+        textB.value = tmp;
+        runDiff();
+      });
+
+      clearBtn.addEventListener('click', function() {
+        textA.value = '';
+        textB.value = '';
+        output.innerHTML = '<span style="color:#484f58;">Enter text in both panels and click Compare...</span>';
+        addCount.textContent = '0';
+        delCount.textContent = '0';
+        sameCount.textContent = '0';
+      });
+
+      copyBtn.addEventListener('click', function() {
+        var txt = output.textContent || '';
+        navigator.clipboard.writeText(txt).then(function() {
+          var orig = copyBtn.textContent;
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(function() { copyBtn.textContent = orig; }, 1500);
+        });
+      });
+
+      // Auto-diff on paste
+      textA.addEventListener('input', runDiff);
+      textB.addEventListener('input', runDiff);
+
+      runDiff();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Picker & Converter – HEX, RGB, HSL</title>
+  <meta name="description" content="Free online color picker with HEX, RGB, and HSL conversion. Pick colors from a visual palette, generate color harmonies, and copy color values instantly.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 640px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+
+    .color-preview {
+      width: 100%; height: 160px; border-radius: 8px; margin-bottom: 1.5rem;
+      border: 2px solid #30363d; transition: background 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .color-preview .hex-label {
+      background: rgba(0,0,0,0.6); padding: 0.4rem 1rem; border-radius: 6px;
+      font-family: 'Courier New', monospace; font-size: 1.2rem; letter-spacing: 0.5px;
+      backdrop-filter: blur(4px);
+    }
+    .picker-row { display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; }
+    .picker-row input[type="color"] {
+      width: 64px; height: 64px; border: 2px solid #30363d; border-radius: 8px;
+      cursor: pointer; background: none; padding: 2px;
+    }
+    .picker-row input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    .picker-row input[type="color"]::-webkit-color-swatch { border: none; border-radius: 6px; }
+
+    .value-grid { display: grid; gap: 0.75rem; }
+    .value-row { display: flex; align-items: center; gap: 0.5rem; }
+    .value-row label { width: 48px; color: #8b949e; font-size: 0.85rem; font-weight: 600; }
+    .value-row input {
+      flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.6rem 0.8rem; color: #e4e6ec; font-size: 0.9rem; font-family: 'Courier New', monospace;
+      outline: none;
+    }
+    .value-row input:focus { border-color: #58a6ff; }
+    .value-row .copy-btn {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px;
+      color: #c9d1d9; padding: 0.6rem 0.8rem; cursor: pointer; font-size: 0.85rem;
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .value-row .copy-btn:hover { background: #30363d; border-color: #58a6ff; }
+    .value-row .copy-btn.copied { background: #238636; border-color: #2ea043; color: #fff; }
+
+    .harmonies { margin-top: 1.5rem; }
+    .harmonies h3 { color: #c9d1d9; font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .harmony-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+    .harmony-swatch {
+      border-radius: 6px; height: 50px; border: 1px solid #30363d;
+      display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 4px; font-size: 0.6rem; color: rgba(255,255,255,0.7);
+      cursor: pointer; transition: transform 0.15s;
+    }
+    .harmony-swatch:hover { transform: scale(1.05); }
+
+    .slider-group { margin-bottom: 1rem; }
+    .slider-group label { display: flex; justify-content: space-between; color: #c9d1d9; font-size: 0.85rem; margin-bottom: 0.3rem; }
+    .slider-group input[type="range"] { width: 100%; accent-color: #58a6ff; background: #21262d; height: 6px; border-radius: 3px; -webkit-appearance: none; }
+    .slider-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #58a6ff; cursor: pointer; border: 2px solid #fff; }
+
+    .bottom-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .btn {
+      flex: 1; background: #21262d; border: 1px solid #30363d; border-radius: 6px;
+      color: #c9d1d9; padding: 0.7rem; cursor: pointer; font-size: 0.85rem;
+      transition: all 0.2s; text-align: center;
+    }
+    .btn:hover { background: #30363d; border-color: #58a6ff; }
+
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { text-decoration: underline; }
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; }
+    @media (max-width: 480px) { h1 { font-size: 1.5rem; } .harmony-grid { grid-template-columns: repeat(5, 1fr); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← Back to all tools</a>
+    <h1>🎨 Color Picker</h1>
+    <p class="subtitle">Pick, convert, and harmonize colors — all in your browser</p>
+
+    <div class="card">
+      <div class="color-preview" id="colorPreview">
+        <span class="hex-label" id="hexLabel">#1f6feb</span>
+      </div>
+
+      <div class="picker-row">
+        <input type="color" id="colorPicker" value="#1f6feb">
+        <div style="flex:1;font-size:0.85rem;color:#8b949e;">Click the square to pick any color</div>
+      </div>
+
+      <div class="slider-group">
+        <label><span>Hue</span><span id="hueVal">217</span></label>
+        <input type="range" id="hueSlider" min="0" max="360" value="217">
+      </div>
+      <div class="slider-group">
+        <label><span>Saturation</span><span id="satVal">85%</span></label>
+        <input type="range" id="satSlider" min="0" max="100" value="85">
+      </div>
+      <div class="slider-group">
+        <label><span>Lightness</span><span id="ligVal">52%</span></label>
+        <input type="range" id="ligSlider" min="0" max="100" value="52">
+      </div>
+
+      <div class="value-grid">
+        <div class="value-row">
+          <label>HEX</label>
+          <input type="text" id="hexValue" value="#1f6feb" readonly>
+          <button class="copy-btn" data-copy="hexValue">Copy</button>
+        </div>
+        <div class="value-row">
+          <label>RGB</label>
+          <input type="text" id="rgbValue" value="rgb(31, 111, 235)" readonly>
+          <button class="copy-btn" data-copy="rgbValue">Copy</button>
+        </div>
+        <div class="value-row">
+          <label>HSL</label>
+          <input type="text" id="hslValue" value="hsl(217, 85%, 52%)" readonly>
+          <button class="copy-btn" data-copy="hslValue">Copy</button>
+        </div>
+      </div>
+
+      <div class="harmonies">
+        <h3>🎯 Color Harmonies</h3>
+        <div class="harmony-grid" id="harmonyGrid"></div>
+      </div>
+    </div>
+
+    <!-- Adsterra Ad -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <div class="footer">
+      <p>Free Color Picker Tool &middot; 100% client-side &middot; <a href="../../" style="color:#58a6ff;">More Tools</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var picker = document.getElementById('colorPicker');
+      var preview = document.getElementById('colorPreview');
+      var hexLabel = document.getElementById('hexLabel');
+      var hexVal = document.getElementById('hexValue');
+      var rgbVal = document.getElementById('rgbValue');
+      var hslVal = document.getElementById('hslValue');
+      var hS = document.getElementById('hueSlider');
+      var sS = document.getElementById('satSlider');
+      var lS = document.getElementById('ligSlider');
+      var hV = document.getElementById('hueVal');
+      var sV = document.getElementById('satVal');
+      var lV = document.getElementById('ligVal');
+      var harmonyGrid = document.getElementById('harmonyGrid');
+
+      function hslToHex(h, s, l) {
+        s /= 100; l /= 100;
+        var a = s * Math.min(l, 1 - l);
+        var f = function(n) {
+          var k = (n + h / 30) % 12;
+          var color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+          return Math.round(255 * color).toString(16).padStart(2, '0');
+        };
+        return '#' + f(0) + f(8) + f(4);
+      }
+
+      function hexToRgb(hex) {
+        hex = hex.replace('#', '');
+        if (hex.length === 3) hex = hex.split('').map(function(c) { return c + c; }).join('');
+        var num = parseInt(hex, 16);
+        return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+      }
+
+      function rgbToHsl(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, l = (max + min) / 2;
+        if (max === min) { h = s = 0; }
+        else {
+          var d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          switch (max) {
+            case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+            case g: h = ((b - r) / d + 2) / 6; break;
+            case b: h = ((r - g) / d + 4) / 6; break;
+          }
+        }
+        return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+      }
+
+      function updateFromPicker() {
+        var hex = picker.value;
+        var rgb = hexToRgb(hex);
+        var hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+        hS.value = hsl.h;
+        sS.value = hsl.s;
+        lS.value = hsl.l;
+        updateDisplay(hex, rgb, hsl);
+      }
+
+      function updateFromSliders() {
+        var h = parseInt(hS.value);
+        var s = parseInt(sS.value);
+        var l = parseInt(lS.value);
+        var hex = hslToHex(h, s, l);
+        var rgb = hexToRgb(hex);
+        picker.value = hex;
+        updateDisplay(hex, rgb, { h: h, s: s, l: l });
+      }
+
+      function updateDisplay(hex, rgb, hsl) {
+        preview.style.background = hex;
+        hexLabel.textContent = hex;
+        hexLabel.style.color = (hsl.l > 60) ? '#000' : '#fff';
+        hexVal.value = hex;
+        rgbVal.value = 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')';
+        hslVal.value = 'hsl(' + hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%)';
+        hV.textContent = hsl.h;
+        sV.textContent = hsl.s + '%';
+        lV.textContent = hsl.l + '%';
+        updateHarmonies(hsl);
+      }
+
+      function updateHarmonies(hsl) {
+        var harmonies = [
+          { name: 'Complementary', h: (hsl.h + 180) % 360, s: hsl.s, l: hsl.l },
+          { name: 'Analogous 1', h: (hsl.h + 30) % 360, s: hsl.s, l: hsl.l },
+          { name: 'Analogous 2', h: (hsl.h - 30 + 360) % 360, s: hsl.s, l: hsl.l },
+          { name: 'Triadic 1', h: (hsl.h + 120) % 360, s: hsl.s, l: hsl.l },
+          { name: 'Triadic 2', h: (hsl.h + 240) % 360, s: hsl.s, l: hsl.l }
+        ];
+        harmonyGrid.innerHTML = '';
+        harmonies.forEach(function(h) {
+          var hex = hslToHex(h.h, h.s, h.l);
+          var div = document.createElement('div');
+          div.className = 'harmony-swatch';
+          div.style.background = hex;
+          div.textContent = hex;
+          div.title = h.name + ': ' + hex;
+          div.addEventListener('click', function() {
+            var rgb = hexToRgb(hex);
+            var hsl2 = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            picker.value = hex;
+            hS.value = hsl2.h;
+            sS.value = hsl2.s;
+            lS.value = hsl2.l;
+            updateDisplay(hex, rgb, hsl2);
+          });
+          harmonyGrid.appendChild(div);
+        });
+      }
+
+      picker.addEventListener('input', updateFromPicker);
+      hS.addEventListener('input', updateFromSliders);
+      sS.addEventListener('input', updateFromSliders);
+      lS.addEventListener('input', updateFromSliders);
+
+      document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var id = this.dataset.copy;
+          var input = document.getElementById(id);
+          if (!input) return;
+          navigator.clipboard.writeText(input.value).then(function() {
+            var orig = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+          }).catch(function() {
+            input.select();
+            document.execCommand('copy');
+            var orig = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+          });
+        });
+      });
+
+      updateFromPicker();
+    })();
+  </script>
+</body>
+</html>

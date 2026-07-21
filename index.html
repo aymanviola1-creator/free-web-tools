@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Web Tools — agent-work</title>
-  <meta name="description" content="Collection of free, privacy-friendly online tools. No signup, no tracking, no ads.">
+  <title>Free Web Tools — Privacy-First Online Utilities</title>
+  <meta name="description" content="Collection of free, privacy-friendly online tools. No signup, no tracking, fully client-side. Password generator, QR code creator, text converter, and more.">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -15,9 +15,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem;
+      padding: 2rem 1rem;
     }
-    .container { max-width: 750px; width: 100%; }
+    .container { max-width: 800px; width: 100%; }
     .header { text-align: center; margin-bottom: 2.5rem; }
     .header h1 {
       font-size: 2.5rem;
@@ -28,12 +28,16 @@
       -webkit-text-fill-color: transparent;
     }
     .tagline { color: #8b949e; font-size: 1.1rem; }
-    .tools { display: grid; gap: 1rem; }
+    .section-title {
+      font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #c9d1d9;
+      border-bottom: 1px solid #21262d; padding-bottom: 0.5rem;
+    }
+    .tools { display: grid; gap: 0.75rem; margin-bottom: 2rem; }
     .tool-card {
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 10px;
-      padding: 1.25rem 1.5rem;
+      padding: 1rem 1.25rem;
       text-align: left;
       transition: all 0.2s ease;
       display: flex;
@@ -45,14 +49,35 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(88,166,255,0.1);
     }
-    .tool-card .icon { font-size: 2rem; width: 3rem; text-align: center; }
+    .tool-card .icon { font-size: 1.8rem; width: 2.5rem; text-align: center; flex-shrink: 0; }
     .tool-card .info { flex: 1; }
-    .tool-card .info h2 { font-size: 1.1rem; margin-bottom: 0.25rem; }
-    .tool-card .info p { color: #8b949e; font-size: 0.85rem; }
-    .tool-card .arrow { color: #8b949e; font-size: 1.2rem; }
+    .tool-card .info h2 { font-size: 1rem; margin-bottom: 0.15rem; color: #e4e6ec; }
+    .tool-card .info p { color: #8b949e; font-size: 0.8rem; }
+    .tool-card .arrow { color: #484f58; font-size: 1.1rem; flex-shrink: 0; }
+    .tool-card:hover .arrow { color: #58a6ff; }
     a { text-decoration: none; color: inherit; }
-    .footer { margin-top: 3rem; text-align: center; color: #484f58; font-size: 0.8rem; }
-    .stats { text-align: center; color: #484f58; font-size: 0.85rem; margin-top: 1.5rem; }
+    .badge {
+      display: inline-block; background: #1f6feb22; color: #58a6ff;
+      font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 999px;
+      border: 1px solid #1f6feb44; margin-left: 0.4rem; font-weight: 600;
+    }
+    .badge-new { background: #23863622; color: #3fb950; border-color: #23863644; }
+
+    /* Ad section */
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
+      border-radius: 10px; text-align: center; min-height: 100px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ad-placeholder { color: #484f58; font-size: 0.8rem; }
+
+    .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; line-height: 1.6; }
+    .footer a { color: #58a6ff; }
+    .stats { text-align: center; color: #484f58; font-size: 0.85rem; margin: 1rem 0; }
+
+    @media (max-width: 480px) {
+      .header h1 { font-size: 1.8rem; }
+    }
   </style>
 </head>
 <body>
@@ -62,7 +87,35 @@
       <p class="tagline">Privacy-first, client-side tools. No data leaves your browser.</p>
     </div>
 
+    <div class="section-title">🌟 Popular Tools</div>
     <div class="tools">
+      <a href="apps/qr-generator/" class="tool-card">
+        <span class="icon">📱</span>
+        <div class="info">
+          <h2>QR Code Generator <span class="badge badge-new">NEW</span></h2>
+          <p>Create QR codes from URLs, text, phone, SMS, or WiFi details. Download as PNG.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/password-generator/" class="tool-card">
+        <span class="icon">🔐</span>
+        <div class="info">
+          <h2>Password Generator <span class="badge badge-new">NEW</span></h2>
+          <p>Generate strong, secure random passwords with strength meter. Customizable options.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/case-converter/" class="tool-card">
+        <span class="icon">🔤</span>
+        <div class="info">
+          <h2>Text Case Converter <span class="badge badge-new">NEW</span></h2>
+          <p>Convert text between upper, lower, title, camel, pascal, snake, kebab, and more.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
       <a href="apps/md-to-html/" class="tool-card">
         <span class="icon">⌨️</span>
         <div class="info">
@@ -82,8 +135,50 @@
       </a>
     </div>
 
-    <p class="stats">✨ No ads · No tracking · No signup · Fully client-side</p>
-    <p class="footer">More tools coming soon · Built with ❤️</p>
+    <!-- Ad placement (Monetag / Adsterra / etc.) -->
+    <div class="ad-section" id="adContainer">
+      <div class="ad-placeholder">
+        📢 Ad space available — <strong>Monetize with ads</strong><br>
+        <span style="font-size:0.7rem;">Replace this with your ad network code (Adsterra, Monetag, etc.)</span>
+      </div>
+    </div>
+
+    <p class="stats">✨ 5 free tools · No tracking · No signup · Fully client-side</p>
+
+    <div class="footer">
+      <p>More tools added regularly &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a></p>
+      <p style="margin-top:0.3rem;">Built with ❤️ for privacy-conscious users worldwide</p>
+    </div>
   </div>
+
+  <script>
+    // Ad network injection (ready for Monetag / Adsterra)
+    (function() {
+      var adContainer = document.getElementById('adContainer');
+      if (!adContainer) return;
+
+      // ============================================
+      // TO ACTIVATE ADS: Uncomment one of the blocks below
+      // and replace with your actual ad network code
+      // ============================================
+
+      // ----- Adsterra Example -----
+      // var adScript = document.createElement('script');
+      // adScript.src = '//placoountry.com/ads/network.js';
+      // adScript.type = 'text/javascript';
+      // adScript.async = true;
+      // adContainer.innerHTML = '';
+      // adContainer.appendChild(adScript);
+
+      // ----- Monetag Example -----
+      // var mScript = document.createElement('script');
+      // mScript.src = 'https://your-monetag-tag.com/ad.js';
+      // mScript.async = true;
+      // adContainer.innerHTML = '';
+      // adContainer.appendChild(mScript);
+
+      console.log('✅ Ad slot ready — replace placeholder with ad network code to start earning');
+    })();
+  </script>
 </body>
 </html>

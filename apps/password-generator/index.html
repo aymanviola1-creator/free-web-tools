@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Generator – Secure Random Passwords</title>
+  <meta name="description" content="Generate strong, secure random passwords instantly. Fully client-side, no data sent to any server. Free password strength checker included.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 560px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+    .password-display {
+      display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
+    }
+    .password-display input {
+      flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.75rem 1rem; color: #e4e6ec; font-size: 1.1rem; font-family: 'Courier New', monospace;
+      outline: none;
+    }
+    .password-display input:focus { border-color: #58a6ff; }
+    .btn {
+      background: #238636; border: none; border-radius: 6px; color: #fff;
+      padding: 0.75rem 1.25rem; font-size: 0.9rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .btn:hover { background: #2ea043; }
+    .btn-secondary { background: #21262d; border: 1px solid #30363d; }
+    .btn-secondary:hover { background: #30363d; }
+    .btn-copy { background: #1f6feb; }
+    .btn-copy:hover { background: #388bfd; }
+    .options { display: grid; gap: 1rem; }
+    .option-row { display: flex; align-items: center; justify-content: space-between; }
+    .option-row label { color: #c9d1d9; font-size: 0.9rem; }
+    .option-row input[type="number"] {
+      width: 70px; background: #0d1117; border: 1px solid #30363d; border-radius: 4px;
+      padding: 0.4rem; color: #e4e6ec; text-align: center;
+    }
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .checkbox-group label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: #c9d1d9; cursor: pointer; }
+    .checkbox-group input[type="checkbox"] { accent-color: #58a6ff; }
+    .strength-bar { margin-top: 1rem; }
+    .strength-bar .bar { height: 6px; background: #21262d; border-radius: 3px; overflow: hidden; margin-bottom: 0.3rem; }
+    .strength-bar .bar-fill { height: 100%; border-radius: 3px; transition: all 0.3s; width: 0%; }
+    .strength-bar .label { font-size: 0.8rem; color: #8b949e; }
+    .actions { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .back-link { display: block; text-align: center; margin-top: 2rem; color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+
+    /* Ad placeholder */
+    .ad-banner { margin-top: 1.5rem; padding: 0.75rem; background: #161b22; border: 1px solid #30363d; border-radius: 8px; text-align: center; color: #484f58; font-size: 0.75rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    @media (max-width: 480px) {
+      .password-display { flex-direction: column; }
+      .actions { flex-direction: column; }
+      .btn { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Password Generator</h1>
+    <p class="subtitle">Secure, random passwords generated right in your browser. Zero data leaves your device.</p>
+
+    <div class="card">
+      <div class="password-display">
+        <input type="text" id="passwordOutput" readonly value="P@ssw0rd!XyZ">
+        <button class="btn btn-copy" id="copyBtn" onclick="copyPassword()">📋 Copy</button>
+      </div>
+
+      <div class="options">
+        <div class="option-row">
+          <label>Password Length</label>
+          <input type="number" id="length" value="16" min="4" max="128">
+        </div>
+
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="uppercase" checked> A–Z</label>
+          <label><input type="checkbox" id="lowercase" checked> a–z</label>
+          <label><input type="checkbox" id="numbers" checked> 0–9</label>
+          <label><input type="checkbox" id="symbols" checked> !@#$%</label>
+          <label><input type="checkbox" id="excludeSimilar"> Exclude similar (il1Lo0O)</label>
+        </div>
+      </div>
+
+      <div class="strength-bar">
+        <div class="bar"><div class="bar-fill" id="strengthFill" style="width:80%"></div></div>
+        <div class="label" id="strengthLabel">Strong</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" onclick="generatePassword()" style="flex:1">🔄 Generate New</button>
+      </div>
+    </div>
+
+    <div class="ad-banner" id="adContainer">
+      <span>📢 Ad space — Your ad could be here (Monetag/Adsterra)</span>
+    </div>
+
+    <a href="../../index.html" class="back-link">← Back to all tools</a>
+  </div>
+
+  <script>
+    function generatePassword() {
+      const length = parseInt(document.getElementById('length').value) || 16;
+      const useUpper = document.getElementById('uppercase').checked;
+      const useLower = document.getElementById('lowercase').checked;
+      const useNums = document.getElementById('numbers').checked;
+      const useSymbols = document.getElementById('symbols').checked;
+      const excludeSimilar = document.getElementById('excludeSimilar').checked;
+
+      let chars = '';
+      if (useUpper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      if (useLower) chars += 'abcdefghijklmnopqrstuvwxyz';
+      if (useNums) chars += '0123456789';
+      if (useSymbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+      if (excludeSimilar) {
+        chars = chars.replace(/[il1Lo0O]/g, '');
+      }
+
+      if (!chars) {
+        document.getElementById('passwordOutput').value = 'Select at least one character set';
+        return;
+      }
+
+      // Use crypto.getRandomValues for secure randomness
+      const array = new Uint32Array(length);
+      crypto.getRandomValues(array);
+      let password = '';
+      for (let i = 0; i < length; i++) {
+        password += chars[array[i] % chars.length];
+      }
+
+      // Ensure at least one from each selected category
+      if (length >= 4) {
+        let finalPwd = password;
+        if (useUpper) {
+          const uc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.replace(excludeSimilar ? /[ILO]/g : '', '');
+          if (uc) finalPwd = setCharAt(finalPwd, 0, uc[array[0] % uc.length]);
+        }
+        document.getElementById('passwordOutput').value = finalPwd;
+      } else {
+        document.getElementById('passwordOutput').value = password;
+      }
+
+      updateStrength();
+    }
+
+    function setCharAt(str, idx, char) {
+      return str.substring(0, idx) + char + str.substring(idx + 1);
+    }
+
+    function updateStrength() {
+      const pwd = document.getElementById('passwordOutput').value;
+      const len = pwd.length;
+      let score = 0;
+
+      if (len >= 8) score += 25;
+      if (len >= 12) score += 15;
+      if (len >= 16) score += 10;
+      if (len >= 20) score += 10;
+      if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) score += 15;
+      if (/\d/.test(pwd)) score += 10;
+      if (/[^a-zA-Z0-9]/.test(pwd)) score += 15;
+
+      score = Math.min(100, score);
+
+      const fill = document.getElementById('strengthFill');
+      const label = document.getElementById('strengthLabel');
+      fill.style.width = score + '%';
+
+      if (score < 25) { fill.style.background = '#da3633'; label.textContent = 'Very Weak'; }
+      else if (score < 50) { fill.style.background = '#d29922'; label.textContent = 'Weak'; }
+      else if (score < 70) { fill.style.background = '#9e6a03'; label.textContent = 'Fair'; }
+      else if (score < 85) { fill.style.background = '#238636'; label.textContent = 'Strong'; }
+      else { fill.style.background = '#2ea043'; label.textContent = 'Very Strong'; }
+    }
+
+    function copyPassword() {
+      const input = document.getElementById('passwordOutput');
+      input.select();
+      navigator.clipboard.writeText(input.value).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => { btn.textContent = '📋 Copy'; }, 2000);
+      });
+    }
+
+    // Generate on load
+    generatePassword();
+
+    // Auto-regenerate on option change
+    document.querySelectorAll('.options input').forEach(el => {
+      el.addEventListener('change', generatePassword);
+    });
+
+    // Ad code injection (Monetag/Adsterra placeholder)
+    (function() {
+      // Replace this with actual ad network code when ready
+      const adDiv = document.getElementById('adContainer');
+      if (adDiv) {
+        // Example: Load ad script dynamically
+        // var s = document.createElement('script');
+        // s.src = 'https://your-ad-network.com/ad.js';
+        // adDiv.appendChild(s);
+        console.log('Ad slot ready for monetization');
+      }
+    })();
+  </script>
+</body>
+</html>

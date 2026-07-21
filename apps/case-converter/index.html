@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Case Converter – Convert Text Case Online Free</title>
+  <meta name="description" content="Convert text between UPPER CASE, lower case, Title Case, camelCase, PascalCase, snake_case, kebab-case, and more. Free online text case converter.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 640px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+
+    .input-area textarea {
+      width: 100%; min-height: 140px; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; padding: 0.75rem; color: #e4e6ec; font-size: 0.95rem;
+      font-family: 'Courier New', monospace; resize: vertical; outline: none;
+    }
+    .input-area textarea:focus { border-color: #58a6ff; }
+
+    .stats-bar {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.75rem 0 1rem;
+      font-size: 0.8rem; color: #8b949e;
+    }
+    .stats-bar span { background: #21262d; padding: 0.25rem 0.6rem; border-radius: 4px; }
+
+    .case-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+    }
+    @media (max-width: 480px) { .case-grid { grid-template-columns: 1fr; } }
+
+    .case-btn {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.65rem 0.9rem; color: #c9d1d9; cursor: pointer; font-size: 0.85rem;
+      text-align: left; transition: all 0.2s; display: flex; flex-direction: column;
+    }
+    .case-btn:hover { border-color: #58a6ff; background: #1c2129; }
+    .case-btn .name { font-weight: 600; margin-bottom: 0.15rem; }
+    .case-btn .preview { font-size: 0.75rem; color: #8b949e; font-family: 'Courier New', monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .case-btn .preview.light { color: #484f58; }
+
+    .output-area {
+      margin-top: 1rem;
+    }
+    .output-area textarea {
+      width: 100%; min-height: 80px; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; padding: 0.75rem; color: #e4e6ec; font-size: 0.95rem;
+      font-family: 'Courier New', monospace; resize: vertical; outline: none;
+    }
+
+    .action-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+    .btn {
+      background: #238636; border: none; border-radius: 6px; color: #fff;
+      padding: 0.6rem 1.2rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #2ea043; }
+    .btn-copy { background: #1f6feb; }
+    .btn-copy:hover { background: #388bfd; }
+    .btn-clear { background: #21262d; border: 1px solid #30363d; }
+    .btn-clear:hover { background: #30363d; }
+    .btn-swap { background: #21262d; border: 1px solid #30363d; }
+    .btn-swap:hover { background: #30363d; }
+
+    .ad-banner { margin-top: 1.5rem; padding: 0.75rem; background: #161b22; border: 1px solid #30363d; border-radius: 8px; text-align: center; color: #484f58; font-size: 0.75rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+    .back-link { display: block; text-align: center; margin-top: 1.5rem; color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔤 Text Case Converter</h1>
+    <p class="subtitle">Convert text to any case instantly. No data sent to any server — all processing is local.</p>
+
+    <div class="card">
+      <div class="input-area">
+        <textarea id="inputText" placeholder="Type or paste your text here...">The quick brown fox jumps over the lazy dog</textarea>
+      </div>
+
+      <div class="stats-bar">
+        <span id="charCount">Characters: 0</span>
+        <span id="wordCount">Words: 0</span>
+        <span id="lineCount">Lines: 0</span>
+      </div>
+
+      <div class="case-grid" id="caseGrid">
+        <button class="case-btn" data-fn="upperCase"><span class="name">UPPER CASE</span><span class="preview light">THE QUICK BROWN...</span></button>
+        <button class="case-btn" data-fn="lowerCase"><span class="name">lower case</span><span class="preview light">the quick brown...</span></button>
+        <button class="case-btn" data-fn="titleCase"><span class="name">Title Case</span><span class="preview">The Quick Brown...</span></button>
+        <button class="case-btn" data-fn="sentenceCase"><span class="name">Sentence case</span><span class="preview">The quick brown...</span></button>
+        <button class="case-btn" data-fn="camelCase"><span class="name">camelCase</span><span class="preview">theQuickBrown...</span></button>
+        <button class="case-btn" data-fn="pascalCase"><span class="name">PascalCase</span><span class="preview">TheQuickBrown...</span></button>
+        <button class="case-btn" data-fn="snakeCase"><span class="name">snake_case</span><span class="preview">the_quick_brown...</span></button>
+        <button class="case-btn" data-fn="kebabCase"><span class="name">kebab-case</span><span class="preview">the-quick-brown...</span></button>
+        <button class="case-btn" data-fn="constantCase"><span class="name">CONSTANT_CASE</span><span class="preview light">THE_QUICK_BROWN...</span></button>
+        <button class="case-btn" data-fn="toggleCase"><span class="name">tOGGLE cASE</span><span class="preview">tHE QUICK BROWN...</span></button>
+        <button class="case-btn" data-fn="alternatingCase"><span class="name">AlTeRnAtInG cAsE</span><span class="preview">ThE qUiCk BrOwN...</span></button>
+        <button class="case-btn" data-fn="inverseCase"><span class="name">Inverse Case</span><span class="preview">tHE QUICK BROWN FOX...</span></button>
+      </div>
+
+      <div class="output-area">
+        <textarea id="outputText" placeholder="Converted text will appear here..." readonly></textarea>
+        <div class="action-row">
+          <button class="btn btn-copy" onclick="copyOutput()">📋 Copy Result</button>
+          <button class="btn btn-swap" onclick="swapText()">🔄 Swap Input/Output</button>
+          <button class="btn btn-clear" onclick="clearAll()">✕ Clear All</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-banner" id="adContainer">
+      <span>📢 Ad space — Your ad could be here (Monetag/Adsterra)</span>
+    </div>
+
+    <a href="../../index.html" class="back-link">← Back to all tools</a>
+  </div>
+
+  <script>
+    const inputEl = document.getElementById('inputText');
+    const outputEl = document.getElementById('outputText');
+
+    // Case conversion functions
+    const converters = {
+      upperCase: (s) => s.toUpperCase(),
+      lowerCase: (s) => s.toLowerCase(),
+      titleCase: (s) => s.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()),
+      sentenceCase: (s) => s.replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase()),
+      camelCase: (s) => s.replace(/[^a-zA-Z0-9]+(.)/g, (_, c) => c.toUpperCase()).replace(/^[A-Z]/, c => c.toLowerCase()).trim(),
+      pascalCase: (s) => s.replace(/[^a-zA-Z0-9]+(.)/g, (_, c) => c.toUpperCase()).replace(/^[a-z]/, c => c.toUpperCase()).trim(),
+      snakeCase: (s) => s.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '').toLowerCase(),
+      kebabCase: (s) => s.replace(/[^a-zA-Z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '').toLowerCase(),
+      constantCase: (s) => s.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '').toUpperCase(),
+      toggleCase: (s) => s.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join(''),
+      alternatingCase: (s) => s.split('').map((c, i) => i % 2 === 0 ? c.toUpperCase() : c.toLowerCase()).join(''),
+      inverseCase: (s) => {
+        // Inverse of what toggle would do per word
+        return s.split('').map(c => {
+          if (c === c.toUpperCase()) return c.toLowerCase();
+          if (c === c.toLowerCase()) return c.toUpperCase();
+          return c;
+        }).join('');
+      }
+    };
+
+    function updateStats() {
+      const text = inputEl.value;
+      document.getElementById('charCount').textContent = 'Characters: ' + text.length;
+      document.getElementById('wordCount').textContent = 'Words: ' + (text.trim() ? text.trim().split(/\s+/).length : 0);
+      document.getElementById('lineCount').textContent = 'Lines: ' + (text ? text.split('\n').length : 0);
+    }
+
+    function convert(fn) {
+      const text = inputEl.value;
+      if (!text) { outputEl.value = ''; return; }
+      try {
+        outputEl.value = converters[fn](text);
+      } catch(e) {
+        outputEl.value = 'Error: ' + e.message;
+      }
+    }
+
+    function copyOutput() {
+      outputEl.select();
+      navigator.clipboard.writeText(outputEl.value).then(() => {
+        const btn = document.querySelector('.btn-copy');
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => { btn.textContent = '📋 Copy Result'; }, 2000);
+      });
+    }
+
+    function swapText() {
+      const temp = inputEl.value;
+      inputEl.value = outputEl.value;
+      outputEl.value = temp;
+      updateStats();
+    }
+
+    function clearAll() {
+      inputEl.value = '';
+      outputEl.value = '';
+      updateStats();
+    }
+
+    // Button click handlers
+    document.querySelectorAll('.case-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        convert(this.dataset.fn);
+      });
+    });
+
+    // Update stats on input
+    inputEl.addEventListener('input', updateStats);
+
+    // Initialize
+    updateStats();
+    convert('titleCase');
+  </script>
+</body>
+</html>

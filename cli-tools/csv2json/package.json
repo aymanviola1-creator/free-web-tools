@@ -1,0 +1,11 @@
+{
+  "name": "csv2json",
+  "version": "1.0.0",
+  "description": "Convert CSV files to JSON — CLI tool for data processing",
+  "main": "index.js",
+  "bin": {
+    "csv2json": "index.js"
+  },
+  "keywords": ["csv", "json", "converter", "data", "cli"],
+  "license": "MIT"
+}

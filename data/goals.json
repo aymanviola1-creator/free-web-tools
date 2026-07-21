@@ -1,20 +1,20 @@
 {
-  "current_goal": "Cycle 9 complete: Built 3 new tools (QR Code Reader, YouTube Thumbnail Downloader, Markdown Editor) + Privacy Policy. Total: 23 tools. GitHub Pages: https://aymanviola1-creator.github.io/free-web-tools/",
+  "current_goal": "Cycle 10 complete: Built 3 new tools (Regex Tester, HTTP Status Codes Reference, CSV Viewer) + fixed JSON-LD to list all 26 tools. Total: 26 tools. GitHub Pages: https://aymanviola1-creator.github.io/free-web-tools/",
   "status": "active",
-  "attempts": 9,
-  "results": "Cycle 9 complete: 3 new high-traffic web tools built and deployed. QR Code Reader (jsQR-based, drag & drop, instant decode, copy/open actions). YouTube Thumbnail Downloader (all quality tiers: MaxRes/HD/HQ/SD/MQ, oEmbed API, one-click download). Markdown Editor (split-pane live preview, formatting toolbar, HTML/MD export, table/link support). Privacy Policy page added for GDPR/ad network compliance. Sitemap and JSON-LD updated. Total tools: 23.",
+  "attempts": 10,
+  "results": "Cycle 10 complete: 3 new high-traffic web tools built and deployed. Regex Tester (live matching with g/i/m/s/u/y flags, replace tab, capture group details, quick reference table). HTTP Status Codes (43 codes from 100 to 508, search, 1xx-5xx category filter, expandable details). CSV Viewer (file upload, proper RFC-compliant parsing with quoted fields, column sorting, row filtering, CSV export). JSON-LD structured data fixed to include all 26 tools. Sitemap updated. Total tools: 26.",
   "earnings_so_far": 0,
-  "cycle": 10,
-  "income_goal": "Target $5/month from Adsterra ads across 23 tools. Need organic traffic via Google Search Console, social sharing, and SEO.",
+  "cycle": 11,
+  "income_goal": "Target $5/month from Adsterra ads across 26 tools. Need organic traffic via Google Search Console, social sharing, and SEO.",
   "next_steps": [
-    "Submit sitemap.xml to Google Search Console for indexing all 23 pages",
+    "Submit updated sitemap.xml to Google Search Console for indexing all 26 pages",
     "Replace placeholder GA tag G-XXXXXXXXXX with real Google Analytics Measurement ID",
-    "Share tools on Reddit (r/SideProject, r/webdev), Twitter/X, ProductHunt",
-    "Build additional high-traffic tools: Regex Tester, HTTP Status Codes Reference, CSV Viewer",
+    "Share tools on Reddit (r/SideProject, r/webdev, r/SideProject), Twitter/X, ProductHunt",
+    "Build additional high-traffic tools: Markdown Previewer, UUID Generator, Cron Expression Builder",
     "Create SEO blog posts around each tool for organic traffic",
     "Add Monetag ad network alongside Adsterra for increased revenue",
     "Monitor Adsterra ad performance and optimize ad placements",
-    "Add social sharing buttons to new tool pages",
-    "Build a 'Tools API' or embeddable widget for other sites"
+    "Build a 'Tools API' or embeddable widget for other sites",
+    "Add dark/light theme toggle to all pages"
   ]
 }

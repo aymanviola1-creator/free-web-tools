@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pro Bundle — 35 Premium Web Tools | Free Web Tools</title>
+  <meta name="description" content="Get all 35 premium web tools in one downloadable bundle. Offline mode, no ads, premium features. One-time payment in crypto.">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --text: #e6edf3;
+      --text-secondary: #8b949e;
+      --text-muted: #6e7681;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --success: #3fb950;
+      --warning: #d29922;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 1.5rem; }
+    h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.4rem; margin: 2rem 0 1rem; color: var(--accent); }
+    .subtitle { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; }
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: linear-gradient(135deg, #161b22 0%, #1c2333 100%);
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+    }
+    .hero h1 { font-size: 2.4rem; background: linear-gradient(135deg, #f7931a, #e67e22); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .price { font-size: 2rem; font-weight: 800; margin: 1rem 0; color: var(--warning); }
+    .price small { font-size: 1rem; color: var(--text-secondary); font-weight: 400; }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #f7931a, #e67e22);
+      color: #fff;
+      padding: 1rem 3rem;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-decoration: none;
+      margin: 1rem 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(247, 147, 26, 0.3);
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+    .feature-item {
+      background: var(--bg-card);
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .feature-item::before { content: "✅ "; }
+    .payment-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .payment-box h3 { margin-bottom: 1rem; }
+    .address-block {
+      background: var(--bg);
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 0.5rem 0;
+      border: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.8rem;
+      word-break: break-all;
+    }
+    .instructions {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    .instructions ol {
+      padding-left: 1.5rem;
+      color: var(--text-secondary);
+    }
+    .instructions li { margin: 0.8rem 0; }
+    .tool-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .tool-name {
+      background: var(--bg-card);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .tag {
+      display: inline-block;
+      background: #1f6feb33;
+      color: #58a6ff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      border: 1px solid #1f6feb55;
+      margin-right: 0.3rem;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.8rem 0;
+    }
+    .faq-item h4 { color: var(--text); margin-bottom: 0.3rem; }
+    .faq-item p { color: var(--text-secondary); font-size: 0.9rem; }
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .highlight {
+      background: linear-gradient(135deg, #f7931a22, #e67e2222);
+      border: 1px solid #f7931a55;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.8rem; }
+      .features { grid-template-columns: 1fr 1fr; }
+      .tool-list { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>🔥 Pro Tools Bundle</h1>
+      <p class="subtitle">All 35 premium web tools in one downloadable package.<br>Use offline. No ads. Premium features.</p>
+      <div class="price">$19 <small>USD equivalent in crypto · One-time payment · Lifetime access</small></div>
+      <a href="#how-to-buy" class="cta-button">💰 Buy Now — Pay with Crypto</a>
+      <p style="color:var(--text-muted);font-size:0.8rem;margin-top:0.5rem;">BTC · ETH · SOL accepted · Instant download after payment</p>
+    </div>
+
+    <h2>✨ What You Get</h2>
+    <div class="features">
+      <div class="feature-item">All 35 tools as offline HTML files</div>
+      <div class="feature-item">Pro versions with extra features</div>
+      <div class="feature-item">No ads, no trackers, no analytics</div>
+      <div class="feature-item">Works without internet</div>
+      <div class="feature-item">Instant download (ZIP, ~5 MB)</div>
+      <div class="feature-item">Free updates forever</div>
+      <div class="feature-item">Dark &amp; light theme</div>
+      <div class="feature-item">Source code included</div>
+      <div class="feature-item">Commercial use allowed</div>
+      <div class="feature-item">Priority email support</div>
+    </div>
+
+    <h2>📦 Included Tools</h2>
+    <div class="tool-list">
+      <div class="tool-name">HTML Minifier</div>
+      <div class="tool-name">CSS Minifier &amp; Beautifier</div>
+      <div class="tool-name">JS Minifier &amp; Beautifier</div>
+      <div class="tool-name">SQL Formatter (5 dialects)</div>
+      <div class="tool-name">YAML ↔ JSON Converter</div>
+      <div class="tool-name">JSON Formatter &amp; Validator</div>
+      <div class="tool-name">JSON to CSV Converter</div>
+      <div class="tool-name">CSV Viewer &amp; Editor</div>
+      <div class="tool-name">Regex Tester</div>
+      <div class="tool-name">UUID Generator (v1/v4/v7)</div>
+      <div class="tool-name">Cron Expression Builder</div>
+      <div class="tool-name">Epoch / Unix Converter</div>
+      <div class="tool-name">HTTP Status Codes Reference</div>
+      <div class="tool-name">QR Code Generator</div>
+      <div class="tool-name">QR Code Reader</div>
+      <div class="tool-name">Markdown Editor &amp; Preview</div>
+      <div class="tool-name">Markdown → HTML Converter</div>
+      <div class="tool-name">Base64 Encoder / Decoder</div>
+      <div class="tool-name">SHA-256 Hash Generator</div>
+      <div class="tool-name">Password Generator</div>
+      <div class="tool-name">Image Compressor</div>
+      <div class="tool-name">Color Picker &amp; Palettes</div>
+      <div class="tool-name">Text Diff Checker</div>
+      <div class="tool-name">URL Encoder / Decoder</div>
+      <div class="tool-name">Word Counter + Reading Time</div>
+      <div class="tool-name">Character Counter</div>
+      <div class="tool-name">Binary / Hex / Decimal Converter</div>
+      <div class="tool-name">Random Number Generator</div>
+      <div class="tool-name">Temperature Converter (7 scales)</div>
+      <div class="tool-name">Unit Converter (7 categories)</div>
+      <div class="tool-name">Case Converter (12 modes)</div>
+      <div class="tool-name">Lorem Ipsum Generator</div>
+      <div class="tool-name">Age Calculator</div>
+      <div class="tool-name">Timer &amp; Stopwatch</div>
+      <div class="tool-name">YouTube Thumbnail Downloader</div>
+    </div>
+
+    <div class="highlight">
+      <strong>💡 Pro Bundle Bonus:</strong> All tools have <strong>dark/light theme toggle</strong>, 
+      <strong>one-click export</strong> options, <strong>localStorage persistence</strong> for settings,
+      and <strong>print-friendly layouts</strong>. The offline version removes all ad placeholders
+      and tracking scripts for a clean, fast experience.
+    </div>
+
+    <h2 id="how-to-buy">🛒 How to Buy</h2>
+    <div class="instructions">
+      <ol>
+        <li><strong>Send $19 USD equivalent</strong> in <strong>BTC</strong>, <strong>ETH</strong>, or <strong>SOL</strong> to one of the addresses below</li>
+        <li><strong>Take a screenshot</strong> of the transaction or copy the TXID (transaction ID)</li>
+        <li><strong>Email the TXID</strong> to <code style="background:var(--bg);padding:0.2rem 0.5rem;border-radius:4px;">pro-bundle@aymanviola1-creator.github.io</code> or open a GitHub Issue</li>
+        <li><strong>You'll receive</strong> the download link within 24 hours (usually same day)</li>
+        <li><strong>Download, unzip,</strong> and open any <code>index.html</code> — works instantly!</li>
+      </ol>
+      <p style="color:var(--warning);font-size:0.85rem;margin-top:1rem;">
+        ⚡ <strong>Auto-delivery coming soon:</strong> Future version will auto-generate download links on blockchain confirmation.
+      </p>
+    </div>
+
+    <div class="payment-box">
+      <h3>📩 Send Payment To</h3>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;">
+        Send exactly $19 USD equivalent in any of these cryptocurrencies
+      </p>
+
+      <div style="margin-bottom:1.5rem;">
+        <div style="font-weight:600;margin-bottom:0.3rem;">₿ Bitcoin (BTC)</div>
+        <div class="address-block">1HBUAq6JfSbgbjsyZokAHWXnGdS7z4myNy</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);">Network: Bitcoin</div>
+      </div>
+
+      <div style="margin-bottom:1.5rem;">
+        <div style="font-weight:600;margin-bottom:0.3rem;">⟠ Ethereum (ETH)</div>
+        <div class="address-block">0x6E8b70656f71BAe32019FC37927Fd43f4C8C40c6</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);">Network: Ethereum (ERC-20) — USDC, USDT also accepted</div>
+      </div>
+
+      <div style="margin-bottom:1.5rem;">
+        <div style="font-weight:600;margin-bottom:0.3rem;">◎ Solana (SOL)</div>
+        <div class="address-block">BPKe4HjmHANv1X412JyYka4Lk2zt35kjH64zZNhcXMWL</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);">Network: Solana — USDC also accepted</div>
+      </div>
+
+      <p style="color:var(--text-muted);font-size:0.8rem;">
+        🔒 These wallets were generated securely. After payment, the human operator will verify and send the download link.
+      </p>
+    </div>
+
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h4>What's the difference between free and pro?</h4>
+      <p>The free version works online with ads. The Pro Bundle is a downloadable ZIP that works 100% offline with no ads, plus premium features like export options, persistent settings, and commercial use license.</p>
+    </div>
+    <div class="faq-item">
+      <h4>How long does delivery take?</h4>
+      <p>After sending payment, email the TXID. You'll receive the download link within 24 hours (usually within a few hours). We verify transactions on-chain.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can I get a refund?</h4>
+      <p>Crypto payments are non-reversible, so refunds are handled case-by-case. If there's a genuine issue, open a GitHub issue and we'll work it out.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Do I get updates?</h4>
+      <p>Yes! When new tools are added or existing ones updated, you'll get an email with the latest download link. Free updates forever.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can I use these for commercial projects?</h4>
+      <p>Yes, the Pro Bundle includes a commercial use license. You can use the tools in your business, agency, or SaaS product.</p>
+    </div>
+
+    <div class="footer">
+      <p><a href="index.html">← Back to Free Tools</a> &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a> &middot; <a href="privacy/">Privacy Policy</a></p>
+      <p style="margin-top:0.5rem;">&copy; 2026 Free Web Tools. Built with ❤️ for the developer community.</p>
+    </div>
+  </div>
+</body>
+</html>

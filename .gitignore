@@ -19,6 +19,9 @@ data/github-token.txt
 data/.git-credentials
 data/requests.txt
 
+# Private wallets (secret - never commit!)
+data/wallets-private.json
+
 # Python bytecode
 __pycache__/
 *.pyc

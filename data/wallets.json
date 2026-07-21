@@ -1,0 +1,20 @@
+{
+  "BTC": {
+    "address": "1HBUAq6JfSbgbjsyZokAHWXnGdS7z4myNy",
+    "network": "bitcoin"
+  },
+  "ETH": {
+    "address": "0x6E8b70656f71BAe32019FC37927Fd43f4C8C40c6",
+    "network": "ethereum"
+  },
+  "SOL": {
+    "address": "BPKe4HjmHANv1X412JyYka4Lk2zt35kjH64zZNhcXMWL",
+    "network": "solana"
+  },
+  "TON": {
+    "address": "ton://wallet/cf348a41a1a1fd1da8a648c23076f02e8c0a58e5e2b0510b44f015beab754682",
+    "public_key_hex": "cf348a41a1a1fd1da8a648c23076f02e8c0a58e5e2b0510b44f015beab754682",
+    "network": "ton",
+    "note": "Create a TON wallet in Tonkeeper app, then use its receive address"
+  }
+}

@@ -29,16 +29,25 @@ from telegram.ext import (
 )
 
 # ============================================================
-# CONFIGURATION - EDIT THESE
+# CONFIGURATION
 # ============================================================
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
 
-# Your donation addresses (replace with your real wallets)
+# Real crypto wallets generated on 2026-07-21
+# Private keys: data/wallets-private.json
 DONATION_ADDRESSES = {
-    "TON": "UQDs9oGzBx4x7vV4sdfghjkl6d9e9fce5e9722125867babf48b084",  # Replace!
-    "BTC": "bc1q6d9e9fce5e9722125867babf48b084",  # Replace!
-    "ETH": "0x6d9e9fce5e9722125867babf48b084be1b0fcf28",  # Replace!
+    "BTC": "1HBUAq6JfSbgbjsyZokAHWXnGdS7z4myNy",
+    "ETH": "0x6E8b70656f71BAe32019FC37927Fd43f4C8C40c6",
+    "SOL": "BPKe4HjmHANv1X412JyYka4Lk2zt35kjH64zZNhcXMWL",
 }
+
+# Crypto Pay API (optional - for automated invoice generation)
+# Sign up at https://pay.crypt.bot/ to get your API token
+CRYPTO_PAY_TOKEN = os.environ.get("CRYPTO_PAY_TOKEN", "")
+CRYPTO_PAY_API = "https://pay.crypt.bot/api"
+
+# Pro bundle purchase price in USD
+PRO_BUNDLE_PRICE_USD = 19
 
 # ============================================================
 # LOGGING
@@ -68,6 +77,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"/uuid - Generate a UUID\n\n"
         f"💰 **Support**\n"
         f"/donate - Show donation addresses\n"
+        f"/buy - Get the Pro Tools Bundle ($19)\n"
         f"/tip - How to send TON tips\n\n"
         f"📊 /stats - Bot usage statistics"
     )
@@ -95,6 +105,34 @@ async def donate_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
+    await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup)
+
+
+async def buy_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Pro Bundle purchase command."""
+    text = (
+        "🔥 **Pro Tools Bundle**\n\n"
+        "Get all **35 premium web tools** in one downloadable package:\n\n"
+        "✅ Work offline — no internet required\n"
+        "✅ No ads, no trackers, no analytics\n"
+        "✅ Dark & light theme\n"
+        "✅ Premium features (export, persistence, etc.)\n"
+        "✅ Commercial use license\n"
+        "✅ Free updates forever\n\n"
+        f"**Price:** ${PRO_BUNDLE_PRICE_USD} USD equivalent in crypto (one-time)\n\n"
+        "**How to buy:**\n"
+        f"1. Send ${PRO_BUNDLE_PRICE_USD} in BTC, ETH, or SOL to the /donate addresses\n"
+        "2. Copy the transaction ID (TXID)\n"
+        "3. Email it to pro-bundle@aymanviola1-creator.github.io\n"
+        "4. You'll receive the download link within 24h\n\n"
+        "🌐 Or visit the web page:\n"
+        "https://aymanviola1-creator.github.io/free-web-tools/pro-bundle.html"
+    )
+    keyboard = [
+        [InlineKeyboardButton("🔥 View Pro Bundle Page", url="https://aymanviola1-creator.github.io/free-web-tools/pro-bundle.html")],
+        [InlineKeyboardButton("💰 Donate", url="https://aymanviola1-creator.github.io/free-web-tools/#support")],
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup)
 
 
@@ -184,10 +222,14 @@ async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Show simple stats."""
     await update.message.reply_text(
         "📊 **Bot Stats**\n\n"
-        "• Commands available: 10\n"
+        "• Commands available: 11\n"
         "• QR, JSON, YAML, Base64, Hash, UUID\n"
-        "• TON/BTC/ETH donation support\n"
+        "• BTC/ETH/SOL donation support\n"
+        f"• Pro Bundle: ${PRO_BUNDLE_PRICE_USD} USD\n"
         "• Free & open source\n\n"
+        "🔥 **Get the Pro Bundle:**\n"
+        "All 35 tools offline + no ads\n"
+        "/buy for details\n\n"
         "⭐ Star on GitHub to support!",
         parse_mode=ParseMode.MARKDOWN
     )
@@ -227,6 +269,7 @@ def main():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("donate", donate_command))
+    application.add_handler(CommandHandler("buy", buy_command))
     application.add_handler(CommandHandler("qr", qr_command))
     application.add_handler(CommandHandler("json", json_command))
     application.add_handler(CommandHandler("yaml", yaml_command))

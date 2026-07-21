@@ -116,7 +116,20 @@
     </div>
 
     <div class="ad-banner" id="adContainer">
-      <span>📢 Ad space — Your ad could be here (Monetag/Adsterra)</span>
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) { console.log('Ad load deferred'); }
+        })();
+      </script>
     </div>
 
     <a href="../../index.html" class="back-link">← Back to all tools</a>

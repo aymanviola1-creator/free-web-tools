@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit Converter – Length, Weight, Temperature, Volume, Speed</title>
+  <meta name="description" content="Free online unit converter. Convert between hundreds of units across length, weight, temperature, volume, speed, area, and more. Fast, accurate, no signup.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 600px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+
+    .category-select { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .cat-btn {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px; color: #c9d1d9;
+      padding: 0.5rem 1rem; font-size: 0.8rem; cursor: pointer; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .cat-btn:hover { border-color: #58a6ff; color: #e4e6ec; }
+    .cat-btn.active { background: #1f6feb33; border-color: #58a6ff; color: #58a6ff; }
+
+    .converter-row { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1rem; }
+    .converter-row select {
+      flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      color: #e4e6ec; padding: 0.6rem; font-size: 0.9rem; outline: none;
+    }
+    .converter-row select:focus { border-color: #58a6ff; }
+    .swap-btn {
+      background: #21262d; border: 1px solid #30363d; border-radius: 50%; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      font-size: 1rem; color: #8b949e; transition: all 0.2s; flex-shrink: 0;
+    }
+    .swap-btn:hover { border-color: #58a6ff; color: #58a6ff; }
+
+    .input-group { margin-bottom: 1rem; }
+    .input-group label { display: block; color: #8b949e; font-size: 0.8rem; margin-bottom: 0.3rem; }
+    .input-group input {
+      width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.75rem 1rem; color: #e4e6ec; font-size: 1.2rem; font-family: 'Courier New', monospace;
+      outline: none;
+    }
+    .input-group input:focus { border-color: #58a6ff; }
+
+    .result-box {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 1rem;
+      text-align: center; margin-top: 0.5rem;
+    }
+    .result-box .result-label { font-size: 0.75rem; color: #8b949e; }
+    .result-box .result-value { font-size: 1.8rem; font-weight: 700; color: #58a6ff; font-family: 'Courier New', monospace; }
+    .result-box .result-unit { font-size: 0.9rem; color: #8b949e; }
+
+    .common-conversions { margin-top: 1.5rem; }
+    .common-conversions h3 { font-size: 0.85rem; color: #8b949e; margin-bottom: 0.5rem; }
+    .common-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    .common-item {
+      background: #0d1117; border: 1px solid #21262d; border-radius: 4px;
+      padding: 0.4rem 0.6rem; font-size: 0.75rem; color: #8b949e; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .common-item:hover { border-color: #58a6ff; color: #e4e6ec; }
+
+    .ad-banner { margin-top: 1.5rem; padding: 0.75rem; background: #161b22; border: 1px solid #30363d; border-radius: 8px; text-align: center; min-height: 90px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .back-link { display: block; text-align: center; margin-top: 2rem; color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      .converter-row { flex-direction: column; }
+      .swap-btn { transform: rotate(90deg); }
+      .common-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📏 Unit Converter</h1>
+    <p class="subtitle">Convert between hundreds of units instantly. Accurate, free, and private.</p>
+
+    <div class="card">
+      <div class="category-select" id="categorySelect">
+        <button class="cat-btn active" data-cat="length">Length</button>
+        <button class="cat-btn" data-cat="weight">Weight</button>
+        <button class="cat-btn" data-cat="temperature">Temperature</button>
+        <button class="cat-btn" data-cat="volume">Volume</button>
+        <button class="cat-btn" data-cat="speed">Speed</button>
+        <button class="cat-btn" data-cat="area">Area</button>
+        <button class="cat-btn" data-cat="data">Data</button>
+      </div>
+
+      <div class="converter-row">
+        <select id="fromUnit"></select>
+        <div class="swap-btn" id="swapBtn" title="Swap units">⇄</div>
+        <select id="toUnit"></select>
+      </div>
+
+      <div class="input-group">
+        <label>Enter value</label>
+        <input type="number" id="inputValue" value="1" step="any">
+      </div>
+
+      <div class="result-box">
+        <div class="result-label">Result</div>
+        <div class="result-value" id="resultValue">1</div>
+        <div class="result-unit" id="resultUnit"></div>
+      </div>
+
+      <div class="common-conversions" id="commonConversions">
+        <h3>⚡ Quick Conversions</h3>
+        <div class="common-grid" id="commonGrid"></div>
+      </div>
+    </div>
+
+    <!-- Adsterra Banner -->
+    <div class="ad-banner" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) { console.log('Ad load deferred'); }
+        })();
+      </script>
+    </div>
+
+    <a href="../../index.html" class="back-link">← Back to all tools</a>
+  </div>
+
+  <script>
+    // Unit definitions
+    const units = {
+      length: {
+        base: 'm',
+        units: {
+          'mm': { name: 'Millimeter', toBase: v => v / 1000, fromBase: v => v * 1000 },
+          'cm': { name: 'Centimeter', toBase: v => v / 100, fromBase: v => v * 100 },
+          'm': { name: 'Meter', toBase: v => v, fromBase: v => v },
+          'km': { name: 'Kilometer', toBase: v => v * 1000, fromBase: v => v / 1000 },
+          'in': { name: 'Inch', toBase: v => v * 0.0254, fromBase: v => v / 0.0254 },
+          'ft': { name: 'Foot', toBase: v => v * 0.3048, fromBase: v => v / 0.3048 },
+          'yd': { name: 'Yard', toBase: v => v * 0.9144, fromBase: v => v / 0.9144 },
+          'mi': { name: 'Mile', toBase: v => v * 1609.344, fromBase: v => v / 1609.344 },
+          'nmi': { name: 'Nautical Mile', toBase: v => v * 1852, fromBase: v => v / 1852 }
+        }
+      },
+      weight: {
+        base: 'kg',
+        units: {
+          'mg': { name: 'Milligram', toBase: v => v / 1e6, fromBase: v => v * 1e6 },
+          'g': { name: 'Gram', toBase: v => v / 1000, fromBase: v => v * 1000 },
+          'kg': { name: 'Kilogram', toBase: v => v, fromBase: v => v },
+          't': { name: 'Tonne', toBase: v => v * 1000, fromBase: v => v / 1000 },
+          'oz': { name: 'Ounce', toBase: v => v * 0.0283495, fromBase: v => v / 0.0283495 },
+          'lb': { name: 'Pound', toBase: v => v * 0.453592, fromBase: v => v / 0.453592 },
+          'st': { name: 'Stone', toBase: v => v * 6.35029, fromBase: v => v / 6.35029 }
+        }
+      },
+      temperature: {
+        base: 'c',
+        units: {
+          'c': { name: 'Celsius', toBase: v => v, fromBase: v => v },
+          'f': { name: 'Fahrenheit', toBase: v => (v - 32) * 5/9, fromBase: v => v * 9/5 + 32 },
+          'k': { name: 'Kelvin', toBase: v => v - 273.15, fromBase: v => v + 273.15 }
+        }
+      },
+      volume: {
+        base: 'l',
+        units: {
+          'ml': { name: 'Milliliter', toBase: v => v / 1000, fromBase: v => v * 1000 },
+          'l': { name: 'Liter', toBase: v => v, fromBase: v => v },
+          'gal': { name: 'Gallon (US)', toBase: v => v * 3.78541, fromBase: v => v / 3.78541 },
+          'qt': { name: 'Quart (US)', toBase: v => v * 0.946353, fromBase: v => v / 0.946353 },
+          'pt': { name: 'Pint (US)', toBase: v => v * 0.473176, fromBase: v => v / 0.473176 },
+          'cup': { name: 'Cup (US)', toBase: v => v * 0.236588, fromBase: v => v / 0.236588 },
+          'floz': { name: 'Fluid Ounce (US)', toBase: v => v * 0.0295735, fromBase: v => v / 0.0295735 },
+          'tbsp': { name: 'Tablespoon', toBase: v => v * 0.0147868, fromBase: v => v / 0.0147868 },
+          'tsp': { name: 'Teaspoon', toBase: v => v * 0.00492892, fromBase: v => v / 0.00492892 },
+          'm3': { name: 'Cubic Meter', toBase: v => v * 1000, fromBase: v => v / 1000 }
+        }
+      },
+      speed: {
+        base: 'ms',
+        units: {
+          'ms': { name: 'Meter/second', toBase: v => v, fromBase: v => v },
+          'kmh': { name: 'Kilometer/hour', toBase: v => v / 3.6, fromBase: v => v * 3.6 },
+          'mph': { name: 'Mile/hour', toBase: v => v * 0.44704, fromBase: v => v / 0.44704 },
+          'kt': { name: 'Knot', toBase: v => v * 0.514444, fromBase: v => v / 0.514444 },
+          'ftps': { name: 'Foot/second', toBase: v => v * 0.3048, fromBase: v => v / 0.3048 },
+          'c': { name: 'Speed of light', toBase: v => v * 299792458, fromBase: v => v / 299792458, fmt: 'scientific' }
+        }
+      },
+      area: {
+        base: 'm2',
+        units: {
+          'mm2': { name: 'Square Millimeter', toBase: v => v / 1e6, fromBase: v => v * 1e6 },
+          'cm2': { name: 'Square Centimeter', toBase: v => v / 10000, fromBase: v => v * 10000 },
+          'm2': { name: 'Square Meter', toBase: v => v, fromBase: v => v },
+          'ha': { name: 'Hectare', toBase: v => v * 10000, fromBase: v => v / 10000 },
+          'km2': { name: 'Square Kilometer', toBase: v => v * 1e6, fromBase: v => v / 1e6 },
+          'in2': { name: 'Square Inch', toBase: v => v * 0.00064516, fromBase: v => v / 0.00064516 },
+          'ft2': { name: 'Square Foot', toBase: v => v * 0.092903, fromBase: v => v / 0.092903 },
+          'ac': { name: 'Acre', toBase: v => v * 4046.86, fromBase: v => v / 4046.86 },
+          'mi2': { name: 'Square Mile', toBase: v => v * 2.59e6, fromBase: v => v / 2.59e6 }
+        }
+      },
+      data: {
+        base: 'b',
+        units: {
+          'b': { name: 'Bit', toBase: v => v, fromBase: v => v },
+          'B': { name: 'Byte', toBase: v => v * 8, fromBase: v => v / 8 },
+          'KB': { name: 'Kilobyte', toBase: v => v * 8 * 1000, fromBase: v => v / (8*1000) },
+          'MB': { name: 'Megabyte', toBase: v => v * 8 * 1e6, fromBase: v => v / (8*1e6) },
+          'GB': { name: 'Gigabyte', toBase: v => v * 8 * 1e9, fromBase: v => v / (8*1e9) },
+          'TB': { name: 'Terabyte', toBase: v => v * 8 * 1e12, fromBase: v => v / (8*1e12) },
+          'Kib': { name: 'Kibibit', toBase: v => v * 1024, fromBase: v => v / 1024 },
+          'MiB': { name: 'Mebibyte', toBase: v => v * 8 * 1024 * 1024, fromBase: v => v / (8*1024*1024) }
+        }
+      }
+    };
+
+    const catBtns = document.querySelectorAll('.cat-btn');
+    const fromUnit = document.getElementById('fromUnit');
+    const toUnit = document.getElementById('toUnit');
+    const inputValue = document.getElementById('inputValue');
+    const resultValue = document.getElementById('resultValue');
+    const resultUnit = document.getElementById('resultUnit');
+    const swapBtn = document.getElementById('swapBtn');
+    const commonGrid = document.getElementById('commonGrid');
+
+    let currentCategory = 'length';
+
+    function populateUnits(category) {
+      const data = units[category];
+      const keys = Object.keys(data.units);
+      fromUnit.innerHTML = keys.map(k => `<option value="${k}">${data.units[k].name} (${k})</option>`).join('');
+      toUnit.innerHTML = keys.map(k => `<option value="${k}">${data.units[k].name} (${k})</option>`).join('');
+      fromUnit.value = 'm';
+      toUnit.value = 'km';
+      if (category === 'weight') { fromUnit.value = 'kg'; toUnit.value = 'lb'; }
+      if (category === 'temperature') { fromUnit.value = 'c'; toUnit.value = 'f'; }
+      if (category === 'volume') { fromUnit.value = 'l'; toUnit.value = 'gal'; }
+      if (category === 'speed') { fromUnit.value = 'kmh'; toUnit.value = 'mph'; }
+      if (category === 'area') { fromUnit.value = 'm2'; toUnit.value = 'ft2'; }
+      if (category === 'data') { fromUnit.value = 'MB'; toUnit.value = 'GB'; }
+      updateResult();
+      updateCommonConversions(category);
+    }
+
+    function convert(value, fromKey, toKey, category) {
+      if (fromKey === toKey) return value;
+      const data = units[category].units;
+      const baseValue = data[fromKey].toBase(value);
+      return data[toKey].fromBase(baseValue);
+    }
+
+    function updateResult() {
+      const val = parseFloat(inputValue.value) || 0;
+      const from = fromUnit.value;
+      const to = toUnit.value;
+      const cat = currentCategory;
+      let result = convert(val, from, to, cat);
+      const fmt = units[cat].units[to].fmt;
+      if (fmt === 'scientific') {
+        resultValue.textContent = result.toExponential(4);
+      } else if (Math.abs(result) > 1e9 || (Math.abs(result) < 1e-6 && result !== 0)) {
+        resultValue.textContent = result.toExponential(6);
+      } else {
+        resultValue.textContent = parseFloat(result.toFixed(10)).toString();
+      }
+      const toKey = to;
+      resultUnit.textContent = units[cat].units[toKey]?.name || toKey;
+    }
+
+    function updateCommonConversions(category) {
+      const data = units[category];
+      const keys = Object.keys(data.units);
+      if (keys.length < 3) { document.getElementById('commonConversions').style.display = 'none'; return; }
+      document.getElementById('commonConversions').style.display = 'block';
+      const pairs = [];
+      const from = fromUnit.value;
+      for (let i = 0; i < Math.min(keys.length, 6); i++) {
+        if (keys[i] !== from) pairs.push({ from, to: keys[i] });
+      }
+      commonGrid.innerHTML = pairs.map(p => {
+        const val = convert(1, p.from, p.to, category);
+        const display = Math.abs(val) > 1e6 ? val.toExponential(3) : parseFloat(val.toFixed(6)).toString();
+        return `<div class="common-item" data-from="${p.from}" data-to="${p.to}">1 ${p.from} = ${display} ${p.to}</div>`;
+      }).join('');
+
+      document.querySelectorAll('.common-item').forEach(el => {
+        el.addEventListener('click', () => {
+          fromUnit.value = el.dataset.from;
+          toUnit.value = el.dataset.to;
+          updateResult();
+        });
+      });
+    }
+
+    // Event listeners
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.cat;
+        populateUnits(currentCategory);
+      });
+    });
+
+    fromUnit.addEventListener('change', updateResult);
+    toUnit.addEventListener('change', updateResult);
+    inputValue.addEventListener('input', updateResult);
+    swapBtn.addEventListener('click', () => {
+      const tmp = fromUnit.value;
+      fromUnit.value = toUnit.value;
+      toUnit.value = tmp;
+      updateResult();
+    });
+
+    // Init
+    populateUnits('length');
+  </script>
+</body>
+</html>

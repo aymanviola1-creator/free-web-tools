@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Web Tools — Privacy-First Online Utilities</title>
-  <meta name="description" content="Collection of free, privacy-friendly online tools. No signup, no tracking, fully client-side. Password generator, QR code creator, text converter, and more.">
+  <meta name="description" content="Collection of free, privacy-friendly online tools. No signup, no tracking, fully client-side. Password generator, QR code creator, image compressor, unit converter, timer, and more.">
+  <meta name="keywords" content="free online tools, image compressor, unit converter, password generator, QR code, timer, stopwatch, privacy tools">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -67,9 +68,8 @@
     .ad-section {
       margin: 1.5rem 0; padding: 1rem; background: #161b22; border: 1px solid #30363d;
       border-radius: 10px; text-align: center; min-height: 100px;
-      display: flex; align-items: center; justify-content: center;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
-    .ad-placeholder { color: #484f58; font-size: 0.8rem; }
 
     .footer { margin-top: 2rem; text-align: center; color: #484f58; font-size: 0.8rem; line-height: 1.6; }
     .footer a { color: #58a6ff; }
@@ -87,12 +87,42 @@
       <p class="tagline">Privacy-first, client-side tools. No data leaves your browser.</p>
     </div>
 
+    <div class="section-title">🔥 New Tools</div>
+    <div class="tools">
+      <a href="apps/image-compressor/" class="tool-card">
+        <span class="icon">🖼️</span>
+        <div class="info">
+          <h2>Image Compressor <span class="badge badge-new">NEW</span></h2>
+          <p>Compress PNG, JPEG & WebP images up to 80% with no uploads. Fully client-side.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/unit-converter/" class="tool-card">
+        <span class="icon">📏</span>
+        <div class="info">
+          <h2>Unit Converter <span class="badge badge-new">NEW</span></h2>
+          <p>Convert length, weight, temperature, volume, speed, area, and data units instantly.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/timer/" class="tool-card">
+        <span class="icon">⏱️</span>
+        <div class="info">
+          <h2>Timer & Stopwatch <span class="badge badge-new">NEW</span></h2>
+          <p>Countdown timer with alarm sound and precision stopwatch with lap tracking.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+
     <div class="section-title">🌟 Popular Tools</div>
     <div class="tools">
       <a href="apps/qr-generator/" class="tool-card">
         <span class="icon">📱</span>
         <div class="info">
-          <h2>QR Code Generator <span class="badge badge-new">NEW</span></h2>
+          <h2>QR Code Generator</h2>
           <p>Create QR codes from URLs, text, phone, SMS, or WiFi details. Download as PNG.</p>
         </div>
         <span class="arrow">→</span>
@@ -101,7 +131,7 @@
       <a href="apps/password-generator/" class="tool-card">
         <span class="icon">🔐</span>
         <div class="info">
-          <h2>Password Generator <span class="badge badge-new">NEW</span></h2>
+          <h2>Password Generator</h2>
           <p>Generate strong, secure random passwords with strength meter. Customizable options.</p>
         </div>
         <span class="arrow">→</span>
@@ -110,7 +140,7 @@
       <a href="apps/case-converter/" class="tool-card">
         <span class="icon">🔤</span>
         <div class="info">
-          <h2>Text Case Converter <span class="badge badge-new">NEW</span></h2>
+          <h2>Text Case Converter</h2>
           <p>Convert text between upper, lower, title, camel, pascal, snake, kebab, and more.</p>
         </div>
         <span class="arrow">→</span>
@@ -135,15 +165,25 @@
       </a>
     </div>
 
-    <!-- Ad placement (Monetag / Adsterra / etc.) -->
+    <!-- Adsterra Native Banner Ad -->
     <div class="ad-section" id="adContainer">
-      <div class="ad-placeholder">
-        📢 Ad space available — <strong>Monetize with ads</strong><br>
-        <span style="font-size:0.7rem;">Replace this with your ad network code (Adsterra, Monetag, etc.)</span>
-      </div>
+      <script type="text/javascript">
+        (function() {
+          var adContainer = document.getElementById('adContainer');
+          if (!adContainer) return;
+          try {
+            var adScript = document.createElement('script');
+            adScript.type = 'text/javascript';
+            adScript.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            adScript.async = true;
+            adContainer.innerHTML = '';
+            adContainer.appendChild(adScript);
+          } catch(e) { console.log('Ad load deferred'); }
+        })();
+      </script>
     </div>
 
-    <p class="stats">✨ 5 free tools · No tracking · No signup · Fully client-side</p>
+    <p class="stats">✨ 8 free tools · No tracking · No signup · Fully client-side</p>
 
     <div class="footer">
       <p>More tools added regularly &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a></p>
@@ -152,32 +192,15 @@
   </div>
 
   <script>
-    // Ad network injection (ready for Monetag / Adsterra)
+    // Fallback if ad script fails to load
     (function() {
       var adContainer = document.getElementById('adContainer');
       if (!adContainer) return;
-
-      // ============================================
-      // TO ACTIVATE ADS: Uncomment one of the blocks below
-      // and replace with your actual ad network code
-      // ============================================
-
-      // ----- Adsterra Example -----
-      // var adScript = document.createElement('script');
-      // adScript.src = '//placoountry.com/ads/network.js';
-      // adScript.type = 'text/javascript';
-      // adScript.async = true;
-      // adContainer.innerHTML = '';
-      // adContainer.appendChild(adScript);
-
-      // ----- Monetag Example -----
-      // var mScript = document.createElement('script');
-      // mScript.src = 'https://your-monetag-tag.com/ad.js';
-      // mScript.async = true;
-      // adContainer.innerHTML = '';
-      // adContainer.appendChild(mScript);
-
-      console.log('✅ Ad slot ready — replace placeholder with ad network code to start earning');
+      setTimeout(function() {
+        if (adContainer.children.length === 0 || adContainer.innerHTML.trim() === '') {
+          adContainer.innerHTML = '<div style="color:#484f58;font-size:0.8rem;">📢 Ad space</div>';
+        }
+      }, 4000);
     })();
   </script>
 </body>

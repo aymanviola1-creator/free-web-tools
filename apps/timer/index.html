@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Timer & Stopwatch – Free Countdown Timer</title>
+  <meta name="description" content="Free online timer and stopwatch. Countdown timer with alarm, lap stopwatch with history. Works in your browser, no install needed.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117; color: #e4e6ec; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .container { max-width: 520px; width: 100%; }
+    h1 { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; background: linear-gradient(135deg, #58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+
+    .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .tab {
+      flex: 1; text-align: center; padding: 0.75rem; border-radius: 8px;
+      background: #21262d; border: 1px solid #30363d; color: #8b949e;
+      font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+    }
+    .tab:hover { border-color: #484f58; }
+    .tab.active { background: #1f6feb22; border-color: #58a6ff; color: #58a6ff; }
+
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+
+    .display {
+      font-size: 3.5rem; font-weight: 800; text-align: center; font-family: 'Courier New', monospace;
+      padding: 1rem 0; letter-spacing: 3px; color: #e4e6ec;
+    }
+    .display.running { color: #58a6ff; }
+    .display.paused { color: #d29922; }
+    .display.finished { color: #3fb950; }
+
+    .timer-inputs { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem; }
+    .timer-inputs input {
+      width: 70px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      padding: 0.5rem; color: #e4e6ec; font-size: 1.2rem; text-align: center; font-family: 'Courier New', monospace;
+      outline: none;
+    }
+    .timer-inputs input:focus { border-color: #58a6ff; }
+    .timer-inputs span { font-size: 1.5rem; color: #484f58; align-self: center; }
+
+    .controls-row { display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
+    .ctrl-btn {
+      padding: 0.7rem 1.5rem; border: none; border-radius: 8px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s; color: #fff;
+    }
+    .ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ctrl-btn.start { background: #238636; }
+    .ctrl-btn.start:hover:not(:disabled) { background: #2ea043; }
+    .ctrl-btn.pause { background: #d29922; }
+    .ctrl-btn.pause:hover:not(:disabled) { background: #e3b341; }
+    .ctrl-btn.reset { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; }
+    .ctrl-btn.reset:hover:not(:disabled) { background: #30363d; }
+    .ctrl-btn.lap { background: #1f6feb; }
+    .ctrl-btn.lap:hover:not(:disabled) { background: #388bfd; }
+    .ctrl-btn.flag { background: #da3633; }
+    .ctrl-btn.flag:hover:not(:disabled) { background: #f85149; }
+
+    .lap-history { margin-top: 1rem; max-height: 200px; overflow-y: auto; }
+    .lap-history table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .lap-history th { color: #484f58; text-align: left; padding: 0.3rem 0.5rem; border-bottom: 1px solid #21262d; }
+    .lap-history td { padding: 0.3rem 0.5rem; border-bottom: 1px solid #21262d; color: #8b949e; }
+    .lap-history td:last-child { text-align: right; font-family: 'Courier New', monospace; color: #c9d1d9; }
+
+    .ad-banner { margin-top: 1.5rem; padding: 0.75rem; background: #161b22; border: 1px solid #30363d; border-radius: 8px; text-align: center; min-height: 90px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .back-link { display: block; text-align: center; margin-top: 2rem; color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      .display { font-size: 2.5rem; }
+      .timer-inputs input { width: 60px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⏱ Timer & Stopwatch</h1>
+    <p class="subtitle">Countdown timer with sound alarm or precision stopwatch with lap tracking.</p>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="timer" onclick="switchTab('timer')">⏲ Timer</div>
+      <div class="tab" data-tab="stopwatch" onclick="switchTab('stopwatch')">⌚ Stopwatch</div>
+    </div>
+
+    <div class="card">
+      <!-- Timer Tab -->
+      <div id="timerTab">
+        <div class="timer-inputs" id="timerInputs">
+          <input type="number" id="hours" value="0" min="0" max="99" placeholder="HH">
+          <span>:</span>
+          <input type="number" id="minutes" value="5" min="0" max="59" placeholder="MM">
+          <span>:</span>
+          <input type="number" id="seconds" value="0" min="0" max="59" placeholder="SS">
+        </div>
+
+        <div class="display" id="timerDisplay">00:05:00</div>
+
+        <div class="controls-row" id="timerControls">
+          <button class="ctrl-btn start" id="timerStartBtn" onclick="startTimer()">▶ Start</button>
+          <button class="ctrl-btn reset" id="timerResetBtn" onclick="resetTimer()" disabled>↺ Reset</button>
+        </div>
+      </div>
+
+      <!-- Stopwatch Tab -->
+      <div id="stopwatchTab" style="display:none;">
+        <div class="display" id="stopwatchDisplay">00:00:00.00</div>
+
+        <div class="controls-row" id="stopwatchControls">
+          <button class="ctrl-btn start" id="swStartBtn" onclick="startStopwatch()">▶ Start</button>
+          <button class="ctrl-btn pause" id="swPauseBtn" onclick="pauseStopwatch()" style="display:none;">⏸ Pause</button>
+          <button class="ctrl-btn lap" id="swLapBtn" onclick="lapStopwatch()" style="display:none;">⏱ Lap</button>
+          <button class="ctrl-btn reset" id="swResetBtn" onclick="resetStopwatch()" disabled>↺ Reset</button>
+        </div>
+
+        <div class="lap-history" id="lapHistory" style="display:none;">
+          <table>
+            <thead><tr><th>Lap</th><th>Time</th><th>Total</th></tr></thead>
+            <tbody id="lapBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-banner" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) { console.log('Ad load deferred'); }
+        })();
+      </script>
+    </div>
+
+    <a href="../../index.html" class="back-link">← Back to all tools</a>
+  </div>
+
+  <script>
+    // ===== TAB SWITCHING =====
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+      document.getElementById('timerTab').style.display = tab === 'timer' ? 'block' : 'none';
+      document.getElementById('stopwatchTab').style.display = tab === 'stopwatch' ? 'block' : 'none';
+    }
+
+    // ===== TIMER =====
+    let timerInterval = null;
+    let timerRemaining = 0;
+    let timerRunning = false;
+
+    const timerDisplay = document.getElementById('timerDisplay');
+    const hoursInput = document.getElementById('hours');
+    const minutesInput = document.getElementById('minutes');
+    const secondsInput = document.getElementById('seconds');
+    const timerStartBtn = document.getElementById('timerStartBtn');
+    const timerResetBtn = document.getElementById('timerResetBtn');
+
+    function updateTimerDisplay(seconds) {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      timerDisplay.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    }
+
+    function pad(n) { return n.toString().padStart(2, '0'); }
+
+    function getTimerInput() {
+      const h = parseInt(hoursInput.value) || 0;
+      const m = parseInt(minutesInput.value) || 0;
+      const s = parseInt(secondsInput.value) || 0;
+      return h * 3600 + m * 60 + s;
+    }
+
+    function startTimer() {
+      if (timerRunning) return;
+      if (!timerRemaining) {
+        timerRemaining = getTimerInput();
+        if (timerRemaining <= 0) { alert('Please set a time'); return; }
+      }
+      timerRunning = true;
+      timerStartBtn.textContent = '⏸ Pause';
+      timerStartBtn.className = 'ctrl-btn pause';
+      timerStartBtn.onclick = pauseTimer;
+      timerResetBtn.disabled = false;
+      timerDisplay.classList.add('running');
+      timerDisplay.classList.remove('paused', 'finished');
+      document.getElementById('timerInputs').style.opacity = '0.5';
+
+      timerInterval = setInterval(() => {
+        timerRemaining--;
+        updateTimerDisplay(timerRemaining);
+        if (timerRemaining <= 0) {
+          clearInterval(timerInterval);
+          timerRunning = false;
+          timerDisplay.textContent = '00:00:00';
+          timerDisplay.classList.remove('running');
+          timerDisplay.classList.add('finished');
+          timerStartBtn.textContent = '▶ Start';
+          timerStartBtn.className = 'ctrl-btn start';
+          timerStartBtn.onclick = startTimer;
+          // Beep
+          try { beep(); } catch(e) {}
+          alert('⏰ Time is up!');
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerStartBtn.textContent = '▶ Resume';
+      timerStartBtn.className = 'ctrl-btn start';
+      timerStartBtn.onclick = resumeTimer;
+      timerDisplay.classList.remove('running');
+      timerDisplay.classList.add('paused');
+    }
+
+    function resumeTimer() {
+      timerRunning = true;
+      timerStartBtn.textContent = '⏸ Pause';
+      timerStartBtn.className = 'ctrl-btn pause';
+      timerStartBtn.onclick = pauseTimer;
+      timerDisplay.classList.add('running');
+      timerDisplay.classList.remove('paused');
+
+      timerInterval = setInterval(() => {
+        timerRemaining--;
+        updateTimerDisplay(timerRemaining);
+        if (timerRemaining <= 0) {
+          clearInterval(timerInterval);
+          timerRunning = false;
+          timerDisplay.textContent = '00:00:00';
+          timerDisplay.classList.remove('running');
+          timerDisplay.classList.add('finished');
+          timerStartBtn.textContent = '▶ Start';
+          timerStartBtn.className = 'ctrl-btn start';
+          timerStartBtn.onclick = startTimer;
+          try { beep(); } catch(e) {}
+          alert('⏰ Time is up!');
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerRemaining = 0;
+      updateTimerDisplay(0);
+      timerDisplay.classList.remove('running', 'paused', 'finished');
+      timerStartBtn.textContent = '▶ Start';
+      timerStartBtn.className = 'ctrl-btn start';
+      timerStartBtn.onclick = startTimer;
+      timerResetBtn.disabled = true;
+      document.getElementById('timerInputs').style.opacity = '1';
+    }
+
+    function beep() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 880;
+        osc.type = 'sine';
+        gain.gain.value = 0.3;
+        osc.start();
+        osc.stop(ctx.currentTime + 0.5);
+      } catch(e) {}
+    }
+
+    // ===== STOPWATCH =====
+    let swInterval = null;
+    let swRunning = false;
+    let swStartTime = 0;
+    let swElapsed = 0;
+    let swLaps = [];
+    let swPaused = false;
+
+    const swDisplay = document.getElementById('stopwatchDisplay');
+    const swStartBtn = document.getElementById('swStartBtn');
+    const swPauseBtn = document.getElementById('swPauseBtn');
+    const swLapBtn = document.getElementById('swLapBtn');
+    const swResetBtn = document.getElementById('swResetBtn');
+    const lapHistory = document.getElementById('lapHistory');
+    const lapBody = document.getElementById('lapBody');
+
+    function formatTime(ms) {
+      const totalCs = Math.floor(ms / 10);
+      const cs = totalCs % 100;
+      const totalSec = Math.floor(totalCs / 100);
+      const s = totalSec % 60;
+      const totalMin = Math.floor(totalSec / 60);
+      const m = totalMin % 60;
+      const h = Math.floor(totalMin / 60);
+      return `${pad(h)}:${pad(m)}:${pad(s)}.${pad(cs)}`;
+    }
+
+    function updateSWDisplay() {
+      swDisplay.textContent = formatTime(swElapsed);
+    }
+
+    function startStopwatch() {
+      if (swRunning) return;
+      swRunning = true;
+      swPaused = false;
+      swStartTime = Date.now() - swElapsed;
+      swStartBtn.style.display = 'none';
+      swPauseBtn.style.display = 'inline-block';
+      swLapBtn.style.display = 'inline-block';
+      swResetBtn.disabled = false;
+      swDisplay.classList.add('running');
+      swDisplay.classList.remove('paused');
+
+      swInterval = setInterval(() => {
+        swElapsed = Date.now() - swStartTime;
+        updateSWDisplay();
+      }, 10);
+    }
+
+    function pauseStopwatch() {
+      if (!swRunning) return;
+      clearInterval(swInterval);
+      swRunning = false;
+      swPaused = true;
+      swPauseBtn.style.display = 'none';
+      swStartBtn.style.display = 'inline-block';
+      swStartBtn.textContent = '▶ Resume';
+      swLapBtn.style.display = 'none';
+      swDisplay.classList.remove('running');
+      swDisplay.classList.add('paused');
+    }
+
+    function lapStopwatch() {
+      if (!swRunning) return;
+      const prevTotal = swLaps.length > 0 ? swLaps[swLaps.length - 1].total : 0;
+      const lapTime = swElapsed - prevTotal;
+      swLaps.push({ lap: swLaps.length + 1, time: lapTime, total: swElapsed });
+      renderLaps();
+    }
+
+    function resetStopwatch() {
+      clearInterval(swInterval);
+      swRunning = false;
+      swPaused = false;
+      swElapsed = 0;
+      swLaps = [];
+      updateSWDisplay();
+      swDisplay.classList.remove('running', 'paused');
+      swStartBtn.style.display = 'inline-block';
+      swStartBtn.textContent = '▶ Start';
+      swPauseBtn.style.display = 'none';
+      swLapBtn.style.display = 'none';
+      swResetBtn.disabled = true;
+      lapHistory.style.display = 'none';
+      lapBody.innerHTML = '';
+    }
+
+    function renderLaps() {
+      lapHistory.style.display = 'block';
+      lapBody.innerHTML = swLaps.map(l => {
+        const prev = l.lap > 1 ? swLaps[l.lap - 2] : null;
+        return `<tr><td>${l.lap}</td><td>${formatTime(l.time)}</td><td>${formatTime(l.total)}</td></tr>`;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Formatter — Beautify SQL Queries Online Free | Free Web Tools</title>
+  <meta name="description" content="Free online SQL formatter and beautifier. Format SQL queries with multiple dialects (MySQL, PostgreSQL, SQLite, MSSQL, Oracle). Syntax highlighting, copy, download. Fully client-side.">
+  <meta name="keywords" content="sql formatter, sql beautifier, sql formatter online, format sql query, pretty sql, sql prettifier, mysql formatter, postgresql formatter, sql formatting tool, free sql tool">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #0f1117; --bg-card: #161b22; --bg-input: #0d1117; --text: #e4e6ec; --text-secondary: #8b949e; --text-muted: #484f58; --border: #30363d; --border-hover: #58a6ff; --accent: #58a6ff; --accent-purple: #bc8cff; --header-text: #c9d1d9; }
+    body.light { --bg: #f6f8fa; --bg-card: #ffffff; --bg-input: #ffffff; --text: #1f2328; --text-secondary: #656d76; --text-muted: #8b949e; --border: #d0d7de; --border-hover: #0969da; --accent: #0969da; --accent-purple: #8250df; --header-text: #1f2328; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg); color: var(--text); min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    .container { max-width: 960px; width: 100%; }
+    .header { text-align: center; margin-bottom: 2rem; position: relative; }
+    .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--accent), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header p { color: var(--text-secondary); font-size: 1rem; }
+    .theme-toggle {
+      position: absolute; top: 0; right: 0;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.4rem 0.6rem; cursor: pointer; font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--header-text); margin-bottom: 0.4rem; }
+    textarea, select {
+      width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text); padding: 0.6rem 0.8rem; font-size: 0.85rem; font-family: 'Consolas', 'Courier New', monospace;
+      transition: border-color 0.2s;
+    }
+    textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+    textarea { min-height: 250px; resize: vertical; line-height: 1.5; tab-size: 2; }
+    .row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.75rem; }
+    .btn {
+      background: #21262d; border: 1px solid var(--border); color: var(--header-text);
+      padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    body.light .btn { background: #f6f8fa; color: #1f2328; }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-primary { background: #238636; border-color: #238636; color: #fff; }
+    .btn-primary:hover { background: #2ea043; border-color: #2ea043; color: #fff; }
+    body.light .btn-primary { background: #1f883d; border-color: #1f883d; color: #fff; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .toolbar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; align-items: center; }
+    .stats { font-size: 0.75rem; color: var(--text-muted); padding: 0.3rem 0; font-family: monospace; }
+    .copy-msg { color: #3fb950; font-size: 0.75rem; margin-left: 0.5rem; }
+    .error { color: #f85149; font-size: 0.85rem; margin-top: 0.3rem; }
+    .success { color: #3fb950; font-size: 0.85rem; margin-top: 0.3rem; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; text-align: center; min-height: 100px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; color: var(--accent); text-decoration: none; font-size: 0.85rem; }
+    .back-link:hover { text-decoration: underline; }
+    .share-buttons { text-align: center; margin: 1rem 0; }
+    .share-buttons a {
+      display: inline-block; padding: 0.35rem 0.8rem; border-radius: 6px;
+      text-decoration: none; font-size: 0.75rem; font-weight: 600; margin: 0.15rem;
+      color: #fff; transition: opacity 0.2s;
+    }
+    .share-buttons a:hover { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.5rem; }
+      .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle dark/light mode">🌙</button>
+      <h1>🗄️ SQL Formatter & Beautifier</h1>
+      <p>Format and beautify SQL queries. Supports MySQL, PostgreSQL, SQLite, MSSQL, Oracle. Fully client-side.</p>
+    </div>
+
+    <a href="../../" class="back-link">← Back to all tools</a>
+
+    <!-- Tool -->
+    <div class="card">
+      <div class="row">
+        <select id="dialectSelect" onchange="formatSQL()" style="max-width:200px;">
+          <option value="mysql">MySQL</option>
+          <option value="postgresql">PostgreSQL</option>
+          <option value="sqlite">SQLite</option>
+          <option value="mssql">MSSQL</option>
+          <option value="oracle">Oracle</option>
+        </select>
+        <select id="indentSelect" onchange="formatSQL()" style="max-width:120px;">
+          <option value="  ">2 spaces</option>
+          <option value="    ">4 spaces</option>
+          <option value="\t">Tab</option>
+        </select>
+        <label style="margin:0;font-weight:400;font-size:0.8rem;"><input type="checkbox" id="chkUppercase" checked onchange="formatSQL()"> Uppercase keywords</label>
+        <span class="stats" id="liveStats">Ready</span>
+      </div>
+
+      <div class="split">
+        <div>
+          <label for="sqlInput">Input SQL</label>
+          <textarea id="sqlInput" placeholder="Paste your SQL query here...">SELECT id, name, email, created_at FROM users WHERE status = 'active' AND email IS NOT NULL ORDER BY created_at DESC LIMIT 50</textarea>
+        </div>
+        <div>
+          <div class="output-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+            <label style="margin:0;">Formatted SQL</label>
+            <span class="copy-msg" id="copyMsg"></span>
+          </div>
+          <textarea id="sqlOutput" placeholder="Formatted SQL will appear here..." readonly style="min-height:250px;"></textarea>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn btn-primary" onclick="formatSQL()">▶ Format</button>
+        <button class="btn" onclick="copyOutput()">📋 Copy</button>
+        <button class="btn" onclick="downloadOutput()">⬇ Download</button>
+        <button class="btn" onclick="clearAll()">🗑 Clear</button>
+      </div>
+
+      <div id="statusMsg"></div>
+    </div>
+
+    <!-- Share Buttons -->
+    <div class="share-buttons">
+      <a href="https://twitter.com/intent/tweet?text=Free%20SQL%20Formatter%20%26%20Beautifier%20%E2%80%94%20format%20SQL%20queries%20instantly!&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fsql-formatter%2F" target="_blank" rel="noopener" style="background:#1d9bf0;">🐦 Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fsql-formatter%2F" target="_blank" rel="noopener" style="background:#1877f2;">📘 Facebook</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fsql-formatter%2F&title=Free%20SQL%20Formatter%20%26%20Beautifier%20Online" target="_blank" rel="noopener" style="background:#ff4500;">🔴 Reddit</a>
+    </div>
+
+    <!-- Adsterra + Monetag Ads -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <script>
+      // ====== DARK/LIGHT THEME ======
+      (function() {
+        var t = localStorage.getItem('theme');
+        if (t === 'light') {
+          document.body.classList.add('light');
+          var btn = document.getElementById('themeBtn');
+          if (btn) btn.textContent = '☀️';
+        }
+      })();
+      function toggleTheme() {
+        var body = document.body, btn = document.getElementById('themeBtn');
+        body.classList.toggle('light');
+        if (body.classList.contains('light')) {
+          localStorage.setItem('theme', 'light'); btn.textContent = '☀️';
+        } else {
+          localStorage.setItem('theme', 'dark'); btn.textContent = '🌙';
+        }
+      }
+
+      // ====== SQL KEYWORDS ======
+      var SQL_KEYWORDS = [
+        'SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'NOT', 'IN', 'IS', 'NULL', 'AS',
+        'ON', 'JOIN', 'LEFT', 'RIGHT', 'INNER', 'OUTER', 'CROSS', 'FULL',
+        'INSERT', 'INTO', 'VALUES', 'UPDATE', 'SET', 'DELETE', 'CREATE', 'TABLE',
+        'ALTER', 'DROP', 'INDEX', 'VIEW', 'TRIGGER', 'PROCEDURE', 'FUNCTION',
+        'IF', 'ELSE', 'THEN', 'END', 'BEGIN', 'COMMIT', 'ROLLBACK', 'TRANSACTION',
+        'ORDER', 'BY', 'ASC', 'DESC', 'GROUP', 'HAVING', 'LIMIT', 'OFFSET',
+        'UNION', 'ALL', 'DISTINCT', 'TOP', 'CASE', 'WHEN', 'ELSE', 'THEN',
+        'EXISTS', 'BETWEEN', 'LIKE', 'ILIKE', 'REGEXP', 'GLOBAL', 'LOCAL',
+        'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES', 'CONSTRAINT', 'DEFAULT',
+        'CHECK', 'UNIQUE', 'AUTO_INCREMENT', 'SERIAL', 'BIGINT', 'INT', 'INTEGER',
+        'SMALLINT', 'TINYINT', 'VARCHAR', 'CHAR', 'TEXT', 'BOOLEAN', 'BOOL',
+        'FLOAT', 'DOUBLE', 'DECIMAL', 'NUMERIC', 'DATE', 'DATETIME', 'TIMESTAMP',
+        'COUNT', 'SUM', 'AVG', 'MIN', 'MAX', 'COALESCE', 'CAST', 'CONVERT',
+        'EXCEPT', 'INTERSECT', 'FETCH', 'NEXT', 'ROWS', 'ONLY', 'WITH',
+        'RECURSIVE', 'OVER', 'PARTITION', 'ROW_NUMBER', 'RANK', 'DENSE_RANK',
+        'LAG', 'LEAD', 'FIRST_VALUE', 'LAST_VALUE', 'NTH_VALUE',
+        'GRANT', 'REVOKE', 'DENY', 'EXEC', 'EXECUTE', 'MERGE', 'TRUNCATE',
+        'EXPLAIN', 'ANALYZE', 'VACUUM', 'REINDEX', 'CLUSTER'
+      ];
+
+      var SQL_KEYWORDS_SET = {};
+      SQL_KEYWORDS.forEach(function(k) { SQL_KEYWORDS_SET[k] = true; });
+
+      // Operators that cause line breaks after them
+      var CLAUSE_KEYWORDS = [
+        'SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'ON', 'ORDER BY', 'GROUP BY',
+        'HAVING', 'LIMIT', 'OFFSET', 'INNER JOIN', 'LEFT JOIN', 'RIGHT JOIN',
+        'FULL JOIN', 'CROSS JOIN', 'JOIN', 'UNION', 'UNION ALL', 'EXCEPT',
+        'INTERSECT', 'INSERT INTO', 'VALUES', 'SET', 'INTO'
+      ];
+
+      // ====== SQL FORMATTER ======
+      function formatSQL() {
+        var input = document.getElementById('sqlInput').value;
+        if (!input.trim()) {
+          document.getElementById('sqlOutput').value = '';
+          document.getElementById('liveStats').innerHTML = 'Ready';
+          return;
+        }
+        try {
+          var indent = document.getElementById('indentSelect').value;
+          var uppercase = document.getElementById('chkUppercase').checked;
+          var dialect = document.getElementById('dialectSelect').value;
+
+          var sql = input;
+          // Normalize whitespace
+          sql = sql.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+          sql = sql.replace(/\n/g, ' ');
+
+          // Tokenize preserving strings
+          var tokens = [];
+          var current = '';
+          var inString = null;
+          var inComment = false;
+
+          for (var i = 0; i < sql.length; i++) {
+            var ch = sql[i];
+            var next = sql[i + 1] || '';
+
+            if (inComment) {
+              if (ch === '\n') {
+                inComment = false;
+                if (current.trim()) tokens.push({type:'word', value:current.trim()});
+                current = '';
+              } else {
+                current += ch;
+              }
+              continue;
+            }
+
+            if (inString) {
+              current += ch;
+              if (ch === inString && sql[i-1] !== '\\') {
+                inString = null;
+              }
+              continue;
+            }
+
+            if (ch === "'" || ch === '"' || ch === '`') {
+              if (current.trim()) tokens.push({type:'word', value:current.trim()});
+              current = ch;
+              inString = ch;
+              continue;
+            }
+
+            if (ch === '-' && next === '-') {
+              if (current.trim()) tokens.push({type:'word', value:current.trim()});
+              current = '--';
+              inComment = true;
+              i++;
+              continue;
+            }
+
+            if (ch === '/' && next === '*') {
+              // Block comment - skip
+              if (current.trim()) tokens.push({type:'word', value:current.trim()});
+              current = '';
+              var end = sql.indexOf('*/', i + 2);
+              i = end !== -1 ? end + 1 : sql.length;
+              continue;
+            }
+
+            if (ch === ',' || ch === '(' || ch === ')' || ch === ';') {
+              if (current.trim()) tokens.push({type:'word', value:current.trim()});
+              tokens.push({type:'punct', value:ch});
+              current = '';
+              continue;
+            }
+
+            if (ch === ' ' || ch === '\t') {
+              if (current.trim()) tokens.push({type:'word', value:current.trim()});
+              current = '';
+              continue;
+            }
+
+            current += ch;
+          }
+          if (current.trim()) tokens.push({type:'word', value:current.trim()});
+
+          // Build formatted output
+          var output = '';
+          var indentLevel = 0;
+          var needsNewline = false;
+
+          for (var t = 0; t < tokens.length; t++) {
+            var token = tokens[t];
+            var val = token.value;
+            var valUpper = val.toUpperCase();
+
+            if (token.type === 'punct') {
+              if (val === '(') {
+                if (output.length > 0 && output[output.length - 1] !== '\n') {
+                  output += ' ';
+                }
+                output += '(';
+                indentLevel++;
+                needsNewline = true;
+              } else if (val === ')') {
+                indentLevel = Math.max(0, indentLevel - 1);
+                output += '\n' + repeat(indent, indentLevel) + ')';
+              } else if (val === ',') {
+                output += ',';
+                needsNewline = true;
+              } else if (val === ';') {
+                output += ';';
+                needsNewline = true;
+              }
+              continue;
+            }
+
+            // Check if it's a clause keyword
+            var isClause = false;
+            // Check multi-word clauses
+            if (t + 1 < tokens.length) {
+              var twoWord = valUpper + ' ' + tokens[t+1].value.toUpperCase();
+              if (CLAUSE_KEYWORDS.indexOf(twoWord) !== -1) {
+                val = val + ' ' + tokens[t+1].value;
+                valUpper = twoWord;
+                t++;
+                isClause = true;
+              }
+            }
+            if (!isClause && CLAUSE_KEYWORDS.indexOf(valUpper) !== -1) {
+              isClause = true;
+            }
+
+            var isKeyword = SQL_KEYWORDS_SET[valUpper];
+
+            if (isClause) {
+              if (output.length > 0) {
+                output += '\n';
+              }
+              output += repeat(indent, indentLevel);
+              if (uppercase) {
+                output += valUpper;
+              } else {
+                output += val;
+              }
+              // Check if it's SELECT/INSERT/UPDATE/DELETE - indent next clause
+              if (['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'INSERT INTO'].indexOf(valUpper) !== -1) {
+                indentLevel = 1;
+              }
+              needsNewline = false;
+            } else if (val === 'AS' || val === 'as') {
+              output += ' ' + (uppercase ? 'AS' : 'as') + ' ';
+            } else {
+              if (needsNewline && output.length > 0 && output[output.length - 1] !== '\n') {
+                output += '\n' + repeat(indent, indentLevel + 1);
+              }
+              output += uppercase && isKeyword ? valUpper : val;
+              output += ' ';
+              needsNewline = false;
+            }
+          }
+
+          // Clean up extra spaces
+          output = output.replace(/ +/g, ' ').replace(/ \n/g, '\n').replace(/\n +/g, '\n');
+          // Clean trailing spaces per line
+          output = output.split('\n').map(function(l) { return l.trimRight(); }).join('\n');
+          // Clean up spaces before commas
+          output = output.replace(/ ,/g, ',');
+          output = output.trim();
+
+          document.getElementById('sqlOutput').value = output;
+          updateStats(input, output);
+          document.getElementById('statusMsg').innerHTML = '<span class="success">✅ SQL formatted successfully (' + input.split(' ').length + ' words)</span>';
+          setTimeout(function() { document.getElementById('statusMsg').innerHTML = ''; }, 2000);
+        } catch(e) {
+          document.getElementById('statusMsg').innerHTML = '<span class="error">⚠ Error: ' + e.message + '</span>';
+        }
+      }
+
+      function repeat(str, n) {
+        var result = '';
+        for (var i = 0; i < n; i++) result += str;
+        return result;
+      }
+
+      function updateStats(input, output) {
+        document.getElementById('liveStats').innerHTML = '📊 ' + output.split('\n').length + ' lines · ' + output.length + ' chars';
+      }
+
+      function copyOutput() {
+        var output = document.getElementById('sqlOutput').value;
+        if (!output) return;
+        navigator.clipboard.writeText(output).then(function() {
+          document.getElementById('copyMsg').textContent = '✅ Copied!';
+          setTimeout(function() { document.getElementById('copyMsg').textContent = ''; }, 1500);
+        });
+      }
+
+      function downloadOutput() {
+        var output = document.getElementById('sqlOutput').value;
+        if (!output) return;
+        var blob = new Blob([output], {type: 'text/plain'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'formatted.sql';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function clearAll() {
+        document.getElementById('sqlInput').value = '';
+        document.getElementById('sqlOutput').value = '';
+        document.getElementById('liveStats').innerHTML = 'Ready';
+        document.getElementById('statusMsg').innerHTML = '';
+      }
+
+      var debounceTimer;
+      document.getElementById('sqlInput').addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(formatSQL, 500);
+      });
+
+      // Initial format
+      formatSQL();
+    </script>
+  </div>
+</body>
+</html>

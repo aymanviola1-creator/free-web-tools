@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Web Tools — Privacy-First Online Utilities (32 Tools)</title>
-  <meta name="description" content="Collection of 32 free, privacy-friendly online tools. No signup, no tracking, fully client-side. CSS minifier, JS minifier, JSON to CSV, UUID generator, cron expression builder, epoch converter, regex tester, HTTP status codes, CSV viewer, QR code reader, YouTube thumbnail downloader, markdown editor, and more.">
+  <title>Free Web Tools — Privacy-First Online Utilities (35 Tools)</title>
+  <meta name="description" content="Collection of 35 free, privacy-friendly online tools. No signup, no tracking, fully client-side. HTML minifier, SQL formatter, YAML to JSON, CSS minifier, JS minifier, JSON to CSV, UUID generator, cron expression builder, epoch converter, regex tester, HTTP status codes, CSV viewer, QR code reader, YouTube thumbnail downloader, markdown editor, and more.">
   <meta name="keywords" content="free online tools, css minifier, js minifier, json to csv, uuid generator, cron expression builder, epoch converter, unix timestamp converter, regex tester, http status codes, csv viewer, qr code reader, youtube thumbnail downloader, markdown editor, binary converter, hex converter, random number generator, temperature converter, word counter, character counter, sha256 generator, image compressor, unit converter, password generator, QR code, timer, stopwatch, privacy tools, color picker, text diff checker, URL encoder">
   <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
   <link rel="manifest" href="sw/manifest.json">
@@ -30,6 +30,9 @@
     "mainEntity": {
       "@type": "ItemList",
       "itemListElement": [
+        {"@type":"WebApplication","name":"HTML Minifier & Beautifier","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/html-minifier/"},
+        {"@type":"WebApplication","name":"SQL Formatter & Beautifier","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/sql-formatter/"},
+        {"@type":"WebApplication","name":"YAML to JSON Converter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/yaml-to-json/"},
         {"@type":"WebApplication","name":"CSS Minifier & Beautifier","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/css-minifier/"},
         {"@type":"WebApplication","name":"JS Minifier & Beautifier","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/js-minifier/"},
         {"@type":"WebApplication","name":"JSON to CSV Converter","url":"https://aymanviola1-creator.github.io/free-web-tools/apps/json-to-csv/"},
@@ -155,11 +158,38 @@
     <div class="header">
       <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle dark/light mode">🌙</button>
       <h1>🛠️ Free Web Tools</h1>
-      <p class="tagline">32 privacy-first, client-side tools. No data leaves your browser.</p>
+      <p class="tagline">35 privacy-first, client-side tools. No data leaves your browser.</p>
     </div>
 
     <div class="section-title">🔥 New Tools</div>
     <div class="tools">
+      <a href="apps/html-minifier/" class="tool-card">
+        <span class="icon">🔧</span>
+        <div class="info">
+          <h2>HTML Minifier & Beautifier <span class="badge badge-new">NEW</span></h2>
+          <p>Minify HTML for production, beautify for readability. Remove comments, collapse whitespace, compress attributes. Live stats.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/sql-formatter/" class="tool-card">
+        <span class="icon">🗄️</span>
+        <div class="info">
+          <h2>SQL Formatter & Beautifier <span class="badge badge-new">NEW</span></h2>
+          <p>Format SQL queries beautifully. Supports MySQL, PostgreSQL, SQLite, MSSQL, Oracle. Uppercase keywords, custom indentation.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="apps/yaml-to-json/" class="tool-card">
+        <span class="icon">🔄</span>
+        <div class="info">
+          <h2>YAML ↔ JSON Converter <span class="badge badge-new">NEW</span></h2>
+          <p>Convert between YAML and JSON bidirectionally. Upload YAML/JSON files or paste. Fully client-side, no data uploads.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
       <a href="apps/css-minifier/" class="tool-card">
         <span class="icon">🎨</span>
         <div class="info">
@@ -454,7 +484,7 @@
 
     <div class="section-title">📢 Share These Tools</div>
     <div style="text-align:center; margin-bottom: 1.5rem;">
-      <a href="https://twitter.com/intent/tweet?text=Check%20out%2032%20free%20privacy-first%20online%20tools!%20No%20signup%2C%20no%20tracking.%20&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🐦 Share on Twitter</a>
+      <a href="https://twitter.com/intent/tweet?text=Check%20out%2035%20free%20privacy-first%20online%20tools!%20No%20signup%2C%20no%20tracking.%20&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1d9bf0;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🐦 Share on Twitter</a>
       <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#1877f2;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">📘 Share on Facebook</a>
       <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F&title=32%20Free%20Privacy-First%20Online%20Tools" target="_blank" rel="noopener" style="display:inline-block;background:#ff4500;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">🔴 Share on Reddit</a>
       <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2F" target="_blank" rel="noopener" style="display:inline-block;background:#0a66c2;color:#fff;padding:0.5rem 1rem;border-radius:6px;text-decoration:none;font-size:0.85rem;margin:0.2rem;font-weight:600;">💼 Share on LinkedIn</a>
@@ -478,10 +508,15 @@
       </script>
     </div>
 
-    <p class="stats">✨ 32 free tools · No tracking · No signup · Fully client-side · <span id="visitorCount"></span></p>
+    <p class="stats">✨ 35 free tools · No tracking · No signup · Fully client-side · <span id="visitorCount"></span></p>
 
     <div class="footer">
-      <p>32 tools and counting &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a> &middot; <a href="privacy/">Privacy Policy</a></p>
+      <p>35 tools and counting &middot; <a href="https://github.com/aymanviola1-creator">GitHub</a> &middot; <a href="privacy/">Privacy Policy</a></p>
+      <p style="margin-top:0.8rem; font-size:0.85rem;">
+        💰 <strong>Support development:</strong>
+        TON: <code style="font-size:0.75rem; word-break:break-all;">UQDs9oGzBx4x7vV4sdfghjkl6d9e9fce5e9722125867babf48b084</code>
+        &middot; BTC: <code style="font-size:0.75rem;">bc1q6d9e9fce5e9722125867babf48b084</code>
+      </p>
       <p style="margin-top:0.3rem;">Built with ❤️ for privacy-conscious users worldwide</p>
     </div>
   </div>

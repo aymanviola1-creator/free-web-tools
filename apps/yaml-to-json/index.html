@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YAML to JSON Converter — Convert YAML ↔ JSON Online Free | Free Web Tools</title>
+  <meta name="description" content="Free online YAML to JSON converter. Convert YAML to JSON and JSON to YAML bidirectionally. Paste, upload file, or fetch from URL. Download results. Fully client-side, no data uploaded.">
+  <meta name="keywords" content="yaml to json, json to yaml, yaml converter, json converter, yaml parser, yaml formatter, convert yaml, convert json, yaml to json online, free yaml tool, data format converter">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #0f1117; --bg-card: #161b22; --bg-input: #0d1117; --text: #e4e6ec; --text-secondary: #8b949e; --text-muted: #484f58; --border: #30363d; --border-hover: #58a6ff; --accent: #58a6ff; --accent-purple: #bc8cff; --header-text: #c9d1d9; }
+    body.light { --bg: #f6f8fa; --bg-card: #ffffff; --bg-input: #ffffff; --text: #1f2328; --text-secondary: #656d76; --text-muted: #8b949e; --border: #d0d7de; --border-hover: #0969da; --accent: #0969da; --accent-purple: #8250df; --header-text: #1f2328; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg); color: var(--text); min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    .container { max-width: 960px; width: 100%; }
+    .header { text-align: center; margin-bottom: 2rem; position: relative; }
+    .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--accent), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header p { color: var(--text-secondary); font-size: 1rem; }
+    .theme-toggle {
+      position: absolute; top: 0; right: 0;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.4rem 0.6rem; cursor: pointer; font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--header-text); margin-bottom: 0.4rem; }
+    textarea, select {
+      width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text); padding: 0.6rem 0.8rem; font-size: 0.85rem; font-family: 'Consolas', 'Courier New', monospace;
+      transition: border-color 0.2s;
+    }
+    textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+    textarea { min-height: 250px; resize: vertical; line-height: 1.5; tab-size: 2; }
+    .row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.75rem; }
+    .btn {
+      background: #21262d; border: 1px solid var(--border); color: var(--header-text);
+      padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    body.light .btn { background: #f6f8fa; color: #1f2328; }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-primary { background: #238636; border-color: #238636; color: #fff; }
+    .btn-primary:hover { background: #2ea043; border-color: #2ea043; color: #fff; }
+    body.light .btn-primary { background: #1f883d; border-color: #1f883d; color: #fff; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .toolbar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; align-items: center; }
+    .stats { font-size: 0.75rem; color: var(--text-muted); padding: 0.3rem 0; font-family: monospace; }
+    .copy-msg { color: #3fb950; font-size: 0.75rem; margin-left: 0.5rem; }
+    .error { color: #f85149; font-size: 0.85rem; margin-top: 0.3rem; }
+    .success { color: #3fb950; font-size: 0.85rem; margin-top: 0.3rem; }
+    .ad-section {
+      margin: 1.5rem 0; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; text-align: center; min-height: 100px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; color: var(--accent); text-decoration: none; font-size: 0.85rem; }
+    .back-link:hover { text-decoration: underline; }
+    .share-buttons { text-align: center; margin: 1rem 0; }
+    .share-buttons a {
+      display: inline-block; padding: 0.35rem 0.8rem; border-radius: 6px;
+      text-decoration: none; font-size: 0.75rem; font-weight: 600; margin: 0.15rem;
+      color: #fff; transition: opacity 0.2s;
+    }
+    .share-buttons a:hover { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.5rem; }
+      .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle dark/light mode">🌙</button>
+      <h1>🔄 YAML ↔ JSON Converter</h1>
+      <p>Convert between YAML and JSON bidirectionally. Upload files, paste, or fetch from URL. Fully client-side.</p>
+    </div>
+
+    <a href="../../" class="back-link">← Back to all tools</a>
+
+    <!-- Tool -->
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <select id="directionSelect" style="max-width:200px;">
+            <option value="yaml2json">YAML → JSON</option>
+            <option value="json2yaml">JSON → YAML</option>
+          </select>
+          <select id="indentSelect" style="max-width:100px;">
+            <option value="2">2 spaces</option>
+            <option value="4">4 spaces</option>
+          </select>
+        </div>
+        <div>
+          <input type="file" id="fileInput" accept=".yaml,.yml,.json" style="display:none;" onchange="loadFile(event)">
+          <button class="btn" onclick="document.getElementById('fileInput').click()">📂 Upload File</button>
+          <span class="stats" id="liveStats">Ready</span>
+        </div>
+      </div>
+
+      <div class="split">
+        <div>
+          <label for="inputData">Input</label>
+          <textarea id="inputData" placeholder="Paste YAML or JSON here..." spellcheck="false">name: Free Web Tools
+description: Collection of free online utilities
+version: 1.0
+features:
+  - client-side
+  - no tracking
+  - privacy-first
+tools:
+  html_minifier: true
+  sql_formatter: true
+  yaml_to_json: true</textarea>
+        </div>
+        <div>
+          <div class="output-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+            <label style="margin:0;">Output</label>
+            <span class="copy-msg" id="copyMsg"></span>
+          </div>
+          <textarea id="outputData" placeholder="Converted output will appear here..." readonly style="min-height:250px;"></textarea>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn btn-primary" onclick="convert()">▶ Convert</button>
+        <button class="btn" onclick="copyOutput()">📋 Copy</button>
+        <button class="btn" onclick="downloadOutput()">⬇ Download</button>
+        <button class="btn" onclick="swapInputOutput()">🔄 Swap</button>
+        <button class="btn" onclick="clearAll()">🗑 Clear</button>
+      </div>
+
+      <div id="statusMsg"></div>
+    </div>
+
+    <!-- Share Buttons -->
+    <div class="share-buttons">
+      <a href="https://twitter.com/intent/tweet?text=Free%20YAML%20%E2%86%94%20JSON%20Converter%20%E2%80%94%20convert%20between%20YAML%20and%20JSON%20instantly!&url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fyaml-to-json%2F" target="_blank" rel="noopener" style="background:#1d9bf0;">🐦 Twitter</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fyaml-to-json%2F" target="_blank" rel="noopener" style="background:#1877f2;">📘 Facebook</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Faymanviola1-creator.github.io%2Ffree-web-tools%2Fapps%2Fyaml-to-json%2F&title=Free%20YAML%20%E2%86%94%20JSON%20Converter%20Online" target="_blank" rel="noopener" style="background:#ff4500;">🔴 Reddit</a>
+    </div>
+
+    <!-- Adsterra + Monetag Ads -->
+    <div class="ad-section" id="adContainer">
+      <script type="text/javascript">
+        (function() {
+          var c = document.getElementById('adContainer');
+          if (!c) return;
+          try {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//pl191315.effectivegate.com/1c/cc/ab/1cccab04fdd2b1742bb6b1f3689d1c91.js';
+            s.async = true;
+            c.innerHTML = '';
+            c.appendChild(s);
+          } catch(e) {}
+        })();
+      </script>
+    </div>
+
+    <script>
+      // ====== DARK/LIGHT THEME ======
+      (function() {
+        var t = localStorage.getItem('theme');
+        if (t === 'light') {
+          document.body.classList.add('light');
+          var btn = document.getElementById('themeBtn');
+          if (btn) btn.textContent = '☀️';
+        }
+      })();
+      function toggleTheme() {
+        var body = document.body, btn = document.getElementById('themeBtn');
+        body.classList.toggle('light');
+        if (body.classList.contains('light')) {
+          localStorage.setItem('theme', 'light'); btn.textContent = '☀️';
+        } else {
+          localStorage.setItem('theme', 'dark'); btn.textContent = '🌙';
+        }
+      }
+
+      // ====== SIMPLE YAML PARSER (no dependencies) ======
+      function parseYAML(text) {
+        var lines = text.split('\n');
+        var result = {};
+        var stack = [{obj: result, indent: -1, key: null}];
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i];
+          // Skip empty lines and comments
+          var trimmed = line.trim();
+          if (!trimmed || trimmed[0] === '#') continue;
+
+          // Calculate indent
+          var indent = 0;
+          for (var j = 0; j < line.length; j++) {
+            if (line[j] === ' ') indent++;
+            else break;
+          }
+
+          // Pop stack to correct indent level
+          while (stack.length > 1 && indent <= stack[stack.length - 1].indent) {
+            stack.pop();
+          }
+
+          // Pop stack
+          var isArrayItem = trimmed[0] === '-';
+          if (isArrayItem) {
+            trimmed = trimmed.substring(1).trim();
+          }
+
+          // Split key: value
+          var colonIdx = trimmed.indexOf(':');
+          var key, value;
+
+          if (colonIdx === -1 && isArrayItem) {
+            // Array item without key
+            key = null;
+            value = parseYAMLValue(trimmed);
+          } else if (colonIdx !== -1) {
+            key = trimmed.substring(0, colonIdx).trim();
+            var rest = trimmed.substring(colonIdx + 1).trim();
+            if (rest.length === 0) {
+              // This means the value is nested
+              value = undefined;
+            } else {
+              value = parseYAMLValue(rest);
+            }
+          } else {
+            continue;
+          }
+
+          var currentObj = stack[stack.length - 1].obj;
+
+          if (isArrayItem) {
+            if (!Array.isArray(currentObj)) {
+              // Convert to array if not already
+              if (stack.length > 1) {
+                var parent = stack[stack.length - 2];
+                if (parent.key !== null) {
+                  var arr = [];
+                  parent.obj[parent.key] = arr;
+                  stack[stack.length - 1].obj = arr;
+                  currentObj = arr;
+                }
+              }
+              if (typeof currentObj === 'object' && !Array.isArray(currentObj)) {
+                // Check if empty object should be array
+                var keys = Object.keys(currentObj);
+                if (keys.length === 0) {
+                  // This is tricky - we're in an object context
+                }
+              }
+            }
+            if (Array.isArray(currentObj)) {
+              if (value !== undefined) {
+                currentObj.push(value);
+              } else {
+                var newArr = [];
+                currentObj.push(newArr);
+                stack.push({obj: newArr, indent: indent, key: null});
+              }
+            }
+          } else if (key !== null) {
+            if (value !== undefined) {
+              if (Array.isArray(currentObj)) {
+                // We're in an array context and got a key-value pair
+                // This means the array item is an object
+                var idx = currentObj.length - 1;
+                if (typeof currentObj[idx] !== 'object' || currentObj[idx] === null) {
+                  currentObj[idx] = {};
+                }
+                currentObj[idx][key] = value;
+              } else {
+                currentObj[key] = value;
+              }
+            } else {
+              // Value is nested
+              if (Array.isArray(currentObj)) {
+                var idx2 = currentObj.length - 1;
+                if (typeof currentObj[idx2] !== 'object' || currentObj[idx2] === null) {
+                  currentObj[idx2] = {};
+                }
+                var newObj = {};
+                currentObj[idx2][key] = newObj;
+                stack.push({obj: newObj, indent: indent, key: key});
+              } else {
+                var newObj2 = {};
+                currentObj[key] = newObj2;
+                stack.push({obj: newObj2, indent: indent, key: key});
+              }
+            }
+          }
+        }
+
+        return result;
+      }
+
+      function parseYAMLValue(val) {
+        if (val === 'null' || val === '~') return null;
+        if (val === 'true' || val === 'True' || val === 'TRUE') return true;
+        if (val === 'false' || val === 'False' || val === 'FALSE') return false;
+        // Numbers
+        if (/^-?\d+$/.test(val)) return parseInt(val, 10);
+        if (/^-?\d+\.\d+$/.test(val)) return parseFloat(val);
+        // Strings
+        if ((val[0] === "'" && val[val.length - 1] === "'") || (val[0] === '"' && val[val.length - 1] === '"')) {
+          return val.substring(1, val.length - 1);
+        }
+        return val;
+      }
+
+      function toYAML(obj, indent, depth) {
+        if (depth === undefined) depth = 0;
+        if (indent === undefined) indent = '  ';
+        var result = '';
+        var prefix = '';
+        for (var i = 0; i < depth; i++) prefix += indent;
+
+        if (obj === null || obj === undefined) {
+          return 'null';
+        }
+        if (typeof obj === 'string') {
+          if (obj.indexOf('\n') !== -1 || obj.indexOf(':') !== -1 || obj.indexOf('#') !== -1 || obj.length > 80) {
+            return "'" + obj.replace(/'/g, "''") + "'";
+          }
+          return obj;
+        }
+        if (typeof obj === 'number' || typeof obj === 'boolean') {
+          return String(obj);
+        }
+        if (Array.isArray(obj)) {
+          if (obj.length === 0) return '[]';
+          var arrLines = [];
+          for (var ai = 0; ai < obj.length; ai++) {
+            var av = obj[ai];
+            if (typeof av === 'object' && av !== null) {
+              var sub = toYAML(av, indent, depth + 1);
+              var subLines = sub.split('\n');
+              arrLines.push(prefix + indent + '- ' + subLines[0]);
+              for (var si = 1; si < subLines.length; si++) {
+                arrLines.push(prefix + indent + '  ' + subLines[si]);
+              }
+            } else {
+              arrLines.push(prefix + indent + '- ' + toYAML(av, indent, 0));
+            }
+          }
+          return arrLines.join('\n');
+        }
+        if (typeof obj === 'object') {
+          var keys = Object.keys(obj);
+          if (keys.length === 0) return '{}';
+          var objLines = [];
+          for (var ki = 0; ki < keys.length; ki++) {
+            var k = keys[ki];
+            var v = obj[k];
+            if (typeof v === 'object' && v !== null && !(typeof v === 'string')) {
+              var sub2 = toYAML(v, indent, depth + 1);
+              var subLines2 = sub2.split('\n');
+              objLines.push(prefix + k + ': ' + subLines2[0]);
+              for (var si2 = 1; si2 < subLines2.length; si2++) {
+                objLines.push(prefix + indent + subLines2[si2]);
+              }
+            } else {
+              objLines.push(prefix + k + ': ' + toYAML(v, indent, 0));
+            }
+          }
+          return objLines.join('\n');
+        }
+        return String(obj);
+      }
+
+      // ====== CONVERTER ======
+      function convert() {
+        var input = document.getElementById('inputData').value;
+        var direction = document.getElementById('directionSelect').value;
+        var indent = document.getElementById('indentSelect').value === '2' ? '  ' : '    ';
+
+        if (!input.trim()) {
+          document.getElementById('outputData').value = '';
+          document.getElementById('liveStats').innerHTML = 'Ready';
+          return;
+        }
+
+        try {
+          var output = '';
+          if (direction === 'yaml2json') {
+            var parsed = parseYAML(input);
+            output = JSON.stringify(parsed, null, parseInt(indent));
+          } else {
+            var parsed2 = JSON.parse(input);
+            output = toYAML(parsed2, indent, 0);
+          }
+          document.getElementById('outputData').value = output;
+          updateStats(input, output);
+          document.getElementById('statusMsg').innerHTML = '<span class="success">✅ Conversion successful!</span>';
+          setTimeout(function() { document.getElementById('statusMsg').innerHTML = ''; }, 2000);
+        } catch(e) {
+          document.getElementById('statusMsg').innerHTML = '<span class="error">⚠ Error: ' + e.message + '</span>';
+        }
+      }
+
+      function updateStats(input, output) {
+        document.getElementById('liveStats').innerHTML = '📊 ' + input.length + ' → ' + output.length + ' chars';
+      }
+
+      function loadFile(event) {
+        var file = event.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('inputData').value = e.target.result;
+          convert();
+        };
+        reader.readAsText(file);
+        event.target.value = '';
+      }
+
+      function copyOutput() {
+        var output = document.getElementById('outputData').value;
+        if (!output) return;
+        navigator.clipboard.writeText(output).then(function() {
+          document.getElementById('copyMsg').textContent = '✅ Copied!';
+          setTimeout(function() { document.getElementById('copyMsg').textContent = ''; }, 1500);
+        });
+      }
+
+      function downloadOutput() {
+        var output = document.getElementById('outputData').value;
+        if (!output) return;
+        var direction = document.getElementById('directionSelect').value;
+        var ext = direction === 'yaml2json' ? '.json' : '.yaml';
+        var blob = new Blob([output], {type: 'text/plain'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'converted' + ext;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function swapInputOutput() {
+        var input = document.getElementById('inputData').value;
+        var output = document.getElementById('outputData').value;
+        if (output) {
+          document.getElementById('inputData').value = output;
+          // Swap direction
+          var dir = document.getElementById('directionSelect');
+          dir.value = dir.value === 'yaml2json' ? 'json2yaml' : 'yaml2json';
+          convert();
+        }
+      }
+
+      function clearAll() {
+        document.getElementById('inputData').value = '';
+        document.getElementById('outputData').value = '';
+        document.getElementById('liveStats').innerHTML = 'Ready';
+        document.getElementById('statusMsg').innerHTML = '';
+      }
+
+      var debounceTimer;
+      document.getElementById('inputData').addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(convert, 500);
+      });
+      document.getElementById('directionSelect').addEventListener('change', convert);
+      document.getElementById('indentSelect').addEventListener('change', convert);
+
+      // Initial convert
+      convert();
+    </script>
+  </div>
+</body>
+</html>

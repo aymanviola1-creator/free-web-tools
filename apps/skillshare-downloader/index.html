@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skillshare Downloader - Free Web Tools</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f0f13;color:#e0e0e0;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.container{max-width:800px;width:100%;padding:40px 20px}
+header{text-align:center;margin-bottom:50px}
+.logo{font-size:3rem;margin-bottom:15px}
+h1{font-size:2rem;color:#fff;margin-bottom:8px}
+.subtitle{color:#888;font-size:1rem}
+.card{background:#1a1a24;border-radius:16px;padding:30px;margin-bottom:24px;border:1px solid #2a2a35}
+h2{font-size:1.3rem;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.feature{background:#252530;border-radius:10px;padding:16px}
+.feature h3{font-size:.95rem;color:#fff;margin-bottom:4px}
+.feature p{color:#888;font-size:.82rem;line-height:1.5}
+code{background:#252530;color:#6c5ce7;padding:2px 6px;border-radius:4px;font-size:.85rem}
+.steps{list-style:none;counter-reset:step}
+.steps li{counter-increment:step;padding:12px 0 12px 40px;position:relative;color:#ccc;font-size:.92rem;line-height:1.5;border-bottom:1px solid #252530}
+.steps li:last-child{border-bottom:none}
+.steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:26px;height:26px;background:#6c5ce7;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+a{color:#6c5ce7;text-decoration:none}
+a:hover{text-decoration:underline}
+.btn{display:inline-block;padding:12px 28px;background:#6c5ce7;color:#fff;border-radius:10px;font-weight:600;font-size:.95rem;text-decoration:none;transition:.2s;margin-top:10px}
+.btn:hover{background:#5a4bd1;text-decoration:none}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:15px}
+.btn-outline{display:inline-block;padding:12px 28px;background:transparent;border:1px solid #444;color:#ccc;border-radius:10px;font-weight:600;font-size:.95rem;text-decoration:none;transition:.2s;margin-top:10px}
+.btn-outline:hover{background:#252530;text-decoration:none;color:#fff}
+footer{text-align:center;padding:30px 0;color:#555;font-size:.82rem}
+.tag{display:inline-block;background:#6c5ce722;color:#6c5ce7;padding:2px 10px;border-radius:12px;font-size:.75rem;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="logo">🎓</div>
+<h1>Skillshare Downloader</h1>
+<p class="subtitle">Download Skillshare courses for offline viewing with subtitles</p>
+</header>
+
+<div class="card">
+<h2>📥 How to Download</h2>
+<ol class="steps">
+<li><strong>Log in</strong> to Skillshare in Chrome and make sure you have a Premium subscription</li>
+<li><strong>Run the app</strong> locally on your computer</li>
+<li><strong>Choose auth</strong> — browser cookies or upload a cookies.txt file</li>
+<li><strong>Paste a course URL</strong> and click <strong>Preview</strong> to see all lessons</li>
+<li><strong>Select sessions</strong> to download (or select all), enable subtitles if needed</li>
+<li>Click <strong>Download</strong> and wait — videos save directly to your computer</li>
+</ol>
+<div class="btn-row">
+<a class="btn" href="https://github.com/aymanviola1-creator/skillshare-downloader" target="_blank">🔗 View on GitHub</a>
+<a class="btn-outline" href="http://localhost:5757" target="_blank">🚀 Open App (local)</a>
+</div>
+</div>
+
+<div class="card">
+<h2>⭐ Features</h2>
+<div class="features">
+<div class="feature">
+<h3>📂 Course Preview</h3>
+<p>See all lessons before downloading. Skip what you already have.</p>
+</div>
+<div class="feature">
+<h3>🎯 Selective Download</h3>
+<p>Pick individual lessons or download the whole course at once.</p>
+</div>
+<div class="feature">
+<h3>📝 Subtitles</h3>
+<p>Download English subtitles alongside each video automatically.</p>
+</div>
+<div class="feature">
+<h3>⏹ Stop Any Time</h3>
+<p>Cancel downloads mid-way. Already finished videos stay saved.</p>
+</div>
+<div class="feature">
+<h3>🔒 Private Repo</h3>
+<p>Source code hosted in a private GitHub repository for your use only.</p>
+</div>
+<div class="feature">
+<h3>🌐 Browser Cookies</h3>
+<p>Auto-detect Chrome/Firefox/Edge login — no manual export needed.</p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2>🛠️ Quick Start (Local)</h2>
+<p style="color:#aaa;margin-bottom:12px">Run on your Windows machine (requires Python):</p>
+<code style="display:block;padding:14px;margin-bottom:10px;background:#0a0a0f;border-radius:8px;font-size:.9rem;white-space:pre-wrap">cd G:\skillshare-gui<br>python app.py</code>
+<p style="color:#888;font-size:.85rem">Then open <a href="http://localhost:5757">http://localhost:5757</a> in your browser.</p>
+<div class="tag">🛡️ Private &bull; Premium Required &bull; Personal Use</div>
+</div>
+
+<footer>
+<p>Skillshare Downloader &mdash; unofficial tool. For personal use with active Premium subscription only.</p>
+</footer>
+</div>
+</body>
+</html>
